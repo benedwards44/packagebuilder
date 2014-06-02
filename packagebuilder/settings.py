@@ -20,9 +20,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = 'pi3zx!cfom!wxjr4ti_z$l$d@_&rqbe@$4voa)#q2#kn$(8lto'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+TEMPLATE_DEBUG = DEBUG
+THUMBNAIL_DEBUG = DEBUG
 
-TEMPLATE_DEBUG = True
+ADMINS = (
+    ('Ben Edwards', 'ben@benedwards.co.nz'),
+)
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
@@ -38,6 +42,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'buildpackage',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -78,6 +83,9 @@ USE_L10N = True
 
 USE_TZ = True
 
+TEMPLATE_DIRS = (
+    os.path.join(os.path.dirname(__file__), "templates"),
+)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/

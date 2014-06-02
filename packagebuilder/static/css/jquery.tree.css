@@ -1,0 +1,45 @@
+.daredevel-tree li {
+    list-style-type: none;
+    position: relative;
+}
+
+.daredevel-tree li span.daredevel-tree-label {
+    cursor: default;
+    z-index: 1;
+}
+/* collapse */
+.daredevel-tree li span.daredevel-tree-anchor {
+    cursor: default;
+    position: absolute;
+    top: 1px;
+    left: -16px;
+}
+
+/* dnd */
+.daredevel-tree li span.prepended {
+    position: absolute;
+    left: 0px;
+    top: -5px;
+    z-index: 2;
+    visibility: hidden;
+    height: 10px;
+    width: 100px;
+    overflow: hidden;
+    background-image: url("images/anchor.gif");
+}
+
+.daredevel-tree li span.prepended.over {
+    visibility: visible;
+}
+
+.daredevel-tree li span.droppable-label {
+    position: absolute;
+    left: 0px;
+    top: 5px;
+    z-index: 2;
+    visibility: hidden;
+    height: 8px;
+    width: 100px;
+    overflow: hidden;
+    border: solid 1px;
+}

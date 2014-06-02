@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+	<h1>Select components or continue with all</h1>
+
+	<form action="." method="POST" id="select_components" onsubmit="hideTable();" oncomplete="showTable();"> {% csrf_token %}
+
+		<table>
+
+			<tr>
+				<td colspan="2" ><input type="submit" value="Build Package >>" /></label>
+			</tr>
+
+			<tr>
+				<td colspan="2" style="text-align:center;">&nbsp;</label>
+			</tr>
+
+			<tr>
+				<td><input id="selectAll" type="radio" name="select" value="all" /></td>
+				<td><label for="selectAll">Continue With All Components</label>
+			</tr>
+
+			<tr>
+				<td><input id="selectPartial" type="radio" name="select" value="partial" /></td>
+				<td><label for="selectPartial">Select Partial Components</label>
+			</tr>
+
+		</table>
+
+		<div id="selection_tree">
+			<ul>
+				{% for component_type in package.sorted_component_types %}
+
+                	<li>
+                		<input class="component_type_display" name="{{ forloop.counter0 }}" type="checkbox">
+                		<span>{{ component_type.name }}</span>
+
+                	{% for component in component_type.sorted_components %}
+                    <ul>
+                        <li>
+                        	<input class="component_display" type="checkbox" name="{{ component.id }}">
+                        	<span>{{ component.name }}</span>
+                    </ul>
+                    {% endfor %}
+
+                {% endfor %}
+            	
+            </ul>
+        </div>
+                    
+        <input type="hidden" id="id_component_option" name="component_option" />
+
+        <div style="display:none;">
+        	{{ component_type_formset.management_form }}
+        	{% for component_type_form in component_type_formset %}
+        		{{ component_type_form.as_p }}
+        	{% endfor %}
+	    
+
+	    	{{ component_formset.management_form }}
+        	{% for component_form in component_formset %}
+        		{{ component_form.as_p }}
+        	{% endfor %}
+	    </div>
+	    
+	</form>
+
+	<div class="loading">
+		<div style="float:left;">
+			<img src="/static/images/loading.gif" alt="Loading" title="Loading" />
+		</div>
+		<div style="float:left;margin-left:20px;">
+			<h1 style="font-size:1.5em;margin-top:20px;">Building xml...</h1>
+			<p>Almost there.</p>
+		</div>
+	</div>
+
+
+{% endblock %}

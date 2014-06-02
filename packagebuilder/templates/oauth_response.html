@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+	<h1>Salesforce package.xml Builder</h1>
+	<p>
+		This tool uses the Salesforce Metadata API to build a package.xml file based on components in your Salesforce org. Handy for building a package.xml file for use with ANT Force.com Migration or other IDE tools, or building a destructiveChanges.xml file.
+	</p>
+	<p>
+		Faster than having to download all the actual metadata in order to build your package.xml file.
+	</p>
+				
+	<table id="login_table">
+
+		<form action="." method="POST" id="loginForm"> {% csrf_token %}
+
+			<table class="login_table">
+
+				{% if messages %}
+					<tr>
+						<td colspan="2" style="color:#ff6600;font-weight:bold;">
+						    {% for message in messages %}
+						    	{{ message }}<br/>
+						    {% endfor %}
+						    <br/>
+						</td>
+					</tr>
+				{% endif %}
+
+				{% if not error %}
+
+				<tr>
+					<td width="175" style="color:#ff6600;font-weight:bold;">
+						<h2>Logged in as: </h2>
+					</td>
+					<td>
+						<strong>{{ username }}</strong>
+					</td>
+				</tr>
+
+				<tr>
+					<td colspan="2" style="text-align:center;height:50px;">
+						<input type="submit" name="logout" value="Logout" onclick="showLogout();" oncomplete="hideLogout();" />
+						<input type="submit" name="get_components" value="Get Components" onclick="hideTable();" oncomplete="showTable();" />
+					</td>
+				</tr>
+
+				{% else %}
+
+				<tr>
+					<td width="75" style="color:#ff6600;font-weight:bold;">
+						<h2>Error: </h2>
+					</td>
+					<td style="color:#900;">
+						{{ error_message }}
+					</td>
+				</tr>
+
+				<tr>
+					<td width="75" colspan="2">
+						Please go <a href="/">back</a> and try again.
+					</td>
+				</tr>
+
+				{% endif %}
+
+			</table>
+
+			<div class="loading">
+				<div style="float:left;">
+					<img src="/static/images/loading.gif" alt="Loading" title="Loading" />
+				</div>
+				<div style="float:left;margin-left:20px;">
+					<h1 style="font-size:1.5em;margin-top:20px;">Querying components...</h1>
+					<p>This can take a few minutes.</p>
+				</div>
+			</div>
+
+			<div class="logging_out">
+				<div style="float:left;">
+					<img src="/static/images/loading.gif" alt="Loading" title="Loading" />
+				</div>
+				<div style="float:left;margin-left:20px;">
+					<h1 style="font-size:1.5em;margin-top:20px;">Logging out...</h1>
+					<p>Revoking OAuth token.</p>
+				</div>
+			</div>
+
+			<div style="display:none;">
+				{{ login_form.as_p }}
+			</div>
+
+		</form>
+
+	</table>
+
+{% endblock %}
