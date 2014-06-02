@@ -57,6 +57,10 @@ WSGI_APPLICATION = 'packagebuilder.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
+DATABASES = {
+    'default': {}
+}
+
 # Parse database configuration from $DATABASE_URL
 import dj_database_url
 DATABASES['default'] =  dj_database_url.config()
