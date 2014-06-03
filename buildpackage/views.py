@@ -98,7 +98,7 @@ def oauth_response(request):
 			if 'get_components' in request.POST:
 
 				# instantiate the metadata WSDL
-				metadata_client = Client('/static/metadata.wsdl.xml')
+				metadata_client = Client('https://packagebuilder.herokuapp.com/static/metadata.wsdl.xml/static/metadata.wsdl.xml')
 
 				metadata_url = instance_url + '/services/Soap/m/' + str(api_version) + '.0/' + org_id
 
