@@ -7,16 +7,16 @@
   		<meta name="author" content="Ben Edwards (ben@benedwards.co.nz)">
   		<meta charset="UTF-8">
 
-		<link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/styles.css">
 		<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css"/>
-		<link rel="stylesheet" type="text/css" href="/static/css/jquery.tree.css"/>
-		<link rel="shortcut icon" href="/static/images/favicon.ico" type="image/vnd.microsoft.icon" />
+		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery.tree.css"/>
+		<link rel="shortcut icon" href="{{ STATIC_URL }}images/favicon.ico" type="image/vnd.microsoft.icon" />
 		
 		<script type="text/javascript" src="https://fast.fonts.net/jsapi/204d866b-86c9-45b5-b341-37b2a2fb4a25.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script src="https://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
-		<script type="text/javascript" src="/static/js/jquery.tree.js"></script>
-		<script type="text/javascript" src="/static/js/main.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.tree.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/main.js"></script>
 		<script>
 		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -34,7 +34,7 @@
 		<div id="wrapper">
 
 			<a href="http://www.tquila.com">
-				<img src="/static/images/tquila-logo@1x.png" style="margin-top:10px;margin-left:10px;" border="0" />
+				<img src="{{ STATIC_URL }}images/tquila-logo@1x.png" style="margin-top:10px;margin-left:10px;" border="0" />
 			</a>
 
 			<div id="container">
