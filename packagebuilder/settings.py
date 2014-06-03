@@ -75,7 +75,7 @@ DATABASES['default'] =  dj_database_url.config()
 
 LANGUAGE_CODE = 'en-gb'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/London'
 
 USE_I18N = True
 
@@ -92,6 +92,7 @@ TEMPLATE_DIRS = (
 
 STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
+ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 STATICFILES_DIRS = (
     os.path.join(PROJECT_PATH, 'static'),
