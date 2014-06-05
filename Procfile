@@ -1,1 +1,1 @@
-web: gunicorn packagebuilder.wsgi
+web: gunicorn packagebuilder.wsgi --timeout=600
