@@ -132,7 +132,6 @@ def oauth_response(request):
 				# loop through metadata types
 				for component_type in all_metadata[0]:
 
-
 					# create the component type record and save
 					component_type_record = ComponentType()
 					component_type_record.package = package
@@ -144,8 +143,6 @@ def oauth_response(request):
 					component = metadata_client.factory.create("ListMetadataQuery")
 					component.type = component_type.xmlName
 					component_list.append(component)
-
-					"""
 
 					if len(component_list) == 3 or (len(all_metadata[0]) - loop_counter) <= 3:
 
@@ -165,14 +162,11 @@ def oauth_response(request):
 						component_list = []
 
 					loop_counter = loop_counter + 1;
-					"""
 
-				"""
 				# If a component type has no child components, remove the component type altogether
 				for component_type in ComponentType.objects.filter(package=package.id):
 					if not Component.objects.filter(component_type=component_type.id):
 						component_type.delete()
-				"""
 
 				return HttpResponseRedirect('/select_components/' + str(package.id))
 
