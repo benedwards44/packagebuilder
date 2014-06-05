@@ -255,13 +255,3 @@ def package(request, package_id):
 	package_xml = package.package
 	package.delete()
 	return render_to_response('package.html', RequestContext(request, {'package_xml': package_xml}))
-
-def logout(request):
-
-	environment = request.GET.get('environment')
-
-	if 'Production' in environment:
-		logout_url = 'https://login.salesforce.com'
-	else:
-		logout_url = 'https://test.salesforce.com'
-	return render_to_response('logout.html', RequestContext(request, {'logout_url': logout_url}))
