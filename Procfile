@@ -1,1 +1,1 @@
-web: gunicorn packagebuilder.wsgi
+web: gunicorn packagebuilder.wsgi --workers $WEB_CONCURRENCY
