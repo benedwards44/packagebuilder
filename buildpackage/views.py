@@ -11,8 +11,7 @@ import requests
 from get_components import query_components_from_org
 from suds.client import Client
 from lxml import etree
-from rq import Queue
-from redis import Redis
+import django_rq
 
 def index(request):
 	
@@ -105,12 +104,8 @@ def oauth_response(request):
 
 			if 'get_components' in request.POST:
 
-				# Run job using RQ
-				redis_conn = Redis()
-				q = Queue(connection=redis_conn)
-
 				# Query for compoents
-				job = q.enqueue(query_components_from_org, instance_url, api_version, org_id, access_token)
+				job = django_rq.enqueue(query_components_from_org, instance_url, api_version, org_id, access_token)
 
 				# Wait till job is finished
 				time.sleep(20)
