@@ -107,10 +107,8 @@ def oauth_response(request):
 
 			if 'get_components' in request.POST:
 
-				# Query for compoents
+				# Query for components
 				job = django_rq.enqueue(query_components_from_org, instance_url, api_version, org_id, access_token)
-
-				print job
 
 				return HttpResponseRedirect('/loading/' + str(job.id))
 
