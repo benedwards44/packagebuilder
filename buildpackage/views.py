@@ -123,6 +123,7 @@ def oauth_response(request):
 
 def loading(request, queue_index, job_id):
 
+	"""
 	queue_index = int(queue_index)
 	queue = get_queue_by_index(queue_index)
 
@@ -130,8 +131,9 @@ def loading(request, queue_index, job_id):
 		job = Job.fetch(job_id, connection=queue.connection)
 	except NoSuchJobError:
 		raise Http404("Couldn't find job with this ID: %s" % job_id)
+	"""
 
-	return render_to_response('loading.html', RequestContext(request, {'job': job}))
+	return render_to_response('loading.html', RequestContext(request, {}))
 
 def select_components(request, package_id):
 
