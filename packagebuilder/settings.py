@@ -70,11 +70,9 @@ DATABASES = {
 
 RQ_QUEUES = {
     'default': {
-        'HOST': 'localhost',
-        'PORT': 6379,
+        'URL': os.getenv('REDISTOGO_URL', 'redis://localhost:6379'), # If you're on Heroku
         'DB': 0,
-        'PASSWORD': 'some-password',
-        'DEFAULT_TIMEOUT': 360,
+        'DEFAULT_TIMEOUT': 500,
     },
     'high': {
         'URL': os.getenv('REDISTOGO_URL', 'redis://localhost:6379'), # If you're on Heroku
@@ -82,9 +80,9 @@ RQ_QUEUES = {
         'DEFAULT_TIMEOUT': 500,
     },
     'low': {
-        'HOST': 'localhost',
-        'PORT': 6379,
+        'URL': os.getenv('REDISTOGO_URL', 'redis://localhost:6379'), # If you're on Heroku
         'DB': 0,
+        'DEFAULT_TIMEOUT': 500,
     }
 }
 
