@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     url(r'^select_components/(?P<package_id>\d+)/$', 'buildpackage.views.select_components'),
     url(r'^package/(?P<package_id>\d+)/$', 'buildpackage.views.package'),
     url(r'^logout/$', TemplateView.as_view(template_name="logout.html")),
+    url(r'^loading/$', TemplateView.as_view(template_name="loading.html")),
     url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
     url(r'^django-rq/', include('django_rq.urls')),
 )

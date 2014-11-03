@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+	<h1>Salesforce package.xml Builder</h1>
+
+	<p>
+		This tool uses the Salesforce Metadata API to build a package.xml file based on components in your Salesforce org. Handy for building a package.xml file for use with ANT Force.com Migration or other IDE tools, or building a destructiveChanges.xml file.
+	</p>
+	<p>
+		Faster than having to download all the actual metadata in order to build your package.xml file.
+	</p>
+				
+	<div class="loading">
+		<div style="float:left;">
+			<img src="{{ STATIC_URL }}images/loading.gif" alt="Loading" title="Loading" />
+		</div>
+		<div style="float:left;margin-left:20px;">
+			<h1 style="font-size:1.5em;margin-top:20px;">Querying components...</h1>
+			<p>This can take a few minutes.</p>
+		</div>
+	</div>
+
+{% endblock %}

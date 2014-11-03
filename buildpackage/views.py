@@ -109,9 +109,9 @@ def oauth_response(request):
 				job = django_rq.enqueue(query_components_from_org, instance_url, api_version, org_id, access_token)
 
 				# Wait till job is finished
-				time.sleep(20)
+				#time.sleep(20)
 
-				return HttpResponseRedirect('/select_components/' + job.result)
+				return HttpResponseRedirect('/loading/')
 
 	return render_to_response('oauth_response.html', RequestContext(request,{'error': error_exists, 'error_message': error_message, 'username': username, 'org_name': org_name, 'login_form': login_form}))
 
