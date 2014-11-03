@@ -4,7 +4,14 @@ $(document).ready(function() {
 
 	$('.logging_out').hide();
 
-	$('#selection_tree').tree(); 
+	$('#selection_tree').tree({
+		onCheck: {
+            node: 'expand'
+        },
+        onUncheck: {
+            node: 'collapse'
+        }
+	}); 
 
 	$('#selectAll').prop('checked', true);
 
