@@ -6,7 +6,20 @@
 
 	<form action="." method="POST" id="select_components" onsubmit="hideTable();" oncomplete="showTable();"> {% csrf_token %}
 
-		<table>
+		<div class="loading-components">
+
+			<div style="float:left;">
+				<img src="{{ STATIC_URL }}images/loading.gif" alt="Loading" title="Loading" />
+			</div>
+
+			<div style="float:left;margin-left:20px;">
+				<h1 style="font-size:1.5em;margin-top:20px;">Querying components...</h1>
+				<p>This can take a few minutes.</p>
+			</div>
+
+		</div>
+
+		<table class="select-component-options">
 
 			<tr>
 				<td colspan="2" ><input type="submit" value="Build Package >>" /></label>

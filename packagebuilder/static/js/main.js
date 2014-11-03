@@ -4,6 +4,8 @@ $(document).ready(function() {
 
 	$('.logging_out').hide();
 
+	$('.select-component-options').hide();
+
 	$('#selection_tree').tree();
 
 	$('#selectAll').prop('checked', true);
@@ -16,10 +18,10 @@ $(document).ready(function() {
 
 	$('input[name="select"]').change(function() {
 		if ($(this).val() == 'partial') {
-			$('#selection_tree').slideDown('slow');
+			$('#selection_tree').show();
 			$('#id_component_option').val('partial');
 		} else {
-			$('#selection_tree').slideUp('slow');
+			$('#selection_tree').hide();
 			$('#id_component_option').val('all');
 		}
 	});		
@@ -50,6 +52,10 @@ $(document).ready(function() {
 		}
 
 	});
+
+	$('.select-component-options').show();
+	$('.loading-components').hide();
+	
 });
 
 function hideTable(){
