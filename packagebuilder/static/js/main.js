@@ -5,7 +5,7 @@ $(document).ready(function() {
 	$('.logging_out').hide();
 
 	$('#selection_tree').tree();
-	$('#collapseAll').tree().collapseAll(); 
+	$('#selection_tree').tree().collapseAll(); 
 
 	$('#selectAll').prop('checked', true);
 
