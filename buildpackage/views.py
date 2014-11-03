@@ -108,7 +108,7 @@ def oauth_response(request):
 			if 'get_components' in request.POST:
 
 				q = Queue(connection=conn)
-				result = q.enqueue(send_test_email, '')
+				result = q.enqueue(send_test_email)
 
 				"""
 				# instantiate the metadata WSDL
