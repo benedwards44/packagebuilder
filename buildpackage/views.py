@@ -120,12 +120,12 @@ def loading(request, job_id):
 
 	redis_conn = django_rq.get_connection('default')
 
-	try:
-		job = Job.fetch(job_id, connection=redis_conn)
-	except NoSuchJobError:
-		raise Http404("Couldn't find job with this ID: %s" % job_id)
+	job = Job.fetch(job_id, connection=redis_conn)
 
-	return render_to_response('loading.html', RequestContext(request, {'job': job}))
+	if job.status == 'finished':
+		return HttpResponseRedirect('/select_components/' + str(package.id))
+	else:
+		return render_to_response('loading.html', RequestContext(request, {}))
 
 def select_components(request, package_id):
 
