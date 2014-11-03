@@ -96,14 +96,9 @@ def oauth_response(request):
 			org_id = login_form.cleaned_data['org_id']
 
 			if 'logout' in request.POST:
-
-				if 'Production' in environment:
-					login_url = 'https://login.salesforce.com'
-				else:
-					login_url = 'https://test.salesforce.com'
-
 				r = requests.post(login_url + '/services/oauth2/revoke', headers={'content-type':'application/x-www-form-urlencoded'}, data={'token': access_token})
-				return HttpResponseRedirect('/logout?environment=' + environment)
+				instance = instance_url.replace('https','').replace('.salesforce.com','')
+				return HttpResponseRedirect('/logout?instance=' + instance)
 
 			if 'get_components' in request.POST:
 
@@ -214,3 +209,8 @@ def package(request, package_id):
 	package_xml = package.package
 	package.delete()
 	return render_to_response('package.html', RequestContext(request, {'package_xml': package_xml}))
+
+def logout(request):
+	instance = request.GET.get('instance')
+	return render_to_response('logout.html', RequestContext(request, {'instance': instance}))
+
