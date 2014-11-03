@@ -7,12 +7,11 @@
 		Successfully logged out of Salesforce and Package Builder. You will be directed back to the home page where you will need to re-login using the OAuth link.
 	</p>
 
-	<iframe src="https://login.salesforce.com/secur/logout.jsp" width="0" height="0" style="display:none;"></iframe>
-	<iframe src="https://test.salesforce.com/secur/logout.jsp" width="0" height="0" style="display:none;"></iframe>
+	<iframe src="{{ login_url }}/secur/logout.jsp" width="0" height="0"></iframe>
 
 	<script>
 		setTimeout(function () {
        		window.location.href = "/";
-    	}, 4000);
+    	}, 3000);
 	</script>
 {% endblock %}
