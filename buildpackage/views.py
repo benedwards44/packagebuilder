@@ -124,9 +124,9 @@ def loading(request, job_id):
 	queue = get_queue_by_index(0)
 
 	try:
-        job = Job.fetch(job_id, connection=queue.connection)
+		job = Job.fetch(job_id, connection=queue.connection)
     except NoSuchJobError:
-        raise Http404("Couldn't find job with this ID: %s" % job_id)
+		raise Http404("Couldn't find job with this ID: %s" % job_id)
 
 	return render_to_response('loading.html', RequestContext(request, {'job': job}))
 
