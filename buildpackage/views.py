@@ -11,6 +11,8 @@ import requests
 from get_components import query_components_from_org
 from suds.client import Client
 from lxml import etree
+from rq import Queue
+from redis import Redis
 
 def index(request):
 	
@@ -103,9 +105,17 @@ def oauth_response(request):
 
 			if 'get_components' in request.POST:
 
-				package_id = query_components_from_org(instance_url, api_version, org_id, access_token)
+				# Run job using RQ
+				redis_conn = Redis()
+				q = Queue(connection=redis_conn)
 
-				return HttpResponseRedirect('/select_components/' + package_id)
+				# Queue job
+				job = q.enqueue(query_components_from_org(instance_url, api_version, org_id, access_token))
+
+				# Wait till job is finished
+				time.sleep(20)
+
+				return HttpResponseRedirect('/select_components/' + job.result)
 
 	return render_to_response('oauth_response.html', RequestContext(request,{'error': error_exists, 'error_message': error_message, 'username': username, 'org_name': org_name, 'login_form': login_form}))
 
