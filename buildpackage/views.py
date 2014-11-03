@@ -108,7 +108,7 @@ def oauth_response(request):
 				# Query for compoents
 				job = django_rq.enqueue(query_components_from_org, instance_url, api_version, org_id, access_token)
 
-				return HttpResponseRedirect('/loading/' + str(job_id))
+				return HttpResponseRedirect('/loading/' + str(job.id))
 
 	return render_to_response('oauth_response.html', RequestContext(request,{'error': error_exists, 'error_message': error_message, 'username': username, 'org_name': org_name, 'login_form': login_form}))
 
