@@ -4,6 +4,8 @@
 
 	<h1>Salesforce package.xml Builder</h1>
 
+
+	<!--
 	<h2>Down for maintenance</h2>
 
 	<p>
@@ -14,7 +16,9 @@
 		We will hopefully be up and running shortly.
 	</p>
 
-	<!--
+	-->
+
+	
 	<p>
 		This tool uses the Salesforce Metadata API to build a package.xml file based on components in your Salesforce org. Handy for building a package.xml file for use with ANT Force.com Migration or other IDE tools, or building a destructiveChanges.xml file.
 	</p>
@@ -68,16 +72,11 @@
 					<td><label for="id_api_version">API Version</label></td>
 					<td>
 						<select id="id_api_version" name="api_version">
+							<option value="32">32.0</option>
+							<option value="31">31.0</option>
 							<option value="30">30.0</option>
 							<option value="29">29.0</option>
 							<option value="28">28.0</option>
-							<option value="27">27.0</option>
-							<option value="26">26.0</option>
-							<option value="25">25.0</option>
-							<option value="24">24.0</option>
-							<option value="23">23.0</option>
-							<option value="22">22.0</option>
-							<option value="21">21.0</option>
 						</select>
 					</td>
 				</tr>
@@ -108,5 +107,4 @@
 
 	</table>
 
-	-->
 {% endblock %}
