@@ -96,7 +96,7 @@ def oauth_response(request):
 			org_id = login_form.cleaned_data['org_id']
 
 			if 'logout' in request.POST:
-				r = requests.post(login_url + '/services/oauth2/revoke', headers={'content-type':'application/x-www-form-urlencoded'}, data={'token': access_token})
+				r = requests.post(instance_url + '/services/oauth2/revoke', headers={'content-type':'application/x-www-form-urlencoded'}, data={'token': access_token})
 				instance = instance_url.replace('https','').replace('.salesforce.com','')
 				return HttpResponseRedirect('/logout?instance=' + instance)
 
