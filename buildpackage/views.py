@@ -6,11 +6,15 @@ from buildpackage.models import Package, ComponentType, Component
 from django.contrib import messages
 from django.forms.models import modelformset_factory
 from django.conf import settings
+from buildpackage.test_queue import send_test_email
 import json
 import requests
 
 from suds.client import Client
 from lxml import etree
+
+from rq import Queue
+from worker import conn
 
 def index(request):
 	
@@ -103,6 +107,10 @@ def oauth_response(request):
 
 			if 'get_components' in request.POST:
 
+				q = Queue(connection=conn)
+				result = q.enqueue(send_test_email, '')
+
+				"""
 				# instantiate the metadata WSDL
 				metadata_client = Client('http://packagebuilder.herokuapp.com/static/metadata.wsdl.xml')
 
@@ -169,6 +177,7 @@ def oauth_response(request):
 						component_type.delete()
 
 				return HttpResponseRedirect('/select_components/' + str(package.id))
+				"""
 
 	return render_to_response('oauth_response.html', RequestContext(request,{'error': error_exists, 'error_message': error_message, 'username': username, 'org_name': org_name, 'login_form': login_form}))
 
