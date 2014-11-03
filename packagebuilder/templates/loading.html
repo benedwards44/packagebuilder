@@ -21,11 +21,13 @@
 			<h1 style="font-size:1.5em;margin-top:20px;">Querying components...</h1>
 			<p>This can take a few minutes.</p>
 		</div>
-		
+
 	</div>
 
 	<script>
- 		window.setTimeout(window.location.reload(), 5000);
+ 		setTimeout(function () {
+       		window.location.reload();
+    	}, 5000);
 	</script>
 
 {% endblock %}
