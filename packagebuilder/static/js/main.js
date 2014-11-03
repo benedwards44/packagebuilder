@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+	$('.loading').hide();
+
 	$('.logging_out').hide();
 
 	$('#selection_tree').tree();
