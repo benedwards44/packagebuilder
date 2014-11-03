@@ -45,13 +45,13 @@
 			<ul>
 				{% for component_type in package.sorted_component_types %}
 
-                	<li>
+                	<li class="collapsed">
                 		<input class="component_type_display" name="{{ forloop.counter0 }}" type="checkbox">
                 		<span>{{ component_type.name }}</span>
 
                 	{% for component in component_type.sorted_components %}
                     <ul>
-                        <li class="collapsed">
+                        <li>
                         	<input class="component_display" type="checkbox" name="{{ component.id }}">
                         	<span>{{ component.name }}</span>
                     </ul>
