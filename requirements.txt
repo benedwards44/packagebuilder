@@ -11,4 +11,4 @@ static==1.0.2
 suds==0.4
 wsgiref==0.1.2
 redis==2.10.3
-rq==0.4.6
+rq==0.1.2
