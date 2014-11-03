@@ -109,7 +109,7 @@ def oauth_response(request):
 				redis_conn = Redis()
 				q = Queue(connection=redis_conn)
 
-				# Queue job
+				# Query for compoents
 				job = q.enqueue(query_components_from_org(instance_url, api_version, org_id, access_token))
 
 				# Wait till job is finished
