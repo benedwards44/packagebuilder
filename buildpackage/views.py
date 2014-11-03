@@ -19,7 +19,7 @@ from redis.exceptions import ResponseError
 from rq import requeue_job, Worker
 from rq.exceptions import NoSuchJobError
 from rq.job import Job
-from .queues import get_connection, get_queue_by_index
+from rq.queues import get_connection, get_queue_by_index
 
 def index(request):
 	
