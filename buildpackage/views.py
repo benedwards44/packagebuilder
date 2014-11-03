@@ -117,14 +117,14 @@ def oauth_response(request):
 
 				print job
 
-				return HttpResponseRedirect('/loading/' + str(job.id))
+				return HttpResponseRedirect('/loading/0/' + str(job.id))
 
 	return render_to_response('oauth_response.html', RequestContext(request,{'error': error_exists, 'error_message': error_message, 'username': username, 'org_name': org_name, 'login_form': login_form}))
 
 def loading(request, queue_index, job_id):
 
 	queue_index = int(queue_index)
-    queue = get_queue_by_index(queue_index)
+	queue = get_queue_by_index(queue_index)
 
 	try:
 		job = Job.fetch(job_id, connection=queue.connection)
