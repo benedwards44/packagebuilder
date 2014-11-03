@@ -110,7 +110,7 @@ def oauth_response(request):
 				q = Queue(connection=redis_conn)
 
 				# Query for compoents
-				job = q.enqueue(query_components_from_org(instance_url, api_version, org_id, access_token))
+				job = q.enqueue(query_components_from_org, instance_url, api_version, org_id, access_token)
 
 				# Wait till job is finished
 				time.sleep(20)
