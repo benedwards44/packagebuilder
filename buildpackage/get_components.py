@@ -2,7 +2,7 @@ from buildpackage.models import Package, ComponentType, Component
 from suds.client import Client
 from lxml import etree
 
-def get_components(instance_url, api_version, org_id, access_token):
+def query_components_from_org(instance_url, api_version, org_id, access_token):
 	# instantiate the metadata WSDL
 	metadata_client = Client('http://packagebuilder.herokuapp.com/static/metadata.wsdl.xml')
 
