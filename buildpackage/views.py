@@ -109,7 +109,6 @@ def oauth_response(request):
 				job = django_rq.enqueue(query_components_from_org, instance_url, api_version, org_id, access_token)
 
 				# Wait till job is finished
-				#while not job:
 				time.sleep(30)
 
 				return HttpResponseRedirect('/select_components/' + job.result)
