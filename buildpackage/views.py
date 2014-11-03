@@ -12,6 +12,7 @@ from get_components import query_components_from_org
 from suds.client import Client
 from lxml import etree
 import django_rq
+import time
 
 def index(request):
 	
