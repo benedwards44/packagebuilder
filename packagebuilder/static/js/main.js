@@ -4,8 +4,6 @@ $(document).ready(function() {
 
 	$('.logging_out').hide();
 
-	$('.select-component-options').hide();
-
 	$('#selection_tree').tree();
 
 	$('#selectAll').prop('checked', true);
