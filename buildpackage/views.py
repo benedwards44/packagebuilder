@@ -123,19 +123,9 @@ def select_components(request, package_id):
 
 	package = get_object_or_404(Package, pk=package_id)
 
-	# query for component tpyes and components seperately. Need to do this for the field sets
+	# query for component types and components seperately. Need to do this for the field sets
 	component_types = ComponentType.objects.filter(package=package_id).order_by('name')
 	components = Component.objects.filter(component_type__package=package_id)
-
-	# reset all include values back to true
-	for component_type in component_types:
-		component_type.include_all = True
-		component_type.save()
-
-	# reset all include values back to true
-	for component in components:
-		component.include = True
-		component.save()
 
 	# build field sets for the page
 	ComponentTypeFormSet = modelformset_factory(ComponentType, extra=0, fields=('id','include_all','name'))
