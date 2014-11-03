@@ -121,7 +121,7 @@ def loading(request, job_id):
 	redis_conn = django_rq.get_connection('default')
 	job = Job.fetch(job_id, connection=redis_conn)
 
-	if job.status == 'finished':
+	if job.get_status() == 'finished':
 		return HttpResponseRedirect('/select_components/' + str(job.result))
 	else:
 		return render_to_response('loading.html', RequestContext(request, {}))
