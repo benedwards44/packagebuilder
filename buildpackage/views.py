@@ -13,7 +13,13 @@ from suds.client import Client
 from lxml import etree
 import django_rq
 import time
+
+# django-rq imports
+from redis.exceptions import ResponseError
+from rq import requeue_job, Worker
+from rq.exceptions import NoSuchJobError
 from rq.job import Job
+from .queues import get_connection, get_queue_by_index
 
 def index(request):
 	
@@ -115,7 +121,12 @@ def oauth_response(request):
 
 def loading(request, job_id):
 
-	job = Job.objects.get(pk = job_id)
+	queue = get_queue_by_index(0)
+
+	try:
+        job = Job.fetch(job_id, connection=queue.connection)
+    except NoSuchJobError:
+        raise Http404("Couldn't find job with this ID: %s" % job_id)
 
 	return render_to_response('loading.html', RequestContext(request, {'job': job}))
 
