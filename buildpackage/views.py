@@ -13,6 +13,7 @@ from suds.client import Client
 from lxml import etree
 import django_rq
 import time
+from rq.job import Job
 
 def index(request):
 	
@@ -114,9 +115,9 @@ def oauth_response(request):
 
 def loading(request, job_id):
 
-	#job = Job.objects.get(pk = job_id)
+	job = Job.objects.get(pk = job_id)
 
-	return render_to_response('loading.html', RequestContext(request, {}))
+	return render_to_response('loading.html', RequestContext(request, {'job': job}))
 
 def select_components(request, package_id):
 
