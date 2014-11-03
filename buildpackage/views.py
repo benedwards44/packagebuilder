@@ -116,7 +116,7 @@ def loading(request, job_id):
 
 	#job = Job.objects.get(pk = job_id)
 
-	return render_to_response('loading.html', RequestContext(request, {})
+	return render_to_response('loading.html', RequestContext(request, {}))
 
 def select_components(request, package_id):
 
