@@ -127,7 +127,7 @@ def loading(request, job_id):
 	if job.get_status() == 'finished':
 		return HttpResponseRedirect('/select_components/' + str(job.result))
 	else:
-		return render_to_response('loading.html', RequestContext(request, {}))
+		return render_to_response('loading.html', RequestContext(request, {'jobid':job_id}))
 
 def select_components(request, package_id):
 
