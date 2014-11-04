@@ -28,7 +28,7 @@
  		window.setInterval(function () 
  		{
        		$.ajax({
-			    url: '/job_status?jobid={{jobid}}',
+			    url: '/job_status/{{ jobid }}',
 			    type: 'get', //this is the default though, you don't actually need to always mention it
 			    success: function(resp) 
 			    {
