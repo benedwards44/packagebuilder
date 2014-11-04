@@ -44,10 +44,6 @@ def query_components_from_org(instance_url, api_version, org_id, access_token):
 		# set up the component type to query for components
 		component = metadata_client.factory.create("ListMetadataQuery")
 		component.type = component_type.xmlName
-		
-		# If folder related metadata. Eg. Dashboard, Document, EmailTemplate, Report
-		if component_type.inFolder:
-			component.folder = component_type.xmlName + 'Folder'
 
 		# Add metadata to list
 		component_list.append(component)
