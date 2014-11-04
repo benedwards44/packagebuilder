@@ -67,7 +67,7 @@ h2 {
 }
 
 .treeButton {
-    font-size: 0.7em;
+    font-size: 0.7em !important;
 }
 
 .logo {
