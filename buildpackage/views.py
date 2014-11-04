@@ -117,7 +117,7 @@ def job_status(request, job_id):
 	if job.get_status() == 'finished':
 		return HttpResponse(str(job.result))
 	else:
-		return HttpResponse('loading')
+		return HttpResponse(job.get_status())
 
 def loading(request, job_id):
 
