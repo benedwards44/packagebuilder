@@ -32,19 +32,19 @@
 
 		<div id="wrapper">
 
-			<a href="http://www.tquila.com">
-				<img src="{{ STATIC_URL }}images/tquila-logo@1x.png" style="margin-top:10px;margin-left:10px;" border="0" />
+			<a href="http://www.tquila.com" class="logo">
+				<img src="{{ STATIC_URL }}images/tquila-logo@1x.png" style="" border="0" />
 			</a>
+
+			<div class="contact">
+				<a href="mailto:bedwards@tquila.com">bedwards@tquila.com</a> | <a href="https://twitter.com/benedwards44">@benedwards44</a>
+			</div>
 
 			<div id="container">
 				{% block content %}{% endblock %}
 			</div>
 
 		</div>
-
-		<footer>	
-			App by <a href="mailto:bedwards@tquila.com">Ben Edwards</a> | <a href="https://twitter.com/benedwards44">@benedwards44</a>
-		</footer>
 
 	</body>
 
