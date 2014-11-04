@@ -19,6 +19,16 @@ def query_components_from_org(instance_url, api_version, org_id, access_token):
 	# query for the list of metadata types
 	all_metadata = metadata_client.service.describeMetadata(api_version)
 
+	print all_metadata
+
+	# add custom metadata not listed
+	"""
+	custom_metadata = metadata_client.factory.create("DescribeMetadataResult")
+	custom_metadata.xmlName = 'Dashboard'
+	all_metadata.append(custom_metadata)
+	"""
+
+
 	# create the package record to store results
 	package = Package()
 	package.username = org_id
