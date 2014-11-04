@@ -59,7 +59,6 @@ $(document).ready(function() {
 	});
 
 	$('.select-component-options').show();
-	$('.loading-components').hide();
 	
 });
 
