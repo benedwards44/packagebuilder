@@ -29,7 +29,7 @@
        		//window.location.reload();
 
        		$.ajax({
-			    url: '{{ STATIC_URL }}/waiting',
+			    url: '/waiting',
 			    type: 'get', //this is the default though, you don't actually need to always mention it
 			    success: function(resp) {
 			        alert(resp);
