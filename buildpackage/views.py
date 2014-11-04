@@ -1,6 +1,6 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from buildpackage.forms import LoginForm, ComponentSelectForm
 from buildpackage.models import Package, ComponentType, Component
 from django.contrib import messages
@@ -116,7 +116,7 @@ def waiting_job(request):
 	job = Job.fetch(job_id, connection=redis_conn)
 
 	if job.get_status() == 'finished':
-		return HttpResponse('loaded,' + str(job.result))
+		return HttpResponse(str(job.result))
 	else:
 		return HttpResponse('loading')
 
