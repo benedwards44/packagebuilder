@@ -25,22 +25,24 @@
 	</div>
 
 	<script>
- 		setTimeout(function () {
-       		//window.location.reload();
-
+ 		window.setInterval(function () 
+ 		{
        		$.ajax({
-			    url: '/waiting?jobid={{jobid}}',
+			    url: '/job_status?jobid={{jobid}}',
 			    type: 'get', //this is the default though, you don't actually need to always mention it
-			    success: function(resp) {
-			        alert(resp);
+			    success: function(resp) 
+			    {
+			        if (resp != 'loading')
+			        {
+			        	window.location = '/select_components/' + resp;
+			        }
 			    },
-			    failure: function(resp) { 
-			        alert(resp);
+			    failure: function(resp) 
+			    { 
+			        alert('The website returned an error trying to run your job. Please try again.');
 			    }
 			});
     	}, 5000);
-
-    	// Ajax call to job object that runs every 5 seconds. check if finished. window.location = '/select_components/' + job.result
 	</script>
 
 {% endblock %}
