@@ -59,6 +59,7 @@ $(document).ready(function() {
 	});
 
 	$('.select-component-options').show();
+	$('.loading-component-selector').hide();
 	
 });
 
