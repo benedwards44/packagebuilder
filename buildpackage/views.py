@@ -109,9 +109,10 @@ def oauth_response(request):
 
 	return render_to_response('oauth_response.html', RequestContext(request,{'error': error_exists, 'error_message': error_message, 'username': username, 'org_name': org_name, 'login_form': login_form}))
 
-def waiting_job(request, job_id):
+def waiting_job(request):
 
 	redis_conn = django_rq.get_connection('default')
+	job_id = request.GET.get('jobid')
 	job = Job.fetch(job_id, connection=redis_conn)
 
 	if job.get_status() == 'finished':
@@ -127,7 +128,7 @@ def loading(request, job_id):
 	if job.get_status() == 'finished':
 		return HttpResponseRedirect('/select_components/' + str(job.result))
 	else:
-		return render_to_response('loading.html', RequestContext(request, {'request':request, 'jobid':job_id}))
+		return render_to_response('loading.html', RequestContext(request, {'jobid':job_id}))
 
 def select_components(request, package_id):
 
