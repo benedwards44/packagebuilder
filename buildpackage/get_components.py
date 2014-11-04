@@ -3,9 +3,11 @@ from suds.client import Client
 from lxml import etree
 
 def query_components_from_org(instance_url, api_version, org_id, access_token):
+
 	# instantiate the metadata WSDL
 	metadata_client = Client('http://packagebuilder.herokuapp.com/static/metadata.wsdl.xml')
 
+	# URL for metadata API
 	metadata_url = instance_url + '/services/Soap/m/' + str(api_version) + '.0/' + org_id
 
 	# set the metadata url based on the login result
@@ -25,8 +27,8 @@ def query_components_from_org(instance_url, api_version, org_id, access_token):
 	package.api_version = str(api_version) + '.0'
 	package.save()
 
+	# Components for listing metadata
 	component_list = []
-
 	loop_counter = 0;
 
 	# loop through metadata types
@@ -42,16 +44,27 @@ def query_components_from_org(instance_url, api_version, org_id, access_token):
 		# set up the component type to query for components
 		component = metadata_client.factory.create("ListMetadataQuery")
 		component.type = component_type.xmlName
+		
+		# If folder related metadata. Eg. Dashboard, Document, EmailTemplate, Report
+		if component_type.inFolder:
+			component.folder = component_type.xmlName + 'Folder'
+
+		# Add metadata to list
 		component_list.append(component)
 
+		# Run the metadata query only if the list has reached 3 (the max allowed to query)
+		# at one time, or if there is less than 3 components left to query 
 		if len(component_list) == 3 or (len(all_metadata[0]) - loop_counter) <= 3:
 
 			# loop through the components returned from the component query
 			for component in metadata_client.service.listMetadata(component_list,api_version):
 
+				# Query database for parent component_type
 				component_type_query = ComponentType.objects.filter(name=component.type, package=package.id)
 
+				# Only add if found
 				if component_type_query:
+
 					# create the component record and save
 					component_record = Component()
 					component_record.component_type = component_type_query[0]
@@ -59,6 +72,7 @@ def query_components_from_org(instance_url, api_version, org_id, access_token):
 					component_record.include = True
 					component_record.save()
 	
+			# clear list once done. This list will re-build to 3 components and re-query the service
 			component_list = []
 
 		loop_counter = loop_counter + 1;

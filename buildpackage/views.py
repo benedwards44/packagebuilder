@@ -109,21 +109,27 @@ def oauth_response(request):
 
 	return render_to_response('oauth_response.html', RequestContext(request,{'error': error_exists, 'error_message': error_message, 'username': username, 'org_name': org_name, 'login_form': login_form}))
 
+# AJAX endpoint for page to constantly check if job is finished
 def job_status(request, job_id):
 
+	# Query for job
 	redis_conn = django_rq.get_connection('default')
 	job = Job.fetch(job_id, connection=redis_conn)
 
+	# If job is finished, return the package id
 	if job.get_status() == 'finished':
 		return HttpResponse(str(job.result))
 	else:
 		return HttpResponse('running')
 
+# Page for user to wait for job to run
 def loading(request, job_id):
 
+	# Query for job
 	redis_conn = django_rq.get_connection('default')
 	job = Job.fetch(job_id, connection=redis_conn)
 
+	# If finished already (unlikely), go to next page
 	if job.get_status() == 'finished':
 		return HttpResponseRedirect('/select_components/' + str(job.result))
 	else:
