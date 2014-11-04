@@ -44,6 +44,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'buildpackage',
     'django_rq',
+    'dajaxice',
+    'dajax',
 )
 
 MIDDLEWARE_CLASSES = (
