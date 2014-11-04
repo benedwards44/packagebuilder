@@ -42,6 +42,16 @@
 		</table>
 
 		<div id="selection_tree" style="display:none;">
+			<table>
+				<tr>
+					<td><button type="button" value="Check All" onclick="$('#selection_tree').tree('checkAll');" /></td>
+					<td><button type="button" value="Deselect All" onclick="$('#selection_tree').tree('uncheckAll');" /></td>
+				</tr>
+				<tr>
+					<td><button type="button" value="Expand All" onclick="$('#selection_tree').tree('expandAll');" /></td>
+					<td><button type="button" value="Collapse All" onclick="$('#selection_tree').tree('collapseAll');" /></td>
+				</tr>
+			</table>
 			<ul>
 				{% for component_type in package.sorted_component_types %}
 
