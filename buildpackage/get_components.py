@@ -19,23 +19,6 @@ def query_components_from_org(instance_url, api_version, org_id, access_token):
 	# query for the list of metadata types
 	all_metadata = metadata_client.service.describeMetadata(api_version)
 
-	# Custom add in components that don't appear in describeMetadata() method
-	custom_metadata = DescribeMetadataObject()
-	custom_metadata.xmlName = 'Dashboard'
-	all_metadata.append(custom_metadata)
-
-	custom_metadata = DescribeMetadataObject()
-	custom_metadata.xmlName = 'Document'
-	all_metadata.append(custom_metadata)
-
-	custom_metadata = DescribeMetadataObject()
-	custom_metadata.xmlName = 'EmailTemplate'
-	all_metadata.append(custom_metadata)
-
-	custom_metadata = DescribeMetadataObject()
-	custom_metadata.xmlName = 'Report'
-	all_metadata.append(custom_metadata)
-
 	# create the package record to store results
 	package = Package()
 	package.username = org_id
