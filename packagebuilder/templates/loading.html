@@ -32,6 +32,7 @@
 			    type: 'get', //this is the default though, you don't actually need to always mention it
 			    success: function(resp) 
 			    {
+			    	console.log(resp);
 			        if (resp != 'loading')
 			        {
 			        	window.location = '/select_components/' + resp;
