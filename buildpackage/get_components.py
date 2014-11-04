@@ -19,12 +19,9 @@ def query_components_from_org(instance_url, api_version, org_id, access_token):
 	# query for the list of metadata types
 	all_metadata = metadata_client.service.describeMetadata(api_version)
 
-	"""
-	all_metadata.append('Dashboard')
-	all_metadata.append('Document')
-	all_metadata.append('EmailTemplate')
-	all_metadata.append('Report')
-	"""
+	custom_metadata = DescribeMetadataObject()
+	custom_metadata.xmlName = 'Dashboard'
+	all_metadata.append(custom_metadata)
 
 	# create the package record to store results
 	package = Package()
@@ -38,8 +35,6 @@ def query_components_from_org(instance_url, api_version, org_id, access_token):
 
 	# loop through metadata types
 	for component_type in all_metadata[0]:
-
-		print component_type
 
 		# create the component type record and save
 		component_type_record = ComponentType()
