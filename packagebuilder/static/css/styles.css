@@ -66,6 +66,10 @@ h2 {
     padding: 20px 0 0 40px;
 }
 
+.treeButton {
+    font-size: 0.7em;
+}
+
 .logo {
     float: left;
 }
