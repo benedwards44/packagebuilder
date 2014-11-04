@@ -26,7 +26,18 @@
 
 	<script>
  		setTimeout(function () {
-       		window.location.reload();
+       		//window.location.reload();
+
+       		$.ajax({
+			    url: '{{ STATIC_URL }}/waiting',
+			    type: 'get', //this is the default though, you don't actually need to always mention it
+			    success: function(resp) {
+			        alert(resp);
+			    },
+			    failure: function(resp) { 
+			        alert('Got an error dude');
+			    }
+			});
     	}, 5000);
 
     	// Ajax call to job object that runs every 5 seconds. check if finished. window.location = '/select_components/' + job.result
