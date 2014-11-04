@@ -39,7 +39,7 @@ def query_components_from_org(instance_url, api_version, org_id, access_token):
 	# loop through metadata types
 	for component_type in all_metadata[0]:
 
-		print '### Debug ' + component_type
+		print component_type
 
 		# create the component type record and save
 		component_type_record = ComponentType()
