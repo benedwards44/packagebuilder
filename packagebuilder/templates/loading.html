@@ -29,7 +29,7 @@
        		//window.location.reload();
 
        		$.ajax({
-			    url: '/waiting?job_id={{jobid}}',
+			    url: '/waiting?request={{request}}&job_id={{jobid}}',
 			    type: 'get', //this is the default though, you don't actually need to always mention it
 			    success: function(resp) {
 			        alert(resp);
