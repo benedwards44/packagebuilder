@@ -17,6 +17,7 @@
 			<table class="login_table">
 
 				{% if messages %}
+
 					<tr>
 						<td colspan="2" style="color:#ff6600;font-weight:bold;">
 						    {% for message in messages %}
@@ -25,34 +26,41 @@
 						    <br/>
 						</td>
 					</tr>
+					
 				{% endif %}
 
 				{% if not error %}
 
-				<tr>
-					<td width="175" style="color:#ff6600">
-						<h2>Username: </h2>
-					</td>
-					<td>
-						{{ username }}
-					</td>
-				</tr>
+					<h2>Logged in as:</h2>
 
-				<tr>
-					<td width="175" style="color:#ff6600">
-						<h2>Organisation: </h2>
-					</td>
-					<td>
-						{{ org_name }}
-					</td>
-				</tr>
+						<tr>
+							<td width="150">
+								<strong>Username:</strong>
+							</td>
+							<td>
+								{{ username }}
+							</td>
+						</tr>
 
-				<tr>
-					<td colspan="2" style="text-align:center;height:50px;">
-						<input type="submit" name="logout" value="Logout" onclick="showLogout();" oncomplete="hideLogout();" />
-						<input type="submit" name="get_components" value="Get Components" onclick="hideTable();" oncomplete="showTable();" />
-					</td>
-				</tr>
+						<tr>
+							<td width="150">
+								<strong>Organisation:</strong>
+							</td>
+							<td>
+								{{ org_name }}
+							</td>
+						</tr>
+
+						<tr>
+							<td colspan="2"></td>
+						</tr>
+
+					<tr>
+						<td colspan="2" style="text-align:center;height:50px;">
+							<input type="submit" name="logout" value="Logout" onclick="showLogout();" oncomplete="hideLogout();" />
+							<input type="submit" name="get_components" value="Get Components" onclick="hideTable();" oncomplete="showTable();" />
+						</td>
+					</tr>
 
 				{% else %}
 
