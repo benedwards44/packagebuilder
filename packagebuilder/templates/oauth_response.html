@@ -30,11 +30,20 @@
 				{% if not error %}
 
 				<tr>
-					<td width="175" style="color:#ff6600;font-weight:bold;">
-						<h2>Logged in as: </h2>
+					<td width="175" style="color:#ff6600">
+						<h2>Username: </h2>
 					</td>
 					<td>
-						{{ username }} ({{ org_name }})
+						{{ username }}
+					</td>
+				</tr>
+
+				<tr>
+					<td width="175" style="color:#ff6600">
+						<h2>Organisation: </h2>
+					</td>
+					<td>
+						{{ org_name }}
 					</td>
 				</tr>
 
