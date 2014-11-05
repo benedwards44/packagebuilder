@@ -114,27 +114,37 @@ def oauth_response(request):
 def job_status(request, job_id):
 
 	# Query for job
-	redis_conn = django_rq.get_connection('default')
-	job = Job.fetch(job_id, connection=redis_conn)
+	try:
+		redis_conn = django_rq.get_connection('default')
+		job = Job.fetch(job_id, connection=redis_conn)
 
-	# If job is finished, return the package id
-	if job.get_status() == 'finished':
-		return HttpResponse(str(job.result))
-	else:
-		return HttpResponse('running')
+		# If job is finished, return the package id
+		if job.get_status() == 'finished':
+			return HttpResponse(str(job.result))
+	
+	# Sometimes resources are maxed and error returns. If so, pass and job should re-query
+	except: 
+		pass
+	
+	return HttpResponse('running')
 
 # Page for user to wait for job to run
 def loading(request, job_id):
 
 	# Query for job
-	redis_conn = django_rq.get_connection('default')
-	job = Job.fetch(job_id, connection=redis_conn)
+	try:
+		redis_conn = django_rq.get_connection('default')
+		job = Job.fetch(job_id, connection=redis_conn)
 
-	# If finished already (unlikely), go to next page
-	if job.get_status() == 'finished':
-		return HttpResponseRedirect('/select_components/' + str(job.result))
-	else:
-		return render_to_response('loading.html', RequestContext(request, {'jobid':job_id}))
+		# If finished already (unlikely), go to next page
+		if job.get_status() == 'finished':
+			return HttpResponseRedirect('/get_components/' + str(job.result))
+	
+	# Sometimes resources are maxed and error returns. Load page and let it refresh
+	except: 
+		pass
+
+	return render_to_response('loading.html', RequestContext(request, {'jobid':job_id}))
 
 def select_components(request, package_id):
 
