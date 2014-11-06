@@ -1,7 +1,7 @@
 from lxml import etree
 from buildpackage.models import Package, ComponentType, Component
 
-def build_xml(package):
+def build_xml(package_id):
 
 	# start our xml structure
 	root = etree.Element('Package')
