@@ -43,7 +43,7 @@
 			    	console.log(resp);
 			        if (resp.split(':::')[0] == 'Finished')
 			        {
-			        	window.location = '/select_components/{{ package.id }}/';
+			        	window.location = '/package/{{ package.id }}/';
 			        } 
 			        else if (resp.split(':::')[0] == 'Error')
 			        {

@@ -11,6 +11,7 @@ from suds.client import Client
 from lxml import etree
 from time import sleep
 import json
+from packagexml import build_xml
 import requests
 
 def index(request):
@@ -136,10 +137,11 @@ def loading(request, package_id):
 
 	# If finished already (unlikely) direct to schema view
 	if package.status == 'Finished':
-		return HttpResponseRedirect('/package_id/' + str(package_id.id))
+		return HttpResponseRedirect('/package/' + str(package.id))
 	else:
 		return render_to_response('loading.html', RequestContext(request, {'package': package}))	
 
+# Skipping this step for now
 def select_components(request, package_id):
 
 	package = get_object_or_404(Package, pk=package_id)
@@ -161,49 +163,12 @@ def select_components(request, package_id):
 
 		if component_select_form.is_valid():
 
-			# start our xml structure
-			root = etree.Element('Package')
-			root.set('xmlns','http://soap.sforce.com/2006/04/metadata')
-
 			# only need to save the fieldsets if the user has played with the partial options
 			if component_select_form.cleaned_data['component_option'] == 'partial':
 				component_type_formset.save()
 				component_formset.save()
 
-			# start loop of components. Re-querying to take save values from above
-			for component_type in ComponentType.objects.filter(package=package_id).order_by('name'):
-
-				# create child node for each type of component
-				top_child = etree.Element('types')
-
-				# loop through components
-				for component in component_type.component_set.order_by('name'):
-					if component.include:
-						# child XML child
-						child = etree.Element('members')
-						child.text = component.name
-						top_child.append(child)
-
-				# append child to xml
-				child = etree.Element('name')
-				child.text = component_type.name
-				top_child.append(child)
-
-				# only append if the user has selected it
-				if component_type.include_all:
-					root.append(top_child)
-
-			# add the final xml node
-			child = etree.Element('version')
-			child.text = package.api_version
-			root.append(child)
-
-			# create file string
-			xml_file = '<?xml version="1.0" encoding="UTF-8"?>\n'
-			xml_file = xml_file + etree.tostring(root, pretty_print=True)
-
-			# save xml data to the package record
-			package.package = xml_file
+			package.package = build_xml(package)
 			package.save()
 
 			return HttpResponseRedirect('/package/' + str(package.id))
@@ -217,7 +182,7 @@ def select_components(request, package_id):
 
 def package(request, package_id):
 	package = get_object_or_404(Package, pk=package_id)
-	package_xml = package.package
+	package_xml = build_xml(package)
 	package.delete()
 	return render_to_response('package.html', RequestContext(request, {'package_xml': package_xml}))
 
