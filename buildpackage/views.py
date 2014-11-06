@@ -6,12 +6,12 @@ from buildpackage.models import Package, ComponentType, Component
 from django.contrib import messages
 from django.forms.models import modelformset_factory
 from django.conf import settings
-import json
-import requests
 from buildpackage.tasks import query_components_from_org
 from suds.client import Client
 from lxml import etree
 from time import sleep
+import json
+import requests
 
 def index(request):
 	
@@ -224,4 +224,3 @@ def package(request, package_id):
 def logout(request):
 	instance = request.GET.get('instance')
 	return render_to_response('logout.html', RequestContext(request, {'instance': instance}))
-
