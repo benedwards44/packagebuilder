@@ -1,14 +1,14 @@
 from lxml import etree
 from buildpackage.models import Package, ComponentType, Component
 
-def build_xml(package_id):
+def build_xml(package):
 
 	# start our xml structure
 	root = etree.Element('Package')
 	root.set('xmlns','http://soap.sforce.com/2006/04/metadata')
 
 	# start loop of components. Re-querying to take save values from above
-	for component_type in ComponentType.objects.filter(package=package_id).order_by('name'):
+	for component_type in ComponentType.objects.filter(package=package.id).order_by('name'):
 
 		# create child node for each type of component
 		top_child = etree.Element('types')

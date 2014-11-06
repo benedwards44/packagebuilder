@@ -168,7 +168,7 @@ def select_components(request, package_id):
 				component_type_formset.save()
 				component_formset.save()
 
-			package.package = build_xml(package.id)
+			package.package = build_xml(package)
 			package.save()
 
 			return HttpResponseRedirect('/package/' + str(package.id))
@@ -182,7 +182,7 @@ def select_components(request, package_id):
 
 def package(request, package_id):
 	package = get_object_or_404(Package, pk=package_id)
-	package_xml = build_xml(package.id)
+	package_xml = build_xml(package)
 	package.delete()
 	return render_to_response('package.html', RequestContext(request, {'package_xml': package_xml}))
 
