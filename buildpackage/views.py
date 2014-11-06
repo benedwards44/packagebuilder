@@ -108,8 +108,11 @@ def oauth_response(request):
 				package.save()
 
 				# Queue job to run async
+				query_components_from_org.delay(package, instance_url, api_version, org_id, access_token)
+
+				"""
 				try:
-					query_components_from_org.delay(package, instance_url, api_version, org_id, access_token)
+					
 				except:
 					# If fail above, wait 5 seconds and try again. Not ideal but should work for now
 					sleep(5)
@@ -119,6 +122,7 @@ def oauth_response(request):
 						# Sleep another 5
 						sleep(5)
 						query_components_from_org.delay(package, instance_url, api_version, org_id, access_token)
+				"""
 
 				return HttpResponseRedirect('/loading/' + str(package.id))
 

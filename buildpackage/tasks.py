@@ -33,8 +33,6 @@ def query_components_from_org(package, instance_url, api_version, org_id, access
 		# query for the list of metadata types
 		all_metadata = metadata_client.service.describeMetadata(api_version)
 
-		
-
 		# Components for listing metadata
 		component_list = []
 		loop_counter = 0;
