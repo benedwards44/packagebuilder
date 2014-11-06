@@ -26,7 +26,9 @@
 
 	<div class="error" style="display:none;">
 		<p>
-			There was an error processing your request. Please <a href="/">return</a> to the home page and try again.
+			There was an error processing your request: <i class="error_message"></i>
+			<br/><br/>
+			Please <a href="/">return</a> to the home page and try again.
 		</p>
 	</div>
 
@@ -38,14 +40,15 @@
 			    type: 'get', //this is the default though, you don't actually need to always mention it
 			    success: function(resp) 
 			    {
-			        if (resp == 'Finished')
+			        if (resp.split(':')[0] == 'Finished')
 			        {
 			        	window.location = '/select_components/{{ package.id }}/';
 			        } 
-			        else if (resp == 'Error')
+			        else if (resp.split(':')[0] == 'Error')
 			        {
 			        	$('.loading-components').hide();
 			        	$('.error').show();
+			        	$('.error_message').text(resp.split(':')[1]);
 			        }
 			        // Else job is still running, this will re-run shortly.
 			    },

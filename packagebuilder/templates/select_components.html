@@ -67,6 +67,20 @@
         </div>
                     
         <input type="hidden" id="id_component_option" name="component_option" />
+
+        <div style="display:none;">
+
+		    {{ component_type_formset.management_form }}
+		    {% for component_type_form in component_type_formset %}
+		        {{ component_type_form.as_p }}
+		    {% endfor %}
+
+		    {{ component_formset.management_form }}
+		    {% for component_form in component_formset %}
+		    	{{ component_form.as_p }}
+		    {% endfor %}
+
+		</div>
 	    
 	</form>
 
