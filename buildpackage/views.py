@@ -135,7 +135,7 @@ def loading(request, package_id):
 	package = get_object_or_404(Package, pk=package_id)
 
 	# If finished already (unlikely) direct to schema view
-	if package_id.status == 'Finished':
+	if package.status == 'Finished':
 		return HttpResponseRedirect('/package_id/' + str(package_id.id))
 	else:
 		return render_to_response('loading.html', RequestContext(request, {'package': package}))	
