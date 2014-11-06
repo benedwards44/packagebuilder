@@ -11,3 +11,4 @@ static==1.0.2
 suds==0.4
 wsgiref==0.1.2
 celery==3.1.0
+redis==2.10.3
