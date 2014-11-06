@@ -3,7 +3,7 @@ from celery import Celery
 from django.conf import settings
 import os
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'buildpackage.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'packagebuilder.settings')
 
 app = Celery('tasks', broker=os.environ.get('REDISTOGO_URL', 'redis://localhost'))
 
