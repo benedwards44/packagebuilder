@@ -127,7 +127,7 @@ def oauth_response(request):
 # AJAX endpoint for page to constantly check if job is finished
 def job_status(request, package_id):
 	package = get_object_or_404(Package, pk=package_id)
-	return HttpResponse(package.status + ':' + package.error)
+	return HttpResponse(package.status + ':::' + package.error)
 
 # Page for user to wait for job to run
 def loading(request, package_id):

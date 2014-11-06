@@ -40,15 +40,15 @@
 			    type: 'get', //this is the default though, you don't actually need to always mention it
 			    success: function(resp) 
 			    {
-			        if (resp.split(':')[0] == 'Finished')
+			        if (resp.split(':::')[0] == 'Finished')
 			        {
 			        	window.location = '/select_components/{{ package.id }}/';
 			        } 
-			        else if (resp.split(':')[0] == 'Error')
+			        else if (resp.split(':::')[0] == 'Error')
 			        {
 			        	$('.loading-components').hide();
 			        	$('.error').show();
-			        	$('.error_message').text(resp.split(':')[1]);
+			        	$('.error_message').text(resp.split(':::')[1]);
 			        }
 			        // Else job is still running, this will re-run shortly.
 			    },

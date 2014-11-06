@@ -97,3 +97,7 @@ h2 {
     width: 100%;
     height:20px;
 }
+
+.error {
+    color: #900;
+}
