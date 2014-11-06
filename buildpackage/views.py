@@ -8,13 +8,10 @@ from django.forms.models import modelformset_factory
 from django.conf import settings
 import json
 import requests
-from get_components import query_components_from_org
+from buildpackage.tasks import query_components_from_org
 from suds.client import Client
 from lxml import etree
-import django_rq
-import time
-from rq.exceptions import NoSuchJobError
-from rq.job import Job
+from time import sleep
 
 def index(request):
 	
@@ -103,48 +100,45 @@ def oauth_response(request):
 
 			if 'get_components' in request.POST:
 
-				# Query for components
-				job = django_rq.enqueue(query_components_from_org, instance_url, api_version, org_id, access_token)
+				# create the package record to store results
+				package = Package()
+				package.username = org_id
+				package.api_version = str(api_version) + '.0'
+				package.status = 'Running'
+				package.save()
 
-				return HttpResponseRedirect('/loading/' + str(job.id))
+				# Queue job to run async
+				try:
+					query_components_from_org.delay(package, instance_url, api_version, org_id, access_token)
+				except:
+					# If fail above, wait 5 seconds and try again. Not ideal but should work for now
+					sleep(5)
+					try:
+						query_components_from_org.delay(package, instance_url, api_version, org_id, access_token)
+					except:
+						# Sleep another 5
+						sleep(5)
+						query_components_from_org.delay(package, instance_url, api_version, org_id, access_token)
+
+				return HttpResponseRedirect('/loading/' + str(package.id))
 
 	return render_to_response('oauth_response.html', RequestContext(request,{'error': error_exists, 'error_message': error_message, 'username': username, 'org_name': org_name, 'login_form': login_form}))
 
 # AJAX endpoint for page to constantly check if job is finished
-def job_status(request, job_id):
-
-	# Query for job
-	try:
-		redis_conn = django_rq.get_connection('default')
-		job = Job.fetch(job_id, connection=redis_conn)
-
-		# If job is finished, return the package id
-		if job.get_status() == 'finished':
-			return HttpResponse(str(job.result))
-	
-	# Sometimes resources are maxed and error returns. If so, pass and job should re-query
-	except: 
-		pass
-	
-	return HttpResponse('running')
+def job_status(request, package_id):
+	package = get_object_or_404(Package, pk=package_id)
+	return HttpResponse(package.status)
 
 # Page for user to wait for job to run
-def loading(request, job_id):
+def loading(request, package_id):
 
-	# Query for job
-	try:
-		redis_conn = django_rq.get_connection('default')
-		job = Job.fetch(job_id, connection=redis_conn)
+	package = get_object_or_404(Package, pk=package_id)
 
-		# If finished already (unlikely), go to next page
-		if job.get_status() == 'finished':
-			return HttpResponseRedirect('/get_components/' + str(job.result))
-	
-	# Sometimes resources are maxed and error returns. Load page and let it refresh
-	except: 
-		pass
-
-	return render_to_response('loading.html', RequestContext(request, {'jobid':job_id}))
+	# If finished already (unlikely) direct to schema view
+	if package_id.status == 'Finished':
+		return HttpResponseRedirect('/package_id/' + str(package_id.id))
+	else:
+		return render_to_response('loading.html', RequestContext(request, {'package': package}))	
 
 def select_components(request, package_id):
 

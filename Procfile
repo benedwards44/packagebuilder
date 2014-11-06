@@ -1,2 +1,2 @@
 web: gunicorn packagebuilder.wsgi --workers $WEB_CONCURRENCY
-worker: python manage.py rqworker default
+worker: celery -A buildpackage.tasks worker -B --loglevel=info

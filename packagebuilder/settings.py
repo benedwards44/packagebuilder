@@ -43,7 +43,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'buildpackage',
-    'django_rq',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -68,13 +67,8 @@ DATABASES = {
     'default': dj_database_url.config()
 }
 
-RQ_QUEUES = {
-    'default': {
-        'URL': os.getenv('REDISTOGO_URL', 'redis://localhost:6379'), # If you're on Heroku
-        'DB': 0,
-        'DEFAULT_TIMEOUT': 1000
-    }
-}
+# Celery settings
+BROKER_POOL_LIMIT = 1
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
