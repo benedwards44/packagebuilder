@@ -41,6 +41,7 @@
 			    success: function(resp) 
 			    {
 			    	console.log(resp);
+			    	console.log(resp.split(':::')[0]);
 			        if (resp.split(':::')[0] == 'Finished')
 			        {
 			        	window.location = '/package/{{ package.id }}/';
