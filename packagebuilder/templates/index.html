@@ -4,20 +4,6 @@
 
 	<h1>Salesforce package.xml Builder</h1>
 
-
-	<!--
-	<h2>Down for maintenance</h2>
-
-	<p>
-		Apologies, but Package Builder is currently down for maintenance. The previous server was struggling with the workload so the application has been migrated to Heroku. Since doing this, there are some adjustments that need to be made to the process.
-	</p>
-
-	<p>
-		We will hopefully be up and running shortly.
-	</p>
-
-	-->
-
 	<p>
 		This tool uses the Salesforce Metadata API to build a package.xml file based on components in your Salesforce org. Handy for building a package.xml file for use with ANT Force.com Migration or other IDE tools, or building a destructiveChanges.xml file.
 	</p>
@@ -58,9 +44,11 @@
 				{% endif %}
 
 				<tr>
-					<td width="200"><label for="id_environment">Environment</label></td>
+					<td width="200">
+						<label for="id_environment">Environment</label>
+					</td>
 					<td>
-						<select id="id_environment" name="environment">
+						<select id="id_environment" name="environment" class="form-control">
 							<option value="Production">Production</option>
 							<option value="Sandbox">Sandbox</option>
 						</select>
@@ -68,9 +56,11 @@
 				</tr>
 
 				<tr>
-					<td><label for="id_api_version">API Version</label></td>
 					<td>
-						<select id="id_api_version" name="api_version">
+						<label for="id_api_version">API Version</label>
+					</td>
+					<td>
+						<select id="id_api_version" name="api_version" class="form-control">
 							<option value="32">32.0</option>
 							<option value="31">31.0</option>
 							<option value="30">30.0</option>

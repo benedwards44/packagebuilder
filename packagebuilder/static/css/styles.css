@@ -17,10 +17,6 @@ input[type="text"], input[type="password"] {
     padding-left: 0.4em;
     max-width: 19em;
 }
-label {
-    font-size: 20px;
-    color: #999a9b !important;
-}
 input[type="submit"], button {
     cursor: pointer;
     -webkit-appearance: none!important;
