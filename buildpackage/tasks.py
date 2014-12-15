@@ -2,6 +2,7 @@ from __future__ import absolute_import
 from celery import Celery
 from django.conf import settings
 import os
+import datetime
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'packagebuilder.settings')
 
@@ -90,6 +91,7 @@ def query_components_from_org(package, instance_url, api_version, org_id, access
 		package.status = 'Error'
 		package.error = error
 
+	package.finished_date = datetime.datetime.now()
 	package.save()
 
 	return str(package.id)

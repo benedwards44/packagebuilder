@@ -13,6 +13,7 @@ from time import sleep
 import json
 from packagexml import build_xml
 import requests
+import datetime
 
 def index(request):
 	
@@ -103,6 +104,7 @@ def oauth_response(request):
 
 				# create the package record to store results
 				package = Package()
+				package.created_date = datetime.datetime.now()
 				package.username = org_id
 				package.api_version = str(api_version) + '.0'
 				package.status = 'Running'

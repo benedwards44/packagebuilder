@@ -1,6 +1,8 @@
 from django.db import models
 
 class Package(models.Model):
+	created_date = models.DateTimeField(null=True,blank=True)
+	finished_date = models.DateTimeField(null=True,blank=True)
 	username = models.CharField(max_length=255)
 	api_version = models.CharField(max_length=255)
 	package = models.TextField(blank=True)
