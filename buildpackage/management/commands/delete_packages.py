@@ -10,4 +10,8 @@ class Command(NoArgsCommand):
         packages = Package.objects.filter(finished_date__lt = one_hour_ago)
         packages.delete()
 
+        one_day_ago = datetime.datetime.now() - datetime.timedelta(hours=24)
+        packages = Package.objects.filter(start_date__lt = one_day_ago)
+        packages.delete()
+
 
