@@ -8,7 +8,7 @@ class ComponentInline(admin.TabularInline):
 	extra = 0
 
 class PackageAdmin(admin.ModelAdmin):
-    list_display = ('username','api_version')
+    list_display = ('username','api_version', 'created_date','finished_date','status')
     inlines = [ComponentInline]
 
 admin.site.register(Package, PackageAdmin)
