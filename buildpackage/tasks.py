@@ -86,8 +86,20 @@ def query_components_from_org(package, instance_url, api_version, org_id, access
 
 					if len(folder_list) >= 3 or (len(all_folders) - folder_loop_counter) <= 3:
 
+						folder_appended = False
+
 						# Loop through folder components
 						for folder_component in metadata_client.service.listMetadata([folder_component], api_version):
+
+							if not folder_appended:
+
+								# create the component folder entry
+								component_record = Component()
+								component_record.component_type = component_type_record
+								component_record.name = folder_component.fullName.split('/')[0]
+								component_record.save()
+
+								folder_appended = True
 
 							# create the component record and save
 							component_record = Component()
