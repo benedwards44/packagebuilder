@@ -62,7 +62,12 @@ def query_components_from_org(package, instance_url, api_version, org_id, access
 
 				# Append "Folder" keyword onto end of component type
 				component = metadata_client.factory.create("ListMetadataQuery")
-				component.type = component_type.xmlName + 'Folder'
+
+				# EmailTemplate = EmailFolder (for some reason)
+				if component.type == 'EmailTemplate':
+					component.type = 'EmailFolder'
+				else:
+					component.type = component_type.xmlName + 'Folder'
 
 				# All folders for specified metadata type
 				all_folders = metadata_client.service.listMetadata([component], api_version)
