@@ -128,7 +128,7 @@ def query_components_from_org(package, instance_url, api_version, org_id, access
 
 	except Exception as error:
 		package.status = 'Error'
-		package.error = error
+		package.error = 'Line: ' + sys.exc_info().tb_lineno + '\n\n' + error
 
 	package.finished_date = datetime.datetime.now()
 	package.save()
