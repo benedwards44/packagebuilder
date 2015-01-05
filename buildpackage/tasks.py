@@ -69,47 +69,29 @@ def query_components_from_org(package, instance_url, api_version, org_id, access
 				else:
 					component.type = component_type.xmlName + 'Folder'
 
-				# All folders for specified metadata type
-				all_folders = metadata_client.service.listMetadata([component], api_version)
-				folder_list = []
-				folder_loop_counter = 0
-
 				# Loop through folders
-				for folder in all_folders:
+				for folder in metadata_client.service.listMetadata([component], api_version):
 
 					# Create component for folder to query
 					folder_component = metadata_client.factory.create("ListMetadataQuery")
 					folder_component.type = component_type.xmlName
 					folder_component.folder = folder.fullName
 
-					folder_list.append(folder_component)
+					# create the component folder entry
+					component_record = Component()
+					component_record.component_type = component_type_record
+					component_record.name = folder.fullName
+					component_record.save()
 
-					if len(folder_list) >= 3 or (len(all_folders) - folder_loop_counter) <= 3:
+					# Loop through folder components
+					for folder_component in metadata_client.service.listMetadata([folder_component], api_version):
 
-						folder_appended = False
+						# create the component record and save
+						component_record = Component()
+						component_record.component_type = component_type_record
+						component_record.name = folder_component.fullName
+						component_record.save()
 
-						# Loop through folder components
-						for folder_component in metadata_client.service.listMetadata([folder_component], api_version):
-
-							if not folder_appended:
-
-								# create the component folder entry
-								component_record = Component()
-								component_record.component_type = component_type_record
-								component_record.name = folder_component.fullName.split('/')[0]
-								component_record.save()
-
-								folder_appended = True
-
-							# create the component record and save
-							component_record = Component()
-							component_record.component_type = component_type_record
-							component_record.name = folder_component.fullName
-							component_record.save()
-
-						folder_list = []
-
-					folder_loop_counter = folder_loop_counter + 1
 
 			# Run the metadata query only if the list has reached 3 (the max allowed to query)
 			# at one time, or if there is less than 3 components left to query 
