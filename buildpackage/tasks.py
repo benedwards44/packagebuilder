@@ -70,7 +70,7 @@ def query_components_from_org(package, instance_url, api_version, org_id, access
 					component.type = component_type.xmlName + 'Folder'
 
 				# All folders for specified metadata type
-					
+				all_folders = metadata_client.service.listMetadata([component], api_version)
 				folder_list = []
 				folder_loop_counter = 0
 
