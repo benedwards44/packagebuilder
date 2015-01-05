@@ -49,7 +49,7 @@ def query_components_from_org(package, instance_url, api_version, org_id, access
 			component_type_record.save()
 
 			# Component is a folder component - eg Dashboard, Document, EmailTemplate, Report
-			if not component.inFolder:
+			if not component_type.inFolder:
 
 				# set up the component type to query for components
 				component = metadata_client.factory.create("ListMetadataQuery")
