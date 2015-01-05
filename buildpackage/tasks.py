@@ -86,6 +86,8 @@ def query_components_from_org(package, instance_url, api_version, org_id, access
 
 					if len(folder_list) >= 3 or (len(all_folders) - folder_loop_counter) <= 3:
 
+						print folder_list
+
 						# Loop through folder components
 						for component in metadata_client.service.listMetadata(folder_list, api_version):
 
