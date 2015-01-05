@@ -86,15 +86,13 @@ def query_components_from_org(package, instance_url, api_version, org_id, access
 
 					if len(folder_list) >= 3 or (len(all_folders) - folder_loop_counter) <= 3:
 
-						print folder_list
-
 						# Loop through folder components
-						for component in metadata_client.service.listMetadata(folder_list, api_version):
+						for folder_component in metadata_client.service.listMetadata(folder_list, api_version):
 
 							# create the component record and save
 							component_record = Component()
 							component_record.component_type = component_type_record
-							component_record.name = component.fullName
+							component_record.name = folder_component.fullName
 							component_record.save()
 
 						folder_list = []
