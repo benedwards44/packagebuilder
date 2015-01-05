@@ -64,7 +64,7 @@ def query_components_from_org(package, instance_url, api_version, org_id, access
 				component = metadata_client.factory.create("ListMetadataQuery")
 
 				# EmailTemplate = EmailFolder (for some reason)
-				if component.type == 'EmailTemplate':
+				if component_type.xmlName == 'EmailTemplate':
 					component.type = 'EmailFolder'
 				else:
 					component.type = component_type.xmlName + 'Folder'
