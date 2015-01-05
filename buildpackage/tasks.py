@@ -70,7 +70,7 @@ def query_components_from_org(package, instance_url, api_version, org_id, access
 					component.type = component_type.xmlName + 'Folder'
 
 				# All folders for specified metadata type
-				all_folders = metadata_client.service.listMetadata([component], api_version)
+					
 				folder_list = []
 				folder_loop_counter = 0
 
@@ -80,28 +80,24 @@ def query_components_from_org(package, instance_url, api_version, org_id, access
 					# Create component for folder to query
 					folder_component = metadata_client.factory.create("ListMetadataQuery")
 					folder_component.type = folder.type
-					folder_component.folder = folder.fullName
+					folder_component.folder = component_type.xmlName
 
 					folder_list.append(folder_component)
 
-					#if len(folder_list) >= 3 or (len(all_folders) - folder_loop_counter) <= 3:
+					if len(folder_list) >= 3 or (len(all_folders) - folder_loop_counter) <= 3:
 
-					print 'HELLO ' + str(folder_component)
+						# Loop through folder components
+						for folder_component in metadata_client.service.listMetadata([folder_component], api_version):
 
-					# Loop through folder components
-					for folder_component in metadata_client.service.listMetadata([folder_component], api_version):
+							# create the component record and save
+							component_record = Component()
+							component_record.component_type = component_type_record
+							component_record.name = folder_component.fullName
+							component_record.save()
 
-						print '### ' + str(folder_component)
+						folder_list = []
 
-						# create the component record and save
-						component_record = Component()
-						component_record.component_type = component_type_record
-						component_record.name = folder_component.fullName
-						component_record.save()
-
-						#folder_list = []
-
-					#folder_loop_counter = folder_loop_counter + 1
+					folder_loop_counter = folder_loop_counter + 1
 
 			# Run the metadata query only if the list has reached 3 (the max allowed to query)
 			# at one time, or if there is less than 3 components left to query 
