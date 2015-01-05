@@ -65,7 +65,7 @@ def query_components_from_org(package, instance_url, api_version, org_id, access
 				component.type = component_type.xmlName + 'Folder'
 
 				# All folders for specified metadata type
-				all_folders = metadata_client.service.listMetadata([component], settings.SALESFORCE_API_VERSION)
+				all_folders = metadata_client.service.listMetadata([component], api_version)
 				folder_list = []
 				folder_loop_counter = 0
 
@@ -82,7 +82,7 @@ def query_components_from_org(package, instance_url, api_version, org_id, access
 					if len(folder_list) >= 3 or (len(all_folders) - folder_loop_counter) <= 3:
 
 						# Loop through folder components
-						for component in metadata_client.service.listMetadata(folder_list, settings.SALESFORCE_API_VERSION):
+						for component in metadata_client.service.listMetadata(folder_list, api_version):
 
 							# create the component record and save
 							component_record = Component()
