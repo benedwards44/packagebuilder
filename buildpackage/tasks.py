@@ -79,8 +79,8 @@ def query_components_from_org(package, instance_url, api_version, org_id, access
 
 					# Create component for folder to query
 					folder_component = metadata_client.factory.create("ListMetadataQuery")
-					folder_component.type = folder.type
-					folder_component.folder = component_type.xmlName
+					folder_component.type = component_type.xmlName
+					folder_component.folder = folder.fullName
 
 					folder_list.append(folder_component)
 
