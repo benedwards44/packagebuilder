@@ -48,12 +48,51 @@ def query_components_from_org(package, instance_url, api_version, org_id, access
 			component_type_record.include_all = True
 			component_type_record.save()
 
-			# set up the component type to query for components
-			component = metadata_client.factory.create("ListMetadataQuery")
-			component.type = component_type.xmlName
+			# Component is a folder component - eg Dashboard, Document, EmailTemplate, Report
+			if not component.inFolder:
 
-			# Add metadata to list
-			component_list.append(component)
+				# set up the component type to query for components
+				component = metadata_client.factory.create("ListMetadataQuery")
+				component.type = component_type.xmlName
+
+				# Add metadata to list
+				component_list.append(component)
+
+			else:
+
+				# Append "Folder" keyword onto end of component type
+				component = metadata_client.factory.create("ListMetadataQuery")
+				component.type = component_type.xmlName + 'Folder'
+
+				# All folders for specified metadata type
+				all_folders = metadata_client.service.listMetadata([component], settings.SALESFORCE_API_VERSION)
+				folder_list = []
+				folder_loop_counter = 0
+
+				# Loop through folders
+				for folder in all_folders:
+
+					# Create component for folder to query
+					folder_component = metadata_client.factory.create("ListMetadataQuery")
+					folder_component.type = folder.type
+					folder_component.folder = folder.fullName
+
+					folder_list.append(folder_component)
+
+					if len(folder_list) >= 3 or (len(all_folders) - folder_loop_counter) <= 3:
+
+						# Loop through folder components
+						for component in metadata_client.service.listMetadata(folder_list, settings.SALESFORCE_API_VERSION):
+
+							# create the component record and save
+							component_record = Component()
+							component_record.component_type = component_type_record
+							component_record.name = component.fullName
+							component_record.save()
+
+						folder_list = []
+
+					folder_loop_counter = folder_loop_counter + 1
 
 			# Run the metadata query only if the list has reached 3 (the max allowed to query)
 			# at one time, or if there is less than 3 components left to query 
