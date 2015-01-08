@@ -48,6 +48,9 @@ h2 {
     line-height: 1.1em;
     color: #ff6600;
 }
+h3 {
+    color: #ff6600;
+}
 #mti_wfs_colophon {
     display: none !important;
 }
