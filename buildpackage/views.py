@@ -11,7 +11,6 @@ from suds.client import Client
 from lxml import etree
 from time import sleep
 import json
-from packagexml import build_xml
 import requests
 import datetime
 import uuid
