@@ -159,13 +159,11 @@ def build_xml(package):
 				# child XML child
 				child = etree.Element('members')
 				child.text = component.name
-				indent(child)
 				top_child.append(child)
 
 		# append child to xml
 		child = etree.Element('name')
 		child.text = component_type.name
-		indent(child)
 		top_child.append(child)
 
 		# only append if the user has selected it
@@ -175,7 +173,6 @@ def build_xml(package):
 	# add the final xml node
 	child = etree.Element('version')
 	child.text = package.api_version
-	indent(child)
 	root.append(child)
 
 	# create file string
@@ -187,18 +184,3 @@ def build_xml(package):
 	package.save()
 
 	return xml_file
-
-def indent(elem, level=0):
-	i = "\n" + level*"  "
-	if len(elem):
-		if not elem.text or not elem.text.strip():
-			elem.text = i + "  "
-        if not elem.tail or not elem.tail.strip():
-			elem.tail = i
-        for elem in elem:
-			indent(elem, level+1)
-        if not elem.tail or not elem.tail.strip():
-			elem.tail = i
-    	else:
-        	if level and (not elem.tail or not elem.tail.strip()):
-				elem.tail = i
