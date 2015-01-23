@@ -36,13 +36,13 @@
  		window.setInterval(function () 
  		{
        		$.ajax({
-			    url: '/job_status/{{ package.id }}',
+			    url: '/job_status/{{ package.random_id }}',
 			    type: 'get', //this is the default though, you don't actually need to always mention it
 			    success: function(resp) 
 			    {
 			        if (resp.split(':::')[0].trim() == 'Finished')
 			        {
-			        	window.location = '/package/{{ package.id }}/';
+			        	window.location = '/package/{{ package.random_id }}/';
 			        } 
 			        else if (resp.split(':::')[0].trim() == 'Error')
 			        {

@@ -1,6 +1,7 @@
 from django.db import models
 
 class Package(models.Model):
+	random_id = models.CharField(db_index=True,max_length=255, blank=True)
 	created_date = models.DateTimeField(null=True,blank=True)
 	finished_date = models.DateTimeField(null=True,blank=True)
 	username = models.CharField(max_length=255)

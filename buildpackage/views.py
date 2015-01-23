@@ -14,6 +14,7 @@ import json
 from packagexml import build_xml
 import requests
 import datetime
+import uuid
 
 def index(request):
 	
@@ -104,6 +105,7 @@ def oauth_response(request):
 
 				# create the package record to store results
 				package = Package()
+				package.random_id = uuid.uuid4()
 				package.created_date = datetime.datetime.now()
 				package.username = org_id
 				package.api_version = str(api_version) + '.0'
@@ -123,30 +125,37 @@ def oauth_response(request):
 						sleep(5)
 						query_components_from_org.delay(package, instance_url, api_version, org_id, access_token)
 
-				return HttpResponseRedirect('/loading/' + str(package.id))
+				return HttpResponseRedirect('/loading/' + str(package.random_id))
 
 	return render_to_response('oauth_response.html', RequestContext(request,{'error': error_exists, 'error_message': error_message, 'username': username, 'org_name': org_name, 'login_form': login_form}))
 
 # AJAX endpoint for page to constantly check if job is finished
 def job_status(request, package_id):
-	package = get_object_or_404(Package, pk=package_id)
-	return HttpResponse(package.status + ':::' + package.error)
+
+	package = get_object_or_404(Package, random_id = package_id)
+
+	response_data = {
+		'status': job.status,
+		'error': job.error
+	}
+
+	return HttpResponse(json.dumps(response_data), content_type = 'application/json')
 
 # Page for user to wait for job to run
 def loading(request, package_id):
 
-	package = get_object_or_404(Package, pk=package_id)
+	package = get_object_or_404(Package, random_id = package_id)
 
 	# If finished already (unlikely) direct to schema view
 	if package.status == 'Finished':
-		return HttpResponseRedirect('/package/' + str(package.id))
+		return HttpResponseRedirect('/package/' + str(package.random_id))
 	else:
 		return render_to_response('loading.html', RequestContext(request, {'package': package}))	
 
 # Skipping this step for now
 def select_components(request, package_id):
 
-	package = get_object_or_404(Package, pk=package_id)
+	package = get_object_or_404(Package, random_id = package_id)
 
 	# query for component types and components seperately. Need to do this for the field sets
 	component_types = ComponentType.objects.filter(package=package_id).order_by('name')
@@ -173,7 +182,7 @@ def select_components(request, package_id):
 			package.package = build_xml(package)
 			package.save()
 
-			return HttpResponseRedirect('/package/' + str(package.id))
+			return HttpResponseRedirect('/package/' + str(package.random_id))
 
 	else:
 		component_select_form = ComponentSelectForm()
@@ -183,8 +192,8 @@ def select_components(request, package_id):
 	return render_to_response('select_components.html', RequestContext(request, {'package': package, 'component_select_form': component_select_form,'component_type_formset': component_type_formset,'component_formset': component_formset}))
 
 def package(request, package_id):
-	package = get_object_or_404(Package, pk=package_id)
-	package_xml = build_xml(package)
+	package = get_object_or_404(Package, random_id = package_id)
+	package_xml = package.package
 	package.delete()
 	return render_to_response('package.html', RequestContext(request, {'package_xml': package_xml}))
 
