@@ -98,6 +98,8 @@ STATICFILES_DIRS = (
     os.path.join(PROJECT_PATH, 'static'),
 )
 
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
 SALESFORCE_CONSUMER_KEY = '3MVG99qusVZJwhsnmdmjq1uHdUk4LVhIplP1jDQd8JeV9L6kegiszAin2bFazlscqD2qS3WfJE0U9Z_9lHEic'
 SALESFORCE_CONSUMER_SECRET = '4620711228526730882'
 SALESFORCE_REDIRECT_URI = 'https://packagebuilder.herokuapp.com/oauth_response'
