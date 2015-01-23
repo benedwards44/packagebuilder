@@ -135,8 +135,8 @@ def job_status(request, package_id):
 	package = get_object_or_404(Package, random_id = package_id)
 
 	response_data = {
-		'status': job.status,
-		'error': job.error
+		'status': package.status,
+		'error': package.error
 	}
 
 	return HttpResponse(json.dumps(response_data), content_type = 'application/json')

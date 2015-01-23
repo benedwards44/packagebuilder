@@ -40,15 +40,15 @@
 			    type: 'get', //this is the default though, you don't actually need to always mention it
 			    success: function(resp) 
 			    {
-			        if (resp.split(':::')[0].trim() == 'Finished')
+			        if (resp.status == 'Finished')
 			        {
 			        	window.location = '/package/{{ package.random_id }}/';
 			        } 
-			        else if (resp.split(':::')[0].trim() == 'Error')
+			        else if (resp.status == 'Error')
 			        {
 			        	$('.loading-components').hide();
 			        	$('.error').show();
-			        	$('.error_message').text(resp.split(':::')[1]);
+			        	$('.error_message').text(resp.error);
 			        }
 			        // Else job is still running, this will re-run shortly.
 			    },
