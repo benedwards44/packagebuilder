@@ -212,7 +212,7 @@ def auth_details(request):
 
 	try:
 
-		request_data = request.body
+		request_data = json.loads(request.body)
 
 		print request_data
 
