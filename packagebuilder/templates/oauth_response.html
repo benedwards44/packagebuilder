@@ -19,11 +19,12 @@
 				{% if messages %}
 
 					<tr>
-						<td colspan="2" style="color:#ff6600;font-weight:bold;">
-						    {% for message in messages %}
-						    	{{ message }}<br/>
-						    {% endfor %}
-						    <br/>
+						<td colspan="2">
+							<div role="alert" class="alert alert-danger">
+							    {% for message in messages %}
+							    	{{ message }}<br/>
+							    {% endfor %}
+						    </div>
 						</td>
 					</tr>
 					
@@ -65,17 +66,12 @@
 				{% else %}
 
 				<tr>
-					<td width="75" style="color:#ff6600;font-weight:bold;">
-						<h2>Error: </h2>
-					</td>
-					<td style="color:#900;">
-						{{ error_message }}
-					</td>
-				</tr>
-
-				<tr>
-					<td width="75" colspan="2">
-						Please go <a href="/">back</a> and try again.
+					<td colspan="2">
+						<div role="alert" class="alert alert-danger">
+							{{ error_message }}
+							<br/><br/>
+							Please go <a href="/">back</a> and try again.
+						</div>
 					</td>
 				</tr>
 
