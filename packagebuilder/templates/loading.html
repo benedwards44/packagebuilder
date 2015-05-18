@@ -24,7 +24,7 @@
 
 	</div>
 
-	<div class="error" style="display:none;">
+	<div role="alert" class="error alert alert-danger" style="display:none;">
 		<p>
 			There was an error processing your request: <i class="error_message"></i>
 			<br/><br/>
@@ -33,7 +33,7 @@
 	</div>
 
 	<script>
- 		window.setInterval(function () 
+		var refreshId = window.setInterval(function () 
  		{
        		$.ajax({
 			    url: '/job_status/{{ package.random_id }}',
@@ -49,6 +49,7 @@
 			        	$('.loading-components').hide();
 			        	$('.error').show();
 			        	$('.error_message').text(resp.error);
+			        	clearInterval(refreshId);
 			        }
 			        // Else job is still running, this will re-run shortly.
 			    },
@@ -57,6 +58,7 @@
 			        $('.loading-components').hide();
 		        	$('.error').show();
 		        	$('.error_message').text(resp);
+		        	clearInterval(refreshId);
 			    }
 			});
     	}, 3000);

@@ -30,7 +30,7 @@ def query_components_from_org(package):
 		metadata_client = Client('http://packagebuilder.herokuapp.com/static/metadata.wsdl.xml')
 
 		# URL for metadata API
-		metadata_url = instance_url + '/services/Soap/m/' + str(api_version) + '.0/' + org_id
+		metadata_url = instance_url + '/services/Soap/m/' + str(api_version) + '/' + org_id
 
 		# set the metadata url based on the login result
 		metadata_client.set_options(location=metadata_url)
