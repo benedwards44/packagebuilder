@@ -216,8 +216,6 @@ def auth_details(request):
 
 		request_data = request.body
 
-		all_fields = True
-
 		# Check for all required fields
 		if 'org_id' not in request_data or 'access_token' not in request_data or 'instance_url' not in request_data:
 
