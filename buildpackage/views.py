@@ -104,7 +104,7 @@ def oauth_response(request):
 				package.random_id = uuid.uuid4()
 				package.created_date = datetime.datetime.now()
 				package.username = org_id
-				package.api_version = str(api_version) + '.0'
+				package.api_version = str(settings.SALESFORCE_API_VERSION) + '.0'
 				package.status = 'Running'
 				package.save()
 
