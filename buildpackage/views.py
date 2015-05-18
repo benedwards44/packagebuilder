@@ -214,6 +214,8 @@ def auth_details(request):
 
 		request_data = request.body
 
+		print request_data
+
 		# Check for all required fields
 		if 'org_id' not in request_data or 'access_token' not in request_data or 'instance_url' not in request_data:
 
@@ -248,13 +250,13 @@ def auth_details(request):
 				'success': True
 			}
 
-	except Exception as ex:
+	except Exception as error:
 
 		# If there is an error, raise exception and return
 		response_data = {
 			'status': 'Error',
 			'success':  False,
-			'error_text': str(ex)
+			'error_text': str(error)
 		}
 	
 	return HttpResponse(json.dumps(response_data), content_type = 'application/json')
