@@ -208,15 +208,22 @@ def auth_details(request):
 		RESTful endpoint to pass authentication details
 	"""
 
-	#request_body = request.body
+	response_data = {}
 
-	print request
+	try:
 
+		print json.loads(r.text)
 
+		response_data['job_id'] = 'Hello'
+		response_data['job_url'] = 'https://packagebuilder.herokuapp.com/job/'
+		response_data['status'] = 'Success'
+		response_data['success'] = True
 
-	response_data = {
-		'job_id': 'Hello',
-		'job_url': 'https://packagebuilder.herokuapp.com/job/'
-	}
+	except Exception as ex:
+
+		response_data['status'] = 'Error'
+		response_data['success'] = False
+		response_data['error_text'] = ex
+	
 
 	return HttpResponse(json.dumps(response_data), content_type = 'application/json')
