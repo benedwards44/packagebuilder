@@ -6,6 +6,8 @@ class Package(models.Model):
 	finished_date = models.DateTimeField(null=True,blank=True)
 	username = models.CharField(max_length=255)
 	api_version = models.CharField(max_length=255)
+	access_token = models.CharField(max_length=255, blank=True)
+	instance_url = models.CharField(max_length=255, blank=True)
 	package = models.TextField(blank=True)
 	status = models.CharField(max_length=255, blank=True)
 	error = models.TextField(blank=True)

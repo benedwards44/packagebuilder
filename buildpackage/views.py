@@ -106,21 +106,23 @@ def oauth_response(request):
 				package.created_date = datetime.datetime.now()
 				package.username = org_id
 				package.api_version = str(settings.SALESFORCE_API_VERSION) + '.0'
+				package.access_token = access_token
+				package.instance_url = instance_url
 				package.status = 'Running'
 				package.save()
 
 				# Queue job to run async
 				try:
-					query_components_from_org.delay(package, instance_url, str(settings.SALESFORCE_API_VERSION), org_id, access_token)
+					query_components_from_org.delay(package)
 				except:
 					# If fail above, wait 5 seconds and try again. Not ideal but should work for now
 					sleep(5)
 					try:
-						query_components_from_org.delay(package, instance_url, str(settings.SALESFORCE_API_VERSION), org_id, access_token)
+						query_components_from_org.delay(package)
 					except:
 						# Sleep another 5
 						sleep(5)
-						query_components_from_org.delay(package, instance_url, str(settings.SALESFORCE_API_VERSION), org_id, access_token)
+						query_components_from_org.delay(package)
 
 				return HttpResponseRedirect('/loading/' + str(package.random_id))
 
@@ -213,6 +215,15 @@ def auth_details(request):
 	try:
 
 		print json.loads(r.text)
+
+		# create the package record to store results
+		package = Package()
+		package.random_id = uuid.uuid4()
+		package.created_date = datetime.datetime.now()
+		package.username = org_id
+		package.api_version = str(settings.SALESFORCE_API_VERSION) + '.0'
+		package.status = 'Running'
+		package.save()
 
 		response_data['job_id'] = 'Hello'
 		response_data['job_url'] = 'https://packagebuilder.herokuapp.com/job/'

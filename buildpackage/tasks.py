@@ -13,12 +13,19 @@ from suds.client import Client
 from lxml import etree
 
 @app.task
-def query_components_from_org(package, instance_url, api_version, org_id, access_token):
+def query_components_from_org(package):
 	"""
 		Query all metadata from the org and build components and component types
 	"""
 
 	try:
+
+		# Stored package variables - used for queries and processing
+		instance_url = package.instance_url
+		api_version = package.api_version
+		org_id = package.username
+		access_token = package.access_token
+
 
 		# instantiate the metadata WSDL
 		metadata_client = Client('http://packagebuilder.herokuapp.com/static/metadata.wsdl.xml')
