@@ -245,7 +245,7 @@ def auth_details(request):
 				'job_id': package.random_id,
 				'job_url': 'https://packagebuilder.herokuapp.com/loading/' + str(package.random_id),
 				'status': 'Success',
-				'success' = True
+				'success': True
 			}
 
 	except Exception as ex:
