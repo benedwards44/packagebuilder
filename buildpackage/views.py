@@ -24,13 +24,12 @@ def index(request):
 		if login_form.is_valid():
 
 			environment = login_form.cleaned_data['environment']
-			api_version = login_form.cleaned_data['api_version']
 
 			oauth_url = 'https://login.salesforce.com/services/oauth2/authorize'
 			if environment == 'Sandbox':
 				oauth_url = 'https://test.salesforce.com/services/oauth2/authorize'
 
-			oauth_url = oauth_url + '?response_type=code&client_id=' + settings.SALESFORCE_CONSUMER_KEY + '&redirect_uri=' + settings.SALESFORCE_REDIRECT_URI + '&state='+ environment + str(api_version)
+			oauth_url = oauth_url + '?response_type=code&client_id=' + settings.SALESFORCE_CONSUMER_KEY + '&redirect_uri=' + settings.SALESFORCE_REDIRECT_URI + '&state='+ environment + str(settings.SALESFORCE_API_VERSION)
 			
 			return HttpResponseRedirect(oauth_url)
 	else:
@@ -48,8 +47,7 @@ def oauth_response(request):
 	if request.GET:
 
 		oauth_code = request.GET.get('code')
-		environment = request.GET.get('state')[:-2]
-		api_version = request.GET.get('state')[-2:]
+		environment = request.GET.get('state')
 		access_token = ''
 		instance_url = ''
 		org_id = ''
@@ -73,15 +71,15 @@ def oauth_response(request):
 			org_id = org_id[-18:]
 
 			# get username of the authenticated user
-			r = requests.get(instance_url + '/services/data/v' + api_version + '.0/sobjects/User/' + user_id + '?fields=Username', headers={'Authorization': 'OAuth ' + access_token})
+			r = requests.get(instance_url + '/services/data/v' + str(settings.SALESFORCE_API_VERSION) + '.0/sobjects/User/' + user_id + '?fields=Username', headers={'Authorization': 'OAuth ' + access_token})
 			query_response = json.loads(r.text)
 			username = query_response['Username']
 
 			# get the org name of the authenticated user
-			r = requests.get(instance_url + '/services/data/v' + api_version + '.0/sobjects/Organization/' + org_id + '?fields=Name', headers={'Authorization': 'OAuth ' + access_token})
+			r = requests.get(instance_url + '/services/data/v' + str(settings.SALESFORCE_API_VERSION) + '.0/sobjects/Organization/' + org_id + '?fields=Name', headers={'Authorization': 'OAuth ' + access_token})
 			org_name = json.loads(r.text)['Name']
 
-		login_form = LoginForm(initial={'environment': environment, 'api_version': api_version, 'access_token': access_token, 'instance_url': instance_url, 'org_id': org_id})	
+		login_form = LoginForm(initial={'environment': environment, 'access_token': access_token, 'instance_url': instance_url, 'org_id': org_id})	
 
 	if request.POST:
 
@@ -90,7 +88,6 @@ def oauth_response(request):
 		if login_form.is_valid():
 
 			environment = login_form.cleaned_data['environment']
-			api_version = login_form.cleaned_data['api_version']
 			access_token = login_form.cleaned_data['access_token']
 			instance_url = login_form.cleaned_data['instance_url']
 			org_id = login_form.cleaned_data['org_id']
@@ -113,16 +110,16 @@ def oauth_response(request):
 
 				# Queue job to run async
 				try:
-					query_components_from_org.delay(package, instance_url, api_version, org_id, access_token)
+					query_components_from_org.delay(package, instance_url, str(settings.SALESFORCE_API_VERSION), org_id, access_token)
 				except:
 					# If fail above, wait 5 seconds and try again. Not ideal but should work for now
 					sleep(5)
 					try:
-						query_components_from_org.delay(package, instance_url, api_version, org_id, access_token)
+						query_components_from_org.delay(package, instance_url, str(settings.SALESFORCE_API_VERSION), org_id, access_token)
 					except:
 						# Sleep another 5
 						sleep(5)
-						query_components_from_org.delay(package, instance_url, api_version, org_id, access_token)
+						query_components_from_org.delay(package, instance_url, str(settings.SALESFORCE_API_VERSION), org_id, access_token)
 
 				return HttpResponseRedirect('/loading/' + str(package.random_id))
 

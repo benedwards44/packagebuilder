@@ -103,3 +103,45 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 SALESFORCE_CONSUMER_KEY = '3MVG99qusVZJwhsnmdmjq1uHdUk4LVhIplP1jDQd8JeV9L6kegiszAin2bFazlscqD2qS3WfJE0U9Z_9lHEic'
 SALESFORCE_CONSUMER_SECRET = '4620711228526730882'
 SALESFORCE_REDIRECT_URI = 'https://packagebuilder.herokuapp.com/oauth_response'
+SALESFORCE_API_VERSION = 33
+
+# EMAIL SERVER SETTINGS
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'ben@benedwards.co.nz'
+EMAIL_HOST_PASSWORD = '656y58nz'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+# A sample logging configuration. The only tangible logging
+# performed by this configuration is to send an email to
+# the site admins on every HTTP 500 error when DEBUG=False.
+# See http://docs.djangoproject.com/en/dev/topics/logging for
+# more details on how to customize your logging configuration.
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler'
+        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': BASE_DIR + '/debug.log',
+        },
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins', 'file'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    }
+}
