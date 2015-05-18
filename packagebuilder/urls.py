@@ -13,4 +13,5 @@ urlpatterns = patterns('',
     url(r'^logout/$', 'buildpackage.views.logout'),
     url(r'^job_status/(?P<package_id>[0-9A-Za-z_\-]+)/$', 'buildpackage.views.job_status'),
     url(r'^loading/(?P<package_id>[0-9A-Za-z_\-]+)/$', 'buildpackage.views.loading'),
+    url(r'^auth_details/$', 'buildpackage.views.auth_details'),
 )

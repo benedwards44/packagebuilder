@@ -188,11 +188,34 @@ def select_components(request, package_id):
 	return render_to_response('select_components.html', RequestContext(request, {'package': package, 'component_select_form': component_select_form,'component_type_formset': component_type_formset,'component_formset': component_formset}))
 
 def package(request, package_id):
+
 	package = get_object_or_404(Package, random_id = package_id)
 	package_xml = package.package
 	package.delete()
 	return render_to_response('package.html', RequestContext(request, {'package_xml': package_xml}))
 
+
 def logout(request):
+
 	instance = request.GET.get('instance')
 	return render_to_response('logout.html', RequestContext(request, {'instance': instance}))
+
+
+@csrf_exempt
+def auth_details(request):
+	"""
+		RESTful endpoint to pass authentication details
+	"""
+
+	#request_body = request.body
+
+	print request.body
+
+
+
+	response_data = {
+		'job_id': 'Hello',
+		'job_url': 'https://packagebuilder.herokuapp.com/job/'
+	}
+
+	return HttpResponse(json.dumps(response_data), content_type = 'application/json')
