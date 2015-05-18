@@ -254,7 +254,7 @@ def auth_details(request):
 		response_data = {
 			'status': 'Error',
 			'success':  False,
-			'error_text': ex
+			'error_text': str(ex)
 		}
 	
 	return HttpResponse(json.dumps(response_data), content_type = 'application/json')
