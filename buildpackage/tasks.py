@@ -26,7 +26,6 @@ def query_components_from_org(package):
 		org_id = package.username
 		access_token = package.access_token
 
-
 		# instantiate the metadata WSDL
 		metadata_client = Client('http://packagebuilder.herokuapp.com/static/metadata.wsdl.xml')
 

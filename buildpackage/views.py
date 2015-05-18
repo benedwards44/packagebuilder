@@ -214,24 +214,43 @@ def auth_details(request):
 
 	try:
 
-		print json.loads(r.text)
+		request_data = request.body
 
-		# create the package record to store results
-		package = Package()
-		package.random_id = uuid.uuid4()
-		package.created_date = datetime.datetime.now()
-		package.username = org_id
-		package.api_version = str(settings.SALESFORCE_API_VERSION) + '.0'
-		package.status = 'Running'
-		package.save()
+		all_fields = True
 
-		response_data['job_id'] = 'Hello'
-		response_data['job_url'] = 'https://packagebuilder.herokuapp.com/job/'
-		response_data['status'] = 'Success'
-		response_data['success'] = True
+		# Check for all required fields
+		if 'org_id' not in request_data or 'access_token' not in request_data or 'instance_url' not in request_data:
+
+			response_data['status'] = 'Error'
+			response_data['success'] = False
+			response_data['error_text'] = 'Not all required fields were found in the message. Please ensure org_id, access_token and instance_url are all passed in the payload'
+
+		# All fields exist. Start job and send response
+		else:
+
+			# create the package record to store results
+			package = Package()
+			package.random_id = uuid.uuid4()
+			package.created_date = datetime.datetime.now()
+			package.username = request_data['org_id']
+			package.access_token = request_data['access_token']
+			package.instance_url = request_data['instance_url']
+			package.api_version = str(settings.SALESFORCE_API_VERSION) + '.0'
+			package.status = 'Running'
+			package.save()
+
+			# Run job
+			query_components_from_org.delay(package)
+
+			# Build response 
+			response_data['job_id'] = package.random_id
+			response_data['job_url'] = 'https://packagebuilder.herokuapp.com/loading/' + str(package.random_id)
+			response_data['status'] = 'Success'
+			response_data['success'] = True
 
 	except Exception as ex:
 
+		# If there is an error, raise exception and return
 		response_data['status'] = 'Error'
 		response_data['success'] = False
 		response_data['error_text'] = ex
