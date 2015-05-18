@@ -209,7 +209,7 @@ def auth_details(request):
 
 	#request_body = request.body
 
-	print request.body
+	print request
 
 
 
