@@ -210,8 +210,6 @@ def auth_details(request):
 		RESTful endpoint to pass authentication details
 	"""
 
-	response_data = {}
-
 	try:
 
 		request_data = request.body
@@ -219,9 +217,11 @@ def auth_details(request):
 		# Check for all required fields
 		if 'org_id' not in request_data or 'access_token' not in request_data or 'instance_url' not in request_data:
 
-			response_data['status'] = 'Error'
-			response_data['success'] = False
-			response_data['error_text'] = 'Not all required fields were found in the message. Please ensure org_id, access_token and instance_url are all passed in the payload'
+			response_data {
+				'status': 'Error',
+				'success':  False,
+				'error_text': 'Not all required fields were found in the message. Please ensure org_id, access_token and instance_url are all passed in the payload'
+			}
 
 		# All fields exist. Start job and send response
 		else:
@@ -241,17 +241,20 @@ def auth_details(request):
 			query_components_from_org.delay(package)
 
 			# Build response 
-			response_data['job_id'] = package.random_id
-			response_data['job_url'] = 'https://packagebuilder.herokuapp.com/loading/' + str(package.random_id)
-			response_data['status'] = 'Success'
-			response_data['success'] = True
+			response_data {
+				'job_id': package.random_id,
+				'job_url': 'https://packagebuilder.herokuapp.com/loading/' + str(package.random_id),
+				'status': 'Success',
+				'success' = True
+			}
 
 	except Exception as ex:
 
 		# If there is an error, raise exception and return
-		response_data['status'] = 'Error'
-		response_data['success'] = False
-		response_data['error_text'] = ex
+		response_data {
+			'status': 'Error',
+			'success':  False,
+			'error_text': ex
+		}
 	
-
 	return HttpResponse(json.dumps(response_data), content_type = 'application/json')
