@@ -33,8 +33,7 @@
  
 	<body>
 
-		<div id="wrapper">
-
+		{% if request.GET.noheader == '1' %}
 			<!-- Static navbar -->
 	      	<nav class="navbar navbar-default">
 
@@ -83,7 +82,13 @@
 				{% block content %}{% endblock %}
 			</div>
 
-		</div>
+		{% else %}
+
+			<div class="col-md-12">
+				{% block content %}{% endblock %}
+			</div>
+
+		{% endif %}
 
 		<div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
 			<div class="modal-dialog small_dialog">

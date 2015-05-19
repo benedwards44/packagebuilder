@@ -54,6 +54,10 @@ MIDDLEWARE_CLASSES = (
     #'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.template.context_processors.request',
+)
+
 ROOT_URLCONF = 'packagebuilder.urls'
 
 WSGI_APPLICATION = 'packagebuilder.wsgi.application'
@@ -104,9 +108,6 @@ SALESFORCE_CONSUMER_KEY = '3MVG99qusVZJwhsnmdmjq1uHdUk4LVhIplP1jDQd8JeV9L6kegisz
 SALESFORCE_CONSUMER_SECRET = '4620711228526730882'
 SALESFORCE_REDIRECT_URI = 'https://packagebuilder.herokuapp.com/oauth_response'
 SALESFORCE_API_VERSION = 33
-
-# Enable iframe
-#X_FRAME_OPTIONS
 
 # EMAIL SERVER SETTINGS
 EMAIL_HOST = 'smtp.gmail.com'
