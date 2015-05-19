@@ -33,7 +33,7 @@
  
 	<body>
 
-		{% if request.GET.noheader == '1' %}
+		{% if request.GET.noheader != '1' %}
 			<!-- Static navbar -->
 	      	<nav class="navbar navbar-default">
 
