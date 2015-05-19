@@ -55,7 +55,10 @@ MIDDLEWARE_CLASSES = (
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.template.context_processors.debug',
     'django.template.context_processors.request',
+    'django.contrib.messages.context_processors.messages',
+    'django.contrib.auth.context_processors.auth',
 )
 
 ROOT_URLCONF = 'packagebuilder.urls'
