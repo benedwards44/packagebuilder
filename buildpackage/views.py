@@ -78,7 +78,10 @@ def oauth_response(request):
 
 			# get the org name of the authenticated user
 			r = requests.get(instance_url + '/services/data/v' + str(settings.SALESFORCE_API_VERSION) + '.0/sobjects/Organization/' + org_id + '?fields=Name', headers={'Authorization': 'OAuth ' + access_token})
-			org_name = json.loads(r.text)['Name']
+			if 'Name' in json.loads(r.text):
+				org_name = json.loads(r.text)['Name']
+			else:
+				org_name = ''
 
 		login_form = LoginForm(initial={'environment': environment, 'access_token': access_token, 'instance_url': instance_url, 'org_id': org_id})	
 
