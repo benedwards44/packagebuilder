@@ -106,17 +106,10 @@ STATICFILES_DIRS = (
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
-SALESFORCE_CONSUMER_KEY = '3MVG99qusVZJwhsnmdmjq1uHdUk4LVhIplP1jDQd8JeV9L6kegiszAin2bFazlscqD2qS3WfJE0U9Z_9lHEic'
-SALESFORCE_CONSUMER_SECRET = '4620711228526730882'
+SALESFORCE_CONSUMER_KEY = os.environ['SALESFORCE_CONSUMER_KEY']
+SALESFORCE_CONSUMER_SECRET = os.environ['SALESFORCE_CONSUMER_SECRET']
 SALESFORCE_REDIRECT_URI = 'https://packagebuilder.herokuapp.com/oauth_response'
-SALESFORCE_API_VERSION = 33
-
-# EMAIL SERVER SETTINGS
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'ben@benedwards.co.nz'
-EMAIL_HOST_PASSWORD = '656y58nz'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+SALESFORCE_API_VERSION = int(os.environ['SALESFORCE_API_VERSION'])
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
