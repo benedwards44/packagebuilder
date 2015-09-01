@@ -216,7 +216,7 @@ def include_component(components_option, component):
 	# If the user doesn't want any package components
 	elif components_option == 'none':
 		# If package has a prefix, it is part of a package. Exclude it
-		if component.namespacePrefix:
+		if 'namespacePrefix' in component:
 			return False
 		else:
 			return True
@@ -224,7 +224,7 @@ def include_component(components_option, component):
 	# If the user only wants unmanaged packages
 	elif components_option == 'unmanaged':
 		# If package has a prefix, it is part of a package. Exclude it
-		if component.namespacePrefix:
+		if 'namespacePrefix' in component:
 			# If the component is unmanaged
 			if component.manageableState == 'unmanaged':
 				return True
