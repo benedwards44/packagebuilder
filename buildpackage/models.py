@@ -16,7 +16,7 @@ class Package(models.Model):
 		('none','No Packaged Components'),
 	)
 
-	component_option = models.CharField(max_length=255, choices=PACKAGE_CHOICES, default='all')
+	component_option = models.CharField(max_length=255, choices=PACKAGE_CHOICES)
 
 	package = models.TextField(blank=True)
 	status = models.CharField(max_length=255, blank=True)

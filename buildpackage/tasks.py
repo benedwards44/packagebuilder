@@ -234,4 +234,3 @@ def include_component(components_option, component):
 			return True
 
 	return True
-	
