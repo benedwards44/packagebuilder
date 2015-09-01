@@ -209,27 +209,4 @@ def build_xml(package):
 # Determine whether to return the component or not
 def include_component(components_option, component):
 
-	# If the user wants all components
-	if components_option == 'all':
-		return True
-
-	# If the user doesn't want any package components
-	elif components_option == 'none':
-		# If package has a prefix, it is part of a package. Exclude it
-		if component.namespacePrefix:
-			return False
-		else:
-			return True
-	# If the user only wants unmanaged packages
-	elif components_option == 'unmanaged':
-		# If package has a prefix, it is part of a package. Exclude it
-		if component.namespacePrefix:
-			# If the component is unmanaged
-			if component.manageableState == 'unmanaged':
-				return True
-			else:
-				return False
-		else:
-			return True
-
 	return True
