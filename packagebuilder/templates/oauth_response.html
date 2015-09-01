@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load widget_tweaks %}
+
 {% block content %}
 
 	<h1>Salesforce package.xml Builder</h1>
@@ -49,6 +51,15 @@
 							</td>
 							<td>
 								{{ org_name }}
+							</td>
+						</tr>
+
+						<tr>
+							<td width="150">
+								<strong>Component Option:</strong>
+							</td>
+							<td>
+								{% render_field login_form.package_option class="form-control" %}
 							</td>
 						</tr>
 
@@ -103,7 +114,10 @@
 			</div>
 
 			<div style="display:none;">
-				{{ login_form.as_p }}
+				{{ login_form.environment }}
+				{{ login_form.access_token }}
+				{{ login_form.instance_url }}
+				{{ login_form.org_id }}
 			</div>
 
 		</form>

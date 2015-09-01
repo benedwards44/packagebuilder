@@ -8,6 +8,16 @@ class Package(models.Model):
 	api_version = models.CharField(max_length=255)
 	access_token = models.CharField(max_length=255, blank=True)
 	instance_url = models.CharField(max_length=255, blank=True)
+
+	# Options for including packages or not
+	PACKAGE_CHOICES = (
+		('all','All Components'),
+		('unmanaged','Exclude Managed'),
+		('none','No Packaged Components'),
+	)
+
+	component_option = models.CharField(max_length=255, choices=PACKAGE_CHOICES, default='all')
+
 	package = models.TextField(blank=True)
 	status = models.CharField(max_length=255, blank=True)
 	error = models.TextField(blank=True)

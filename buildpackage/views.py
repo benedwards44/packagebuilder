@@ -95,6 +95,7 @@ def oauth_response(request):
 			access_token = login_form.cleaned_data['access_token']
 			instance_url = login_form.cleaned_data['instance_url']
 			org_id = login_form.cleaned_data['org_id']
+			package_option = login_form.cleaned_data['package_option']
 
 			if 'logout' in request.POST:
 				r = requests.post(instance_url + '/services/oauth2/revoke', headers={'content-type':'application/x-www-form-urlencoded'}, data={'token': access_token})
@@ -111,6 +112,7 @@ def oauth_response(request):
 				package.api_version = str(settings.SALESFORCE_API_VERSION) + '.0'
 				package.access_token = access_token
 				package.instance_url = instance_url
+				package.package_option = package_option
 				package.status = 'Running'
 				package.save()
 
