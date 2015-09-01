@@ -86,20 +86,24 @@ def query_components_from_org(package):
 					folder_component.type = component_type.xmlName
 					folder_component.folder = folder.fullName
 
-					# create the component folder entry
-					component_record = Component()
-					component_record.component_type = component_type_record
-					component_record.name = folder.fullName
-					component_record.save()
+					if include_component(package.component_option, folder):
+
+						# create the component folder entry
+						component_record = Component()
+						component_record.component_type = component_type_record
+						component_record.name = folder.fullName
+						component_record.save()
 
 					# Loop through folder components
 					for folder_component in metadata_client.service.listMetadata([folder_component], api_version):
 
-						# create the component record and save
-						component_record = Component()
-						component_record.component_type = component_type_record
-						component_record.name = folder_component.fullName
-						component_record.save()
+						if include_component(package.component_option, folder_component):
+
+							# create the component record and save
+							component_record = Component()
+							component_record.component_type = component_type_record
+							component_record.name = folder_component.fullName
+							component_record.save()
 
 
 			# Run the metadata query only if the list has reached 3 (the max allowed to query)
@@ -116,7 +120,7 @@ def query_components_from_org(package):
 					if component_type_query:
 
 						# If the user wants all components, or they don't want any packages  and it's not
-						if package.component_option == 'all' or ((package.component_option == 'none' or package.component_option == 'unmanaged') and not component.namespacePrefix) or (package.component_option == 'unmanaged' and component.namespacePrefix and component.manageableState = 'unmanaged':
+						if include_component(package.component_option, component):
 
 							# create the component record and save
 							component_record = Component()
@@ -200,3 +204,32 @@ def build_xml(package):
 	package.save()
 
 	return xml_file
+
+
+# Determine whether to return the component or not
+def include_component(components_option, component):
+
+	# If the user wants all components
+	if components_option = 'all':
+		return True
+
+	# If the user doesn't want any package components
+	elif components_option == 'none':
+		# If package has a prefix, it is part of a package. Exclude it
+		if component.namespacePrefix:
+			return False
+		else:
+			return True
+	# If the user only wants unmanaged packages
+	elif components_option == 'unmanaged':
+		# If package has a prefix, it is part of a package. Exclude it
+		if component.namespacePrefix:
+			# If the component is unmanaged
+			if component.manageableState == 'unmanaged':
+				return True
+			else:
+				return False
+		else:
+			return True
+
+	return True
