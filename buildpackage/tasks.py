@@ -210,7 +210,7 @@ def build_xml(package):
 def include_component(components_option, component):
 
 	# If the user wants all components
-	if components_option = 'all':
+	if components_option == 'all':
 		return True
 
 	# If the user doesn't want any package components
