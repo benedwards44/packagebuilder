@@ -115,12 +115,22 @@ def query_components_from_org(package):
 					# Only add if found
 					if component_type_query:
 
-						# create the component record and save
-						component_record = Component()
-						component_record.component_type = component_type_query[0]
-						component_record.name = component.fullName
-						component_record.include = True
-						component_record.save()
+						# If the user wants all components, or they don't want any packages  and it's not
+						if package.component_option == 'all' or ((package.component_option == 'none' or package.component_option == 'unmanaged') and not component.namespacePrefix) or (package.component_option == 'unmanaged' and component.namespacePrefix and component.manageableState = 'unmanaged':
+
+							# create the component record and save
+							component_record = Component()
+							component_record.component_type = component_type_query[0]
+							component_record.name = component.fullName
+							component_record.include = True
+							component_record.save()
+
+
+						elif package.component_option == 'none' and component.namespacePrefix:
+
+							continue
+
+
 		
 				# clear list once done. This list will re-build to 3 components and re-query the service
 				component_list = []
