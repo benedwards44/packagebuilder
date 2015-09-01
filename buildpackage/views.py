@@ -97,6 +97,8 @@ def oauth_response(request):
 			org_id = login_form.cleaned_data['org_id']
 			package_option = login_form.cleaned_data['package_option']
 
+			print '### ' + package_option
+
 			if 'logout' in request.POST:
 				r = requests.post(instance_url + '/services/oauth2/revoke', headers={'content-type':'application/x-www-form-urlencoded'}, data={'token': access_token})
 				instance = instance_url.replace('https://','').replace('.salesforce.com','')
