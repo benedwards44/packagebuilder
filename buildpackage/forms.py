@@ -16,7 +16,7 @@ class LoginForm(forms.Form):
 		('none','No Packaged Components'),
 	)
 
-	package_option = forms.ChoiceField(choices=PACKAGE_CHOICES)
+	package_option = forms.ChoiceField(choices=PACKAGE_CHOICES, required=False)
 
 class ComponentSelectForm(forms.Form):
 	component_option = forms.CharField(required=False)
