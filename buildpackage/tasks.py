@@ -51,7 +51,6 @@ def query_components_from_org(package):
 		for component_type in all_metadata[0]:
 
 			# If it has child names, let's use that
-			"""
 			if 'childXmlNames' in component_type:
 
 				for child_component in component_type.childXmlNames:
@@ -62,7 +61,6 @@ def query_components_from_org(package):
 					component_type_record.name = child_component
 					component_type_record.include_all = True
 					component_type_record.save()
-			"""
 
 			# create the component type record
 			component_type_record = ComponentType()
@@ -75,9 +73,15 @@ def query_components_from_org(package):
 			if not component_type.inFolder:
 
 				# If it has child names, let's use that
-				"""
 				if 'childXmlNames' in component_type:
 
+					# Child component list for querying
+					child_component_list = []
+
+					# Child loop counter
+					child_loop_counter = 0
+
+					# Iterate over the child components
 					for child_component in component_type.childXmlNames:
 
 						# set up the component type to query for components
@@ -85,13 +89,38 @@ def query_components_from_org(package):
 						component.type = child_component
 
 						# Add metadata to list
-						component_list.append(component)
-				"""
+						child_component_list.append(component)
+
+						# Run the metadata query only if the list has reached 3 (the max allowed to query)
+						# at one time, or if there is less than 3 components left to query 
+						if len(child_component_list) == 3 or (len(component_type.childXmlNames) - child_loop_counter) <= 3:
+
+							# loop through the components returned from the component query
+							for component in metadata_client.service.listMetadata(child_component_list,api_version):
+
+								# Query database for parent component_type
+								component_type_query = ComponentType.objects.filter(name=component.type, package=package.id)
+
+								# Only add if found
+								if component_type_query:
+
+									# If the user wants all components, or they don't want any packages  and it's not
+									if include_component(package.component_option, component):
+
+										# create the component record and save
+										component_record = Component()
+										component_record.component_type = component_type_query[0]
+										component_record.name = component.fullName
+										component_record.include = True
+										component_record.save()
+										
+
+						# Increment count
+						child_loop_counter = child_loop_counter + 1
 
 				# set up the component type to query for components
 				component = metadata_client.factory.create("ListMetadataQuery")
 				component.type = component_type.xmlName
-
 
 				# Add metadata to list
 				component_list.append(component)
