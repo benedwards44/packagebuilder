@@ -51,6 +51,7 @@ def query_components_from_org(package):
 		for component_type in all_metadata[0]:
 
 			# If it has child names, let's use that
+			"""
 			if 'childXmlNames' in component_type:
 
 				for child_component in component_type.childXmlNames:
@@ -61,6 +62,7 @@ def query_components_from_org(package):
 					component_type_record.name = child_component
 					component_type_record.include_all = True
 					component_type_record.save()
+			"""
 
 			# create the component type record
 			component_type_record = ComponentType()
@@ -73,6 +75,7 @@ def query_components_from_org(package):
 			if not component_type.inFolder:
 
 				# If it has child names, let's use that
+				"""
 				if 'childXmlNames' in component_type:
 
 					for child_component in component_type.childXmlNames:
@@ -83,11 +86,12 @@ def query_components_from_org(package):
 
 						# Add metadata to list
 						component_list.append(component)
-
+				"""
 
 				# set up the component type to query for components
 				component = metadata_client.factory.create("ListMetadataQuery")
 				component.type = component_type.xmlName
+
 
 				# Add metadata to list
 				component_list.append(component)
