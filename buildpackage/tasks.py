@@ -62,14 +62,12 @@ def query_components_from_org(package):
 					component_type_record.include_all = True
 					component_type_record.save()
 
-			else:
-
-				# create the component type record
-				component_type_record = ComponentType()
-				component_type_record.package = package
-				component_type_record.name = component_type.xmlName
-				component_type_record.include_all = True
-				component_type_record.save()
+			# create the component type record
+			component_type_record = ComponentType()
+			component_type_record.package = package
+			component_type_record.name = component_type.xmlName
+			component_type_record.include_all = True
+			component_type_record.save()
 
 			# Component is a folder component - eg Dashboard, Document, EmailTemplate, Report
 			if not component_type.inFolder:
@@ -86,14 +84,13 @@ def query_components_from_org(package):
 						# Add metadata to list
 						component_list.append(component)
 
-				else:
 
-					# set up the component type to query for components
-					component = metadata_client.factory.create("ListMetadataQuery")
-					component.type = component_type.xmlName
+				# set up the component type to query for components
+				component = metadata_client.factory.create("ListMetadataQuery")
+				component.type = component_type.xmlName
 
-					# Add metadata to list
-					component_list.append(component)
+				# Add metadata to list
+				component_list.append(component)
 
 			else:
 
