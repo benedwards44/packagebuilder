@@ -50,22 +50,50 @@ def query_components_from_org(package):
 		# loop through metadata types
 		for component_type in all_metadata[0]:
 
-			# create the component type record and save
-			component_type_record = ComponentType()
-			component_type_record.package = package
-			component_type_record.name = component_type.xmlName
-			component_type_record.include_all = True
-			component_type_record.save()
+			# If it has child names, let's use that
+			if component_type.childXmlNames:
+
+				for child_component in component_type.childXmlNames:
+
+					# create the component type record
+					component_type_record = ComponentType()
+					component_type_record.package = package
+					component_type_record.name = child_component
+					component_type_record.include_all = True
+					component_type_record.save()
+
+			else:
+
+				# create the component type record
+				component_type_record = ComponentType()
+				component_type_record.package = package
+				component_type_record.name = component_type.xmlName
+				component_type_record.include_all = True
+				component_type_record.save()
 
 			# Component is a folder component - eg Dashboard, Document, EmailTemplate, Report
 			if not component_type.inFolder:
 
-				# set up the component type to query for components
-				component = metadata_client.factory.create("ListMetadataQuery")
-				component.type = component_type.xmlName
+				# If it has child names, let's use that
+				if component_type.childXmlNames:
 
-				# Add metadata to list
-				component_list.append(component)
+					for child_component in component_type.childXmlNames:
+
+						# set up the component type to query for components
+						component = metadata_client.factory.create("ListMetadataQuery")
+						component.type = child_component
+
+						# Add metadata to list
+						component_list.append(component)
+
+				else:
+
+					# set up the component type to query for components
+					component = metadata_client.factory.create("ListMetadataQuery")
+					component.type = component_type.xmlName
+
+					# Add metadata to list
+					component_list.append(component)
 
 			else:
 
