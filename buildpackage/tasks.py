@@ -113,7 +113,9 @@ def query_components_from_org(package):
 										component_record.name = component.fullName
 										component_record.include = True
 										component_record.save()
-										
+
+							# Clear the list
+							child_component_list = []		
 
 						# Increment count
 						child_loop_counter = child_loop_counter + 1
