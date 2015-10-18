@@ -3,6 +3,7 @@ from celery import Celery
 from django.conf import settings
 import os
 import datetime
+import traceback
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'packagebuilder.settings')
 
@@ -212,7 +213,7 @@ def query_components_from_org(package):
 
 	except Exception as error:
 		package.status = 'Error'
-		package.error = error
+		package.error = traceback.format_exc()
 
 	package.finished_date = datetime.datetime.now()
 	package.save()
