@@ -28,7 +28,7 @@ def query_components_from_org(package):
 		access_token = package.access_token
 
 		# instantiate the metadata WSDL
-		metadata_client = Client('http://packagebuilder.herokuapp.com/static/metadata.wsdl.xml')
+		metadata_client = Client('http://packagebuilder.herokuapp.com/static/metadata-' + str(settings.SALESFORCE_API_VERSION) + '.wsdl.xml')
 
 		# URL for metadata API
 		metadata_url = instance_url + '/services/Soap/m/' + str(api_version) + '/' + org_id
