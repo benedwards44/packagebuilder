@@ -2,7 +2,10 @@ from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView
 from django.contrib import admin
 from django.conf import settings
+from buildpackage import views
 admin.autodiscover()
+
+
 
 urlpatterns = patterns('',
     url(r'^$', 'buildpackage.views.index', name='index'),
@@ -14,4 +17,8 @@ urlpatterns = patterns('',
     url(r'^job_status/(?P<package_id>[0-9A-Za-z_\-]+)/$', 'buildpackage.views.job_status'),
     url(r'^loading/(?P<package_id>[0-9A-Za-z_\-]+)/$', 'buildpackage.views.loading'),
     url(r'^auth_details/$', 'buildpackage.views.auth_details'),
+
+    url(r'^api/package/$', views.ApiPackageCreateView.as_view(), name='api-package-create'),
+    url(r'^api/package/status/(?P<package_id>[0-9A-Za-z_\-]+)/$', 'buildpackage.views.job_status'),
+    url(r'^api/package/(?P<package_id>[-\w]+)$', views.ApiPackageView.as_view(), name='api-package-view'),
 )

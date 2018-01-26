@@ -1,128 +1,197 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Salesforce.com package.xml Builder</title>
-		<meta name="keywords" content="salesforce, salesforce.com, force.com, package builder, packagebuilder, metadata, api, metadata api, package.xml, xml, destructivechanges.xml, descructivechanges, ide, force.com ide, eclipse, ant, force.com migration" /> 
-  		<meta name="description" content="Easily create a package.xml file based on your Salesforce org components." />
-  		<meta name="author" content="Ben Edwards (ben@edwards.nz)" />
-  		<meta charset="UTF-8" />
+    <head>
+        <title>Salesforce.com package.xml Builder</title>
+        <meta name="keywords" content="salesforce, salesforce.com, force.com, package builder, packagebuilder, metadata, api, metadata api, package.xml, xml, destructivechanges.xml, descructivechanges, ide, force.com ide, eclipse, ant, force.com migration" /> 
+        <meta name="description" content="Easily create a package.xml file based on your Salesforce org components." />
+        <meta name="author" content="Ben Edwards (ben@edwards.nz)" />
+        <meta charset="UTF-8" />
 
-  		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/styles.css" />
-		<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css"/>
-		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery.tree.css"/>
-		<!--
-		<link rel="shortcut icon" href="{{ STATIC_URL }}images/favicon.ico" type="image/vnd.microsoft.icon" />
-		-->
-		
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-		<script src="https://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
-		<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.tree.js"></script>
-		<script type="text/javascript" src="{{ STATIC_URL }}js/main.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-		<script>
-		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/styles.css" />
+        <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css"/>
+        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery.tree.css"/>
+        <!--
+        <link rel="shortcut icon" href="{{ STATIC_URL }}images/favicon.ico" type="image/vnd.microsoft.icon" />
+        -->
+        
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.tree.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}js/main.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-		  ga('create', 'UA-18288189-19', 'auto');
-		  ga('send', 'pageview');
+          ga('create', 'UA-18288189-19', 'auto');
+          ga('send', 'pageview');
 
-		</script>
-		{% block scripts %}{% endblock %}
-	</head>	
+        </script>
+        {% block scripts %}{% endblock %}
+    </head> 
  
-	<body>
+    <body>
 
-		{% if request.GET.noheader != '1' %}
-			<!-- Static navbar -->
-	      	<nav class="navbar navbar-default">
+        {% if request.GET.noheader != '1' %}
+            <!-- Static navbar -->
+            <nav class="navbar navbar-default">
 
-		        <div class="container-fluid">
+                <div class="container-fluid">
 
-		          	<div class="navbar-header">
-		            	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-			              	<span class="sr-only">Toggle navigation</span>
-			              	<span class="icon-bar"></span>
-			              	<span class="icon-bar"></span>
-			              	<span class="icon-bar"></span>
-		            	</button>
-		          	</div>
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
 
-		          	<div id="navbar" class="navbar-collapse collapse">
+                    <div id="navbar" class="navbar-collapse collapse">
 
-		          		<ul class="nav navbar-nav navbar-left">
-		          			<li>
-		          				<a href="/" style="padding:5px;">
-		          					<img src="/static/images/logo-small.png" alt="Package Builder" border="0" />
-		          				</a>
-		          			</li>
-		          			<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
-		              		<li>
-		            			<a href="http://sftoolkit.co/" target="_blank">Salesforce Toolkit</a>
-		            		</li>
-		            	</ul>
+                        <ul class="nav navbar-nav navbar-left">
+                            <li>
+                                <a href="/" style="padding:5px;">
+                                    <img src="/static/images/logo-small.png" alt="Package Builder" border="0" />
+                                </a>
+                            </li>
+                            <li>
+                                <button class="btn btn-default" data-toggle="modal" data-target="#apiModal" style="margin-left:20px;margin-top:8px;">
+                                    <i class="fa fa-cogs" aria-hidden="true"></i>
+                                    API
+                                </button>
+                            </li>
+                            <li>
+                                <a href="http://sftoolkit.co/" target="_blank">Salesforce Toolkit</a>
+                            </li>
+                        </ul>
 
-		            	<ul class="nav navbar-nav navbar-right">
-		              		<li>
-		              			<a href="https://github.com/benedwards44/packagebuilder" target="_blank">Source Code</a>
-		              		</li>
-		              		<li>
-		              			<a href="https://twitter.com/benedwards44" target="_blank">@benedwards44</a>
-		              		</li>
-		              		<li>
-		              			<a href="#">
-		              				<img src="/static/images/i-icon.png" data-toggle="modal" data-target="#infoModal" />
-		              			</a>
-		              		</li>
-		            	</ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <a href="https://github.com/benedwards44/packagebuilder" target="_blank">Source Code</a>
+                            </li>
+                            <li>
+                                <a href="https://twitter.com/benedwards44" target="_blank">@benedwards44</a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <img src="/static/images/i-icon.png" data-toggle="modal" data-target="#infoModal" />
+                                </a>
+                            </li>
+                        </ul>
 
-		          	</div><!--/.nav-collapse -->
+                    </div><!--/.nav-collapse -->
 
-		        </div><!--/.container-fluid -->
+                </div><!--/.container-fluid -->
 
-		    </nav>
+            </nav>
 
-			<div class="clear"></div>
+            <div class="clear"></div>
 
-			<div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
-				<div class="modal-dialog small_dialog">
-			    	<div class="modal-content">
-			      		<div class="modal-header">
-			        		<button type="button" class="close" data-dismiss="modal">
-			        			<span aria-hidden="true">&times;</span>
-			        			<span class="sr-only">Close</span>
-			        		</button>
-			        		<h3 class="modal-title" id="apiModalLabel">
-			        			Package Builder
-			        		</h3>
-			      		</div>
-			      		<div class="modal-body">
-			        		<p>
-			        			For any errors or issues, please feel free to contact me on twitter <a href="https://twitter.com/benedwards44" target="_blank">@benedwards44</a> or via email <a href="mailto:ben@edwards.nz">ben@edwards.nz</a>.
-			        		</p>
-			        		<p>
-			        			I am constantly trying to update and improve this application, as well as other apps I'm working on. Feel free to contact me if you'd like to contribute or have any ideas. All my applications are open sourced on GitHub at <a href="http://github.com/benedwards44" target="_blank">http://github.com/benedwards44</a>.
-			        		</p>
-			        		<p>
-			        			If you haven't already, check out my other apps at the Salesforce Toolkit Page:<br/>
-			        			<a href="http://sftoolkit.co/" target="_blank">http://sftoolkit.co/</a>
-			        		</p>
-			      		</div>
-			      		<div class="modal-footer">
-					        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					    </div>
-			    	</div>
-			  	</div>
-			</div>
+            <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+                <div class="modal-dialog small_dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">
+                                <span aria-hidden="true">&times;</span>
+                                <span class="sr-only">Close</span>
+                            </button>
+                            <h3 class="modal-title" id="apiModalLabel">
+                                Package Builder
+                            </h3>
+                        </div>
+                        <div class="modal-body">
+                            <p>
+                                For any errors or issues, please feel free to contact me on twitter <a href="https://twitter.com/benedwards44" target="_blank">@benedwards44</a> or via email <a href="mailto:ben@edwards.nz">ben@edwards.nz</a>.
+                            </p>
+                            <p>
+                                I am constantly trying to update and improve this application, as well as other apps I'm working on. Feel free to contact me if you'd like to contribute or have any ideas. All my applications are open sourced on GitHub at <a href="http://github.com/benedwards44" target="_blank">http://github.com/benedwards44</a>.
+                            </p>
+                            <p>
+                                If you haven't already, check out my other apps at the Salesforce Toolkit Page:<br/>
+                                <a href="http://sftoolkit.co/" target="_blank">http://sftoolkit.co/</a>
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-		{% endif %}
+            <div class="modal fade" id="apiModal" tabindex="-1" role="dialog" aria-labelledby="apiModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">
+                                <span aria-hidden="true">&times;</span>
+                                <span class="sr-only">Close</span>
+                            </button>
+                            <h3 class="modal-title" id="apiModalLabel">
+                                API Details
+                            </h3>
+                        </div>
+                        <div class="modal-body">
+                            <h4>Step 1 - Start Job</h4>
+                            Send a POST request to start your job. <br/>
+                            <strong>Endpoint:</strong> <pre>https://packagebuilder.herokuapp.com/api/package/</pre>
+                            <strong>Payload</strong>:
+<pre>{
+    "accessToken": "VALID_SALESFORCE_ACCESS_TOKEN",
+    "instanceUrl": "SALESFORCE_ORG_URL",
+    "component_option": "all" // Should be "all", "unmanaged" or "none"
+}</pre>
 
-		<div class="{% if request.GET.noheader == '1' %}col-md-12{% else %}col-md-6 col-md-offset-3{% endif %}">
-			{% block content %}{% endblock %}
-		</div>
+                            You will then receive an ID for the job. You use this ID to check the status of your job, and ultimately retrieve the results.
+<pre>{
+    "id": "6210f461-0a4b-437d-be39-f885d6f3e543",
+    "success": true
+}</pre>
 
-	</body>
+                            <br/>
+                            <h4>Step 2 - Check Progress</h4>
+                            The API runs asynchronously, as jobs can take some time to run depending on the size of your code base. You need to check the status of the job, and when complete you can get your results. Send a GET request to: <br/>
+                            <strong>Endpoint:</strong> <pre>https://packagebuilder.herokuapp.com/api/package/status/PACKAGE_ID (eg. https://packagebuilder.herokuapp.com/api/package/status/6210f461-0a4b-437d-be39-f885d6f3e543)</pre>
+                            <strong>Response:</strong>
+<pre>{
+    "status": "Processing",
+    "done": false,
+    "success": false,
+    "error": null
+}</pre>
+                            The done and success variables will help you determine when your job is complete, and if it's successful.
+
+                            <br/>
+                            <h4>Step 3 - Get Results</h4>
+                            And finally, you can get your results. Send a GET request to: <br/>
+                            <strong>Endpoint:</strong> <pre>https://packagebuilder.herokuapp.com/api/package/PACKAGE_ID (eg. https://packagebuilder.herokuapp.com/api/package/6210f461-0a4b-437d-be39-f885d6f3e543)</pre>
+                            <strong>Response:</strong>
+<pre>[
+    {
+        "id": "6210f461-0a4b-437,d-be39-f885d6f3e543",
+        "status" "Finished" 
+        "componentOption": "all" // The selected option for the package
+        "xml": "<Package xmlns="http://soap.sforce.com/2006/04/metadata">....</Package>" // The full package XML
+    },
+]</pre>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        {% endif %}
+
+        <div class="{% if request.GET.noheader == '1' %}col-md-12{% else %}col-md-6 col-md-offset-3{% endif %}">
+            {% block content %}{% endblock %}
+        </div>
+
+    </body>
 
 </html>
