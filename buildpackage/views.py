@@ -1,6 +1,6 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from buildpackage.forms import LoginForm, ComponentSelectForm
@@ -292,20 +292,22 @@ class ApiPackageCreateView(View):
             component_option = json_body.get('componentOption','all')
 
             if not instance_url:
-                return JsonResponse(
-                    {
+                return HttpResponse(
+                    json.dumps({
                         'success': False,
                         'error': 'instanceUrl is required. Please send the instanceUrl for your Salesforce Org. Eg. https://ap2.salesforce.com or https://mydomain.my.salesforce.com'
-                    },
+                    }),
+                    content_type='application/json',
                     status=400
                 )
 
             if not access_token:
-                return JsonResponse(
-                    {
+                return HttpResponse(
+                    json.dumps({
                         'success': False,
                         'error': 'accessToken is required. Please pass through a valid Salesforce access token (or Session Id)'
-                    },
+                    }),
+                    content_type='application/json',
                     status=400
                 )
 
@@ -319,11 +321,12 @@ class ApiPackageCreateView(View):
                 # Not a great approahc, but the API returns a list when an error and a single object whe not
                 if type(user) is list:
                     user_response = user[0]        
-                    return JsonResponse(
-                        {
+                    return HttpResponse(
+                        json.dumps({
                             'success': False,
                             'error': '%s: %s' % (user_response.get('errorCode'), user_response.get('message'))
-                        },
+                        }),
+                        content_type='application/json',
                         status=401
                     )
 
@@ -342,29 +345,32 @@ class ApiPackageCreateView(View):
                 # Start the job to scan the job
                 query_components_from_org.delay(package)
 
-                return JsonResponse(
-                    {
+                return HttpResponse(
+                    json.dumps({
                         'success': True,
                         'id': job.random_id
-                    },
+                    }),
+                    content_type='application/json',
                     status=200
                 )
 
             except Exception as ex:
-                return JsonResponse(
-                    {
+                return HttpResponse(
+                    json.dumps({
                         'success': False,
                         'error': 'Error logging into Salesforce: ' + str(ex)
-                    },
+                    }),
+                    content_type='application/json',
                     status=401
                 )
 
         except Exception as ex:
-            return JsonResponse(
-                {
+            return HttpResponse(
+                json.dumps({
                     'success': False,
                     'error': str(ex)
-                },
+                }),
+                content_type='application/json',
                 status=500
             )
 
@@ -377,12 +383,13 @@ class ApiPackageView(View):
         package_id = self.kwargs.get('package_id')
         package = get_object_or_404(Package, random_id=package_id)
 
-        return JsonResponse(
-            {
+        return HttpResponse(
+            json.dumps({
                 'id': package.random_id,
                 'status': package.status,
                 'componentOption': package.component_option,
                 'xml': package.package
-            },
+            }),
+            content_type='application/json',
             status=200
         )
