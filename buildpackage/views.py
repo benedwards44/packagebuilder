@@ -12,7 +12,6 @@ from buildpackage.tasks import query_components_from_org
 from suds.client import Client
 from lxml import etree
 from time import sleep
-from django.views import View
 
 from . import utils
 
@@ -271,125 +270,114 @@ def auth_details(request):
     return HttpResponse(json.dumps(response_data), content_type = 'application/json')
 
 
-@method_decorator(csrf_exempt, name='dispatch')
-class ApiPackageCreateView(View):
-    """
-    Create a job via API
-    """
+@csrf_exempt
+def api_create_job(request):
 
-    def get(self, request, *args, **kwargs):
-        return HttpResponse('GET method not supported', status=405) 
+    try:
 
-    def post(self, request, *args, **kwargs):
+        # Load the Json request
+        json_body = json.loads(request.body)
 
+        instance_url = json_body.get('instanceUrl')
+        access_token = json_body.get('accessToken')
+        component_option = json_body.get('componentOption','all')
+
+        if not instance_url:
+            return HttpResponse(
+                json.dumps({
+                    'success': False,
+                    'error': 'instanceUrl is required. Please send the instanceUrl for your Salesforce Org. Eg. https://ap2.salesforce.com or https://mydomain.my.salesforce.com'
+                }),
+                content_type='application/json',
+                status=400
+            )
+
+        if not access_token:
+            return HttpResponse(
+                json.dumps({
+                    'success': False,
+                    'error': 'accessToken is required. Please pass through a valid Salesforce access token (or Session Id)'
+                }),
+                content_type='application/json',
+                status=400
+            )
+
+        # If we have an instance_url and access token, we can start the job
+        # Attempt login with the details provided
         try:
 
-            # Load the Json request
-            json_body = json.loads(request.body)
+            user = utils.get_user_with_no_id(instance_url, access_token)
 
-            instance_url = json_body.get('instanceUrl')
-            access_token = json_body.get('accessToken')
-            component_option = json_body.get('componentOption','all')
-
-            if not instance_url:
+            # If response is a list, there's an error
+            # Not a great approahc, but the API returns a list when an error and a single object whe not
+            if type(user) is list:
+                user_response = user[0]        
                 return HttpResponse(
                     json.dumps({
                         'success': False,
-                        'error': 'instanceUrl is required. Please send the instanceUrl for your Salesforce Org. Eg. https://ap2.salesforce.com or https://mydomain.my.salesforce.com'
-                    }),
-                    content_type='application/json',
-                    status=400
-                )
-
-            if not access_token:
-                return HttpResponse(
-                    json.dumps({
-                        'success': False,
-                        'error': 'accessToken is required. Please pass through a valid Salesforce access token (or Session Id)'
-                    }),
-                    content_type='application/json',
-                    status=400
-                )
-
-            # If we have an instance_url and access token, we can start the job
-            # Attempt login with the details provided
-            try:
-
-                user = utils.get_user_with_no_id(instance_url, access_token)
-
-                # If response is a list, there's an error
-                # Not a great approahc, but the API returns a list when an error and a single object whe not
-                if type(user) is list:
-                    user_response = user[0]        
-                    return HttpResponse(
-                        json.dumps({
-                            'success': False,
-                            'error': '%s: %s' % (user_response.get('errorCode'), user_response.get('message'))
-                        }),
-                        content_type='application/json',
-                        status=401
-                    )
-
-                # We've logged in, create the job
-                package = Package()
-                package.random_id = uuid.uuid4()
-                package.created_date = datetime.datetime.now()
-                package.username = user.get('username')
-                package.api_version = str(settings.SALESFORCE_API_VERSION) + '.0'
-                package.access_token = access_token
-                package.instance_url = instance_url
-                package.component_option = component_option
-                package.status = 'Running'
-                package.save()
-
-                # Start the job to scan the job
-                query_components_from_org.delay(package)
-
-                return HttpResponse(
-                    json.dumps({
-                        'success': True,
-                        'id': job.random_id
-                    }),
-                    content_type='application/json',
-                    status=200
-                )
-
-            except Exception as ex:
-                return HttpResponse(
-                    json.dumps({
-                        'success': False,
-                        'error': 'Error logging into Salesforce: ' + str(ex)
+                        'error': '%s: %s' % (user_response.get('errorCode'), user_response.get('message'))
                     }),
                     content_type='application/json',
                     status=401
                 )
 
+            # We've logged in, create the job
+            package = Package()
+            package.random_id = uuid.uuid4()
+            package.created_date = datetime.datetime.now()
+            package.username = user.get('username')
+            package.api_version = str(settings.SALESFORCE_API_VERSION) + '.0'
+            package.access_token = access_token
+            package.instance_url = instance_url
+            package.component_option = component_option
+            package.status = 'Running'
+            package.save()
+
+            # Start the job to scan the job
+            query_components_from_org.delay(package)
+
+            return HttpResponse(
+                json.dumps({
+                    'success': True,
+                    'id': job.random_id
+                }),
+                content_type='application/json',
+                status=200
+            )
+
         except Exception as ex:
             return HttpResponse(
                 json.dumps({
                     'success': False,
-                    'error': str(ex)
+                    'error': 'Error logging into Salesforce: ' + str(ex)
                 }),
                 content_type='application/json',
-                status=500
+                status=401
             )
 
-
-@method_decorator(csrf_exempt, name='dispatch')
-class ApiPackageView(View):
-
-    def get(self, request, *args, **kwargs):
-
-        package_id = self.kwargs.get('package_id')
-        package = get_object_or_404(Package, random_id=package_id)
-
+    except Exception as ex:
         return HttpResponse(
             json.dumps({
-                'id': package.random_id,
-                'status': package.status,
-                'componentOption': package.component_option,
-                'xml': package.package
+                'success': False,
+                'error': str(ex)
             }),
             content_type='application/json',
-            status=200
+            status=500
         )
+
+
+@csrf_exempt
+def get_package(request, package_id):
+
+    package = get_object_or_404(Package, random_id=package_id)
+
+    return HttpResponse(
+        json.dumps({
+            'id': package.random_id,
+            'status': package.status,
+            'componentOption': package.component_option,
+            'xml': package.package
+        }),
+        content_type='application/json',
+        status=200
+    )

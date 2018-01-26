@@ -18,7 +18,7 @@ urlpatterns = patterns('',
     url(r'^loading/(?P<package_id>[0-9A-Za-z_\-]+)/$', 'buildpackage.views.loading'),
     url(r'^auth_details/$', 'buildpackage.views.auth_details'),
 
-    url(r'^api/package/$', views.ApiPackageCreateView.as_view(), name='api-package-create'),
+    url(r'^api/package/$', 'buildpackage.views.api_create_job'),
     url(r'^api/package/status/(?P<package_id>[0-9A-Za-z_\-]+)/$', 'buildpackage.views.job_status'),
-    url(r'^api/package/(?P<package_id>[-\w]+)$', views.ApiPackageView.as_view(), name='api-package-view'),
+    url(r'^api/package/(?P<package_id>[-\w]+)$', 'buildpackage.views.get_package'),
 )
