@@ -339,7 +339,7 @@ def api_create_job(request):
             return HttpResponse(
                 json.dumps({
                     'success': True,
-                    'id': job.random_id
+                    'id': package.random_id
                 }),
                 content_type='application/json',
                 status=200
