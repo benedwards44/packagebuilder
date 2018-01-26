@@ -117,7 +117,7 @@ def oauth_response(request):
                 package.access_token = access_token
                 package.instance_url = instance_url
                 package.component_option = package_option
-                package.status = 'Running'
+                package.status = 'Not Started'
                 package.save()
 
                 # Queue job to run async
@@ -245,7 +245,7 @@ def auth_details(request):
             package.access_token = request_data['access_token']
             package.instance_url = request_data['instance_url']
             package.api_version = str(settings.SALESFORCE_API_VERSION) + '.0'
-            package.status = 'Running'
+            package.status = 'Not Started'
             package.save()
 
             # Run job

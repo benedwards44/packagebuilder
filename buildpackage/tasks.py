@@ -21,6 +21,9 @@ def query_components_from_org(package):
 
 	try:
 
+		package.status = 'Running'
+		package.save()
+
 		# Stored package variables - used for queries and processing
 		instance_url = package.instance_url
 		api_version = package.api_version
