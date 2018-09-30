@@ -111,7 +111,7 @@ SALESFORCE_CONSUMER_SECRET = os.environ['SALESFORCE_CONSUMER_SECRET']
 SALESFORCE_REDIRECT_URI = 'https://packagebuilder.herokuapp.com/oauth_response'
 SALESFORCE_API_VERSION = int(os.environ['SALESFORCE_API_VERSION'])
 
-SALESFORCE_REST_URL = '/services/data/v%d.0/' % SALESFORCE_API_VERSION 
+SALESFORCE_REST_URL = '/services/data/v%d.0/' % SALESFORCE_API_VERSION
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
