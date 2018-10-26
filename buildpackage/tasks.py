@@ -91,6 +91,9 @@ def query_components_from_org(package):
 						# set up the component type to query for components
 						component = metadata_client.factory.create("ListMetadataQuery")
 						component.type = child_component
+						if component.type == 'ManagedTopic':
+							#ManagedTopic is not a valid component Type and it should be 'ManagedTopics'
+							component.type = 'ManagedTopics'
 
 						# Add metadata to list
 						child_component_list.append(component)
