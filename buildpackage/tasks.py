@@ -4,6 +4,7 @@ from django.conf import settings
 import os
 import datetime
 import traceback
+import re
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'packagebuilder.settings')
 
