@@ -231,7 +231,7 @@ def appendVersionNumForMissingFlows(package,metadata_client):
 
 	flowNamesList = getFlowNamesMissingVersionNum(package)
 
-	flowAndVersionNumObj = getActiveVersionNumForFlows(metadata_client,flowList)
+	flowAndVersionNumObj = getActiveVersionNumForFlows(metadata_client,flowNamesList)
 
 	flowComponentType = ComponentType.objects.filter(package=package.id,name='Flow')[0] #There will be only one flow component type per package.
 
@@ -241,7 +241,7 @@ def appendVersionNumForMissingFlows(package,metadata_client):
 		component.name = component.name + '-' + str(flowAndVersionNumObj[flowNamesList[i]])
 		component.save()
 
-def getActiveVersionNumForFlows(metadata_client,flowList):
+def getActiveVersionNumForFlows(metadata_client,flowNamesList):
 
 	# This variable is to store flow name as key and active version number as value.
 	flowAndVersionNumObj = dict()
