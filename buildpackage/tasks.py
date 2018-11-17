@@ -214,7 +214,8 @@ def query_components_from_org(package):
 			if not Component.objects.filter(component_type=component_type.id):
 				component_type.delete()
 
-		appendVersionNumForMissingFlows(package,metadata_client)
+		if flowsExistInTheOrg(package):
+			appendVersionNumForMissingFlows(package,metadata_client)
 		package.package = build_xml(package)
 
 		package.status = 'Finished'
@@ -226,6 +227,8 @@ def query_components_from_org(package):
 	package.finished_date = datetime.datetime.now()
 	package.save()
 
+def flowsExistInTheOrg(package):
+	return len(ComponentType.objects.filter(package=package.id,name='Flow')) > 0
 
 def appendVersionNumForMissingFlows(package,metadata_client):
 
