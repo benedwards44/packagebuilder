@@ -214,8 +214,6 @@ def query_components_from_org(package):
 			if not Component.objects.filter(component_type=component_type.id):
 				component_type.delete()
 
-		if flowsExistInTheOrg(package):
-			appendVersionNumForMissingFlows(package,metadata_client)
 		package.package = build_xml(package)
 
 		package.status = 'Finished'
@@ -226,53 +224,6 @@ def query_components_from_org(package):
 
 	package.finished_date = datetime.datetime.now()
 	package.save()
-
-def flowsExistInTheOrg(package):
-	return len(ComponentType.objects.filter(package=package.id,name='Flow')) > 0
-
-def appendVersionNumForMissingFlows(package,metadata_client):
-
-	flowNamesList = getFlowNamesMissingVersionNum(package)
-
-	flowAndVersionNumObj = getActiveVersionNumForFlows(metadata_client,flowNamesList)
-
-	flowComponentType = ComponentType.objects.filter(package=package.id,name='Flow')[0] #There will be only one flow component type per package.
-
-	#retrieve flow component row, append active version number row and save record.
-	for i in xrange(0,len(flowNamesList)):
-		component = flowComponentType.component_set.filter(name=flowNamesList[i])[0]
-		component.name = component.name + '-' + str(flowAndVersionNumObj[flowNamesList[i]])
-		component.save()
-
-def getActiveVersionNumForFlows(metadata_client,flowNamesList):
-
-	# This variable is to store flow name as key and active version number as value.
-	flowAndVersionNumObj = dict()
-
-	#Prepare object with flow name as property and version number as value.
-	#step size here is 10 because readMetadata can accept only upto 10 component names at a time.
-	for i in xrange(0,len(flowNamesList),10):
-		for resultObj in metadata_client.service.readMetadata('FlowDefinition',flowNamesList[i:i+10]).records:
-			if resultObj:
-				flowAndVersionNumObj[resultObj.fullName] = resultObj.activeVersionNumber
-
-	return flowAndVersionNumObj
-
-def getFlowNamesMissingVersionNum(package):
-	endswithVersionNumregex = re.compile(r'-\d+$') #regex to check if flow name ends with version number
-
-	flowNamesList = []
-
-	flowComponentType = ComponentType.objects.filter(package=package.id,name='Flow')[0] #There will be only one flow component type per package.
-	flowComponentsList = flowComponentType.component_set.all()
-
-	for flowObj in flowComponentsList:
-		matches = endswithVersionNumregex.search(flowObj.name)
-
-		if matches is None: #No version number at the end for flow name.
-			flowNamesList.append(flowObj.name)
-
-	return flowNamesList
 
 def build_xml(package):
 	"""
