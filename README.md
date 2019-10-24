@@ -26,7 +26,7 @@ Django application for listing all Metadata for a Salesforce Org. This app is de
     5.2 to deploy>git push heroku master
 
 ###Errors
-If the deployment fail you will need to complete the following steps from your Heroku Account
+If the deployment fails you will need to complete the following steps from your Heroku Account
 8) Config Vars:{ProjectName} >Settings> Config Vars> add the following Vars
    DISABLE_COLLECTSTATIC = 1
    SALESFORCE_API_VERSION = Your ORG API VERSION
