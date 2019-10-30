@@ -6,9 +6,9 @@ import datetime
 import traceback
 import re
 
+# Celery config
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'packagebuilder.settings')
-
-app = Celery('tasks', broker=os.environ.get('REDISTOGO_URL', 'redis://localhost'))
+app = Celery('tasks', broker=os.environ.get('REDIS_URL', 'redis://localhost'))
 
 from buildpackage.models import Package, ComponentType, Component
 from suds.client import Client
@@ -32,7 +32,7 @@ def query_components_from_org(package):
 		access_token = package.access_token
 
 		# instantiate the metadata WSDL
-		metadata_client = Client('http://packagebuilder.herokuapp.com/static/metadata-' + str(settings.SALESFORCE_API_VERSION) + '.wsdl.xml')
+		metadata_client = Client('http://packagebuilder.herokuapp.com/static/metadata.wsdl.xml')
 
 		# URL for metadata API
 		metadata_url = instance_url + '/services/Soap/m/' + str(api_version) + '/' + org_id

@@ -2,9 +2,6 @@
 
 Django application for listing all Metadata for a Salesforce Org. This app is designed to run on Heroku, but could be amended to run locally or any desired server
 
-![App Screenshot](packageBuilder.PNG)
-
-
 #Python
 1) Install Python version 2.7
 2) Install virtualenvwrapper-win if you have installed different Python version 
