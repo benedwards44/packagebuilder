@@ -6,9 +6,9 @@ import datetime
 import traceback
 import re
 
+# Celery config
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'packagebuilder.settings')
-
-app = Celery('tasks', broker=os.environ.get('REDISTOGO_URL', 'redis://localhost'))
+app = Celery('tasks', broker=os.environ.get('REDIS_URL', 'redis://localhost'))
 
 from buildpackage.models import Package, ComponentType, Component
 from suds.client import Client
