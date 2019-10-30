@@ -7,7 +7,7 @@ gunicorn==18.0
 lxml==3.3.5
 psycopg2==2.7.3.2
 pystache==0.5.4
-requests==2.3.0
+requests==2.20.0
 static==1.0.2
 suds==0.4
 wsgiref==0.1.2
