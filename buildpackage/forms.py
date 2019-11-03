@@ -11,10 +11,11 @@ class LoginForm(forms.Form):
 
 	# Options for including packages or not
 	PACKAGE_CHOICES = (
+		('*', 'Wild Card'),
 		('all','All Components'),
 		('unmanaged','Exclude Managed'),
 		('none','No Packaged Components'),
-		('*', '*'),
+
 	)
 
 	package_option = forms.ChoiceField(choices=PACKAGE_CHOICES, required=False)

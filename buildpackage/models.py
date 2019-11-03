@@ -11,6 +11,7 @@ class Package(models.Model):
 
 	# Options for including packages or not
 	PACKAGE_CHOICES = (
+		('*', 'Wild Cards'),
 		('all','All Components'),
 		('unmanaged','Exclude Managed'),
 		('none','No Packaged Components'),

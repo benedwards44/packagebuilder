@@ -54,7 +54,7 @@ def query_components_from_org(package):
 
 		# loop through metadata types
 		for component_type in all_metadata[0]:
-
+			print('###### IVANNA SEEE TYPE' + component_type)
 			# If it has child names, let's use that
 			if 'childXmlNames' in component_type:
 
@@ -71,6 +71,7 @@ def query_components_from_org(package):
 			component_type_record = ComponentType()
 			component_type_record.package = package
 			component_type_record.name = component_type.xmlName
+			print('###### IVANNA SEEE IT'+component_type.xmlName)
 			component_type_record.include_all = True
 			component_type_record.save()
 
