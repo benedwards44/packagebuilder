@@ -112,7 +112,7 @@ def query_components_from_org(package):
 
 								# Only add if found
 								if component_type_query:
-
+									print('PACKAGE COMPONENT OPTIONS'+ package.component_option)
 									# If the user wants all components, or they don't want any packages  and it's not
 									if include_component(package.component_option, component):
 
@@ -276,7 +276,9 @@ def build_xml(package):
 
 # Determine whether to return the component or not
 def include_component(components_option, component):
-
+    print(component)
+	print(components_option)
+	print('there are options')
 	# If the user wants all components
 	if components_option == 'all':
 		return True
