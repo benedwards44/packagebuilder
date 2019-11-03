@@ -276,9 +276,10 @@ def build_xml(package):
 
 # Determine whether to return the component or not
 def include_component(components_option, component):
-    print(component)
-	print(components_option)
+
 	print('there are options')
+	print(str(component))
+	print(str(components_option))
 	# If the user wants all components
 	if components_option == 'all':
 		return True
