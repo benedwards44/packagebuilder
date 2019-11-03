@@ -277,10 +277,15 @@ def build_xml(package):
 def include_component(components_option, component):
 
 	print('there are options')
-	print('Component'+str(component))
-	print('Options'+str(components_option))
+	print('Component '+str(component))
+	print('Options '+str(components_option))
+	if components_option == '*':
+	    if '*' in component:
+		   return  True
+		else:
+		   return False
 	# If the user wants all components
-	if components_option == 'all':
+	elif components_option == 'all':
 		return True
 
 	# If the user doesn't want any package components
