@@ -8,7 +8,7 @@ from buildpackage.models import Package, ComponentType, Component
 from django.contrib import messages
 from django.forms.models import modelformset_factory
 from django.conf import settings
-from buildpackage.tasks import query_components_from_org
+from buildpackage.tasks import query_components_from_org, build_xml
 from suds.client import Client
 from lxml import etree
 from time import sleep
