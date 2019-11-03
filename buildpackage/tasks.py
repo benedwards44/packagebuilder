@@ -280,10 +280,11 @@ def include_component(components_option, component):
 	print('Component '+str(component))
 	print('Options '+str(components_option))
 	if components_option == '*':
-	    if '*' in component:
-		   return  True
+		# If the component is accept wildcard
+		if '*' in component:
+			return True
 		else:
-		   return False
+			return False
 	# If the user wants all components
 	elif components_option == 'all':
 		return True
