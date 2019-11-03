@@ -54,7 +54,7 @@ def query_components_from_org(package):
 
 		# loop through metadata types
 		for component_type in all_metadata[0]:
-			print('###### IVANNA SEEE TYPE' + str(component_type))
+
 			# If it has child names, let's use that
 			if 'childXmlNames' in component_type:
 
@@ -71,7 +71,6 @@ def query_components_from_org(package):
 			component_type_record = ComponentType()
 			component_type_record.package = package
 			component_type_record.name = component_type.xmlName
-			print('###### IVANNA SEEE IT'+ str(component_type.xmlName))
 			component_type_record.include_all = True
 			component_type_record.save()
 
@@ -109,10 +108,10 @@ def query_components_from_org(package):
 
 								# Query database for parent component_type
 								component_type_query = ComponentType.objects.filter(name=component.type, package=package.id)
-
+								print('PACKAGE COMPONENT OPTIONS' + package.component_option)
 								# Only add if found
 								if component_type_query:
-									print('PACKAGE COMPONENT OPTIONS'+ package.component_option)
+
 									# If the user wants all components, or they don't want any packages  and it's not
 									if include_component(package.component_option, component):
 
@@ -278,8 +277,8 @@ def build_xml(package):
 def include_component(components_option, component):
 
 	print('there are options')
-	print(str(component))
-	print(str(components_option))
+	print('Component'+str(component))
+	print('Options'+str(components_option))
 	# If the user wants all components
 	if components_option == 'all':
 		return True
