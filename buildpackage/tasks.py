@@ -283,9 +283,9 @@ def include_component(components_option, component):
 	print('there are options')
 	print('Component '+str(component))
 	print('Options '+str(components_option))
-	if components_option == '*':
+	if components_option == 'wildcard_only':
 		# If the component is accept wildcard
-		if '*' in component:
+		if 'wildcard_only' in component:
 			return True
 		else:
 			return False
