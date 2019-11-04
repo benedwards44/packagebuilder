@@ -96,7 +96,7 @@ def query_components_from_org(package):
                         component = metadata_client.factory.create("ListMetadataQuery")
                         component.type = child_component
                         if component.type == 'ManagedTopic':
-                            #ManagedTopic is not a valid component Type and it should be 'ManagedTopics'
+                            # ManagedTopic is not a valid component Type and it should be 'ManagedTopics'
                             component.type = 'ManagedTopics'
 
                         # Add metadata to list
@@ -176,7 +176,6 @@ def query_components_from_org(package):
                             component_record.name = folder_component.fullName
                             component_record.save()
 
-
             # Run the metadata query only if the list has reached 3 (the max allowed to query)
             # at one time, or if there is less than 3 components left to query 
             if component_list and (len(component_list) == 3 or (len(all_metadata[0]) - loop_counter) <= 3):
@@ -244,15 +243,21 @@ def build_xml(package):
 
         # create child node for each type of component
         top_child = etree.Element('types')
-
-        # Create a child for each component
-        for component in component_type.component_set.order_by('name'):
-            # child XML child
+        # child XML child
+        # If this is a wildcard and it's not a folder component
+        # Then look for the wildcard
+        if is_wildcard and not component_type.in_folder:
             child = etree.Element('members')
-            child.text = component.name
+            child.text = '*'
             top_child.append(child)
+        else:
+            # Create a child for each component
+            for component in component_type.component_set.order_by('name'):
+                # append child to xml
+                child = etree.Element('members')
+                child.text = component.name
+                top_child.append(child)
 
-        # append child to xml
         child = etree.Element('name')
         child.text = component_type.name
         top_child.append(child)
