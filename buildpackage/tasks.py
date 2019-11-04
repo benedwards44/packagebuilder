@@ -177,7 +177,7 @@ def query_components_from_org(package):
 							component_record.name = folder_component.fullName
 							component_record.save()
 
-			print '--- ' + component_list
+			print '--- ' + str(component_list)
 
 			# Run the metadata query only if the list has reached 3 (the max allowed to query)
 			# at one time, or if there is less than 3 components left to query 
