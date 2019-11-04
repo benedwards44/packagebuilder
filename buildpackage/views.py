@@ -87,7 +87,7 @@ def oauth_response(request):
             else:
                 org_name = ''
 
-        login_form = LoginForm(initial={'environment': environment, 'access_token': access_token, 'instance_url': instance_url, 'org_id': org_id, 'package_option': 'all'}) 
+        login_form = LoginForm(initial={'environment': environment, 'access_token': access_token, 'instance_url': instance_url, 'org_id': org_id, 'package_option': 'wildcard_only'}) 
 
     if request.POST:
 
