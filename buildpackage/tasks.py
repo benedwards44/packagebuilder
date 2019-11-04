@@ -31,6 +31,9 @@ def query_components_from_org(package):
 		org_id = package.username
 		access_token = package.access_token
 
+		# Determines if this is a wildcard only package or not
+		is_wildcard = package.component_option == 'wildcard_only'
+
 		# instantiate the metadata WSDL
 		metadata_client = Client('http://packagebuilder.herokuapp.com/static/metadata.wsdl.xml')
 
@@ -56,7 +59,7 @@ def query_components_from_org(package):
 		for component_type in all_metadata[0]:
 
 			# If it has child names, let's use that
-			if 'childXmlNames' in component_type:
+			if 'childXmlNames' in component_type and not is_wildcard:
 
 				for child_component in component_type.childXmlNames:
 
@@ -74,11 +77,12 @@ def query_components_from_org(package):
 			component_type_record.include_all = True
 			component_type_record.save()
 
+
 			# Component is a folder component - eg Dashboard, Document, EmailTemplate, Report
 			if not component_type.inFolder:
 
 				# If it has child names, let's use that
-				if 'childXmlNames' in component_type:
+				if 'childXmlNames' in component_type and not is_wildcard:
 
 					# Child component list for querying
 					child_component_list = []
@@ -128,12 +132,12 @@ def query_components_from_org(package):
 						# Increment count
 						child_loop_counter = child_loop_counter + 1
 
-				# set up the component type to query for components
-				component = metadata_client.factory.create("ListMetadataQuery")
-				component.type = component_type.xmlName
+					# set up the component type to query for components
+					component = metadata_client.factory.create("ListMetadataQuery")
+					component.type = component_type.xmlName
 
-				# Add metadata to list
-				component_list.append(component)
+					# Add metadata to list
+					component_list.append(component)
 
 			else:
 

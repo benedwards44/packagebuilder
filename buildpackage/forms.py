@@ -11,7 +11,7 @@ class LoginForm(forms.Form):
 
 	# Options for including packages or not
 	PACKAGE_CHOICES = (
-		('*', 'Wild Card'),
+		('wildcard_only', 'Wildcard Only'),
 		('all','All Components'),
 		('unmanaged','Exclude Managed'),
 		('none','No Packaged Components'),
