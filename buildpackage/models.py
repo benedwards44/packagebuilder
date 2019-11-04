@@ -29,7 +29,7 @@ class Package(models.Model):
 class ComponentType(models.Model):
 	package = models.ForeignKey(Package)
 	name = models.CharField(max_length=255)
-	include_all = models.BooleanField(default=True)
+	in_folder = models.BooleanField(default=False)
 
 	def sorted_components(self):
 		return self.component_set.order_by('name')
@@ -37,4 +37,3 @@ class ComponentType(models.Model):
 class Component(models.Model):
 	component_type = models.ForeignKey(ComponentType)
 	name = models.CharField(max_length=255)
-	include = models.BooleanField(default=True)

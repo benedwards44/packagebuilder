@@ -2,7 +2,7 @@ from django.contrib import admin
 from buildpackage.models import Package, ComponentType, Component
 
 class ComponentInline(admin.TabularInline):
-	fields = ['name']
+	fields = ['name', 'in_folder']
 	ordering = ['name']
 	model = ComponentType
 	extra = 0
