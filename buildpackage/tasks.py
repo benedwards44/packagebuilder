@@ -32,7 +32,7 @@ def query_components_from_org(package):
         access_token = package.access_token
 
         # Determines if this is a wildcard only package or not
-		is_wildcard = package.component_option == 'wildcard_only'
+        is_wildcard = package.component_option == 'wildcard_only'
 
         # instantiate the metadata WSDL
         metadata_client = Client('http://packagebuilder.herokuapp.com/static/metadata.wsdl.xml')
@@ -59,7 +59,7 @@ def query_components_from_org(package):
         for component_type in all_metadata[0]:
 
             # If it has child names, let's use that
-			# However, if we're doing a wildcard only package we don't care about the children
+            # However, if we're doing a wildcard only package we don't care about the children
             if 'childXmlNames' in component_type and not is_wildcard:
 
                 for child_component in component_type.childXmlNames:
@@ -74,10 +74,10 @@ def query_components_from_org(package):
             component_type_record = ComponentType()
             component_type_record.package = package
             component_type_record.name = component_type.xmlName
-			component_type_record.in_folder = component_type.inFolder
+            component_type_record.in_folder = component_type.inFolder
             component_type_record.save()
 
-			# Component IS NOT in a folder. Eg. normal component
+            # Component IS NOT in a folder. Eg. normal component
             if not component_type.inFolder and not is_wildcard:
 
                 # If it has child names, let's use that
@@ -137,7 +137,7 @@ def query_components_from_org(package):
                 # Add metadata to list
                 component_list.append(component)
 
-			# Component is a folder component - eg Dashboard, Document, EmailTemplate, Report
+            # Component is a folder component - eg Dashboard, Document, EmailTemplate, Report
             else:
 
                 # Append "Folder" keyword onto end of component type
@@ -211,11 +211,11 @@ def query_components_from_org(package):
             loop_counter = loop_counter + 1
 
         # If a component type has no child components, remove the component type altogether
-		# Unless is wildcard, in which case we'll keep them
-		if not is_wildcard:
-			for component_type in ComponentType.objects.filter(package=package.id):
-				if not Component.objects.filter(component_type=component_type.id):
-					component_type.delete()
+        # Unless is wildcard, in which case we'll keep them
+        if not is_wildcard:
+            for component_type in ComponentType.objects.filter(package=package.id):
+                if not Component.objects.filter(component_type=component_type.id):
+                    component_type.delete()
 
         package.package = build_xml(package)
 
@@ -230,55 +230,55 @@ def query_components_from_org(package):
 
 def build_xml(package):
     """
-	Convert component and component types into an XML
+    Convert component and component types into an XML
     """
 
     # start our xml structure
     root = etree.Element('Package')
     root.set('xmlns','http://soap.sforce.com/2006/04/metadata')
 
-	# Determines if this is a wildcard only package or not
-	is_wildcard = package.component_option == 'wildcard_only'
+    # Determines if this is a wildcard only package or not
+    is_wildcard = package.component_option == 'wildcard_only'
 
     # start loop of components. Re-querying to take save values from above
     for component_type in ComponentType.objects.filter(package=package.id).order_by('name'):
 
-		# Get the components for the package
-		components = component_type.component_set.order_by('name')
+        # Get the components for the package
+        components = component_type.component_set.order_by('name')
 
-		# If this is an in folder component and there's no child components
-		# Always skip it
-		if component_type.in_folder and not components:
-			continue
-		
+        # If this is an in folder component and there's no child components
+        # Always skip it
+        if component_type.in_folder and not components:
+            continue
+        
         # create child node for each type of component
         top_child = etree.Element('types')
 
         # If this is a wildcard and it's not a folder component
-		# Then just slap in the wild card
-		if is_wildcard and not component_type.in_folder:
-			# child XML child
-			child = etree.Element('members')
-			child.text = '*'
-			top_child.append(child)
-		
-		# Otherwise, if we have child components, let's add them in
-		elif components:
-			
-			# Create a child for each component
-			for component in components:
-				# child XML child
-				child = etree.Element('members')
-				child.text = component.name
-				top_child.append(child)
+        # Then just slap in the wild card
+        if is_wildcard and not component_type.in_folder:
+            # child XML child
+            child = etree.Element('members')
+            child.text = '*'
+            top_child.append(child)
+        
+        # Otherwise, if we have child components, let's add them in
+        elif components:
+            
+            # Create a child for each component
+            for component in components:
+                # child XML child
+                child = etree.Element('members')
+                child.text = component.name
+                top_child.append(child)
 
         # append child to xml
         child = etree.Element('name')
         child.text = component_type.name
         top_child.append(child)
 
-		# Include to the root
-		root.append(top_child)
+        # Include to the root
+        root.append(top_child)
 
     # add the final xml node
     child = etree.Element('version')
