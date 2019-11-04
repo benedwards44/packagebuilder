@@ -162,45 +162,6 @@ def loading(request, package_id):
     else:
         return render_to_response('loading.html', RequestContext(request, {'package': package}))    
 
-# Skipping this step for now
-def select_components(request, package_id):
-
-    package = get_object_or_404(Package, random_id = package_id)
-
-    # query for component types and components seperately. Need to do this for the field sets
-    component_types = ComponentType.objects.filter(package=package_id).order_by('name')
-    components = Component.objects.filter(component_type__package=package_id)
-
-    # build field sets for the page
-    ComponentTypeFormSet = modelformset_factory(ComponentType, extra=0, fields=('id','include_all','name'))
-    ComponentFormSet = modelformset_factory(Component, extra=0, fields=('component_type','include','name'))
-
-    if request.method == 'POST':
-
-        # three different forms for the page
-        component_select_form = ComponentSelectForm(request.POST)
-        component_type_formset = ComponentTypeFormSet(request.POST, queryset=component_types, prefix='component_type')
-        component_formset = ComponentFormSet(request.POST, queryset=components, prefix='component')
-
-        if component_select_form.is_valid():
-
-            # only need to save the fieldsets if the user has played with the partial options
-            if component_select_form.cleaned_data['component_option'] == 'partial':
-                component_type_formset.save()
-                component_formset.save()
-
-            package.package = build_xml(package)
-            package.save()
-
-            return HttpResponseRedirect('/package/' + str(package.random_id))
-
-    else:
-        component_select_form = ComponentSelectForm()
-        component_type_formset = ComponentTypeFormSet(queryset=component_types, prefix='component_type')
-        component_formset = ComponentFormSet(queryset=components, prefix='component')
-
-    return render_to_response('select_components.html', RequestContext(request, {'package': package, 'component_select_form': component_select_form,'component_type_formset': component_type_formset,'component_formset': component_formset}))
-
 def package(request, package_id):
 
     package = get_object_or_404(Package, random_id = package_id)

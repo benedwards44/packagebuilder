@@ -53,7 +53,7 @@ def query_components_from_org(package):
 
 		# Components for listing metadata
 		component_list = []
-		loop_counter = 0;
+		loop_counter = 0
 
 		# loop through metadata types
 		for component_type in all_metadata[0]:
@@ -67,14 +67,12 @@ def query_components_from_org(package):
 					component_type_record = ComponentType()
 					component_type_record.package = package
 					component_type_record.name = child_component
-					component_type_record.include_all = True
 					component_type_record.save()
 
 			# create the component type record
 			component_type_record = ComponentType()
 			component_type_record.package = package
 			component_type_record.name = component_type.xmlName
-			component_type_record.include_all = True
 			component_type_record.save()
 
 
@@ -258,9 +256,8 @@ def build_xml(package):
 		child.text = component_type.name
 		top_child.append(child)
 
-		# only append if the user has selected it
-		if component_type.include_all:
-			root.append(top_child)
+		# Append to the room
+		root.append(top_child)
 
 	# add the final xml node
 	child = etree.Element('version')
