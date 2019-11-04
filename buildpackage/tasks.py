@@ -180,7 +180,7 @@ def query_components_from_org(package):
 
 			# Run the metadata query only if the list has reached 3 (the max allowed to query)
 			# at one time, or if there is less than 3 components left to query 
-			if component_list and len(component_list) == 3 or (len(all_metadata[0]) - loop_counter) <= 3:
+			if component_list and len(component_list) == 3 or (all_metadata[0] and (len(all_metadata[0]) - loop_counter) <= 3):
 
 				# loop through the components returned from the component query
 				for component in metadata_client.service.listMetadata(component_list,api_version):
