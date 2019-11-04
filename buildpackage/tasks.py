@@ -200,11 +200,8 @@ def query_components_from_org(package):
                             component_record.save()
 
                         elif package.component_option == 'none' and component.namespacePrefix:
-
                             continue
 
-
-        
                 # clear list once done. This list will re-build to 3 components and re-query the service
                 component_list = []
 
@@ -248,23 +245,12 @@ def build_xml(package):
         # create child node for each type of component
         top_child = etree.Element('types')
 
-        # If this is a wildcard and it's not a folder component
-        # Then just slap in the wild card
-        if is_wildcard and not component_type.in_folder:
+        # Create a child for each component
+        for component in component_type.component_set.order_by('name'):
             # child XML child
             child = etree.Element('members')
-            child.text = '*'
+            child.text = component.name
             top_child.append(child)
-
-        # Else it's not wildcard, or it's an infolder and we list the components anyway
-        else:
-        
-            # Create a child for each component
-            for component in component_type.component_set.order_by('name'):
-                # child XML child
-                child = etree.Element('members')
-                child.text = component.name
-                top_child.append(child)
 
         # append child to xml
         child = etree.Element('name')
