@@ -31,9 +31,6 @@ def query_components_from_org(package):
 		org_id = package.username
 		access_token = package.access_token
 
-		# Determines if this is a wildcard only package or not
-		is_wildcard = package.component_option == 'wildcard_only'
-
 		# instantiate the metadata WSDL
 		metadata_client = Client('http://packagebuilder.herokuapp.com/static/metadata.wsdl.xml')
 
@@ -47,7 +44,7 @@ def query_components_from_org(package):
 		session_header = metadata_client.factory.create("SessionHeader")
 		session_header.sessionId = access_token
 		metadata_client.set_options(soapheaders=session_header)
-		
+
 		# query for the list of metadata types
 		all_metadata = metadata_client.service.describeMetadata(api_version)
 
@@ -59,7 +56,7 @@ def query_components_from_org(package):
 		for component_type in all_metadata[0]:
 
 			# If it has child names, let's use that
-			if 'childXmlNames' in component_type and not is_wildcard:
+			if 'childXmlNames' in component_type:
 
 				for child_component in component_type.childXmlNames:
 
@@ -77,12 +74,11 @@ def query_components_from_org(package):
 			component_type_record.include_all = True
 			component_type_record.save()
 
-
 			# Component is a folder component - eg Dashboard, Document, EmailTemplate, Report
 			if not component_type.inFolder:
 
 				# If it has child names, let's use that
-				if 'childXmlNames' in component_type and not is_wildcard:
+				if 'childXmlNames' in component_type:
 
 					# Child component list for querying
 					child_component_list = []
@@ -104,7 +100,7 @@ def query_components_from_org(package):
 						child_component_list.append(component)
 
 						# Run the metadata query only if the list has reached 3 (the max allowed to query)
-						# at one time, or if there is less than 3 components left to query 
+						# at one time, or if there is less than 3 components left to query
 						if len(child_component_list) == 3 or (len(component_type.childXmlNames) - child_loop_counter) <= 3:
 
 							# loop through the components returned from the component query
@@ -127,17 +123,17 @@ def query_components_from_org(package):
 										component_record.save()
 
 							# Clear the list
-							child_component_list = []		
+							child_component_list = []
 
 						# Increment count
 						child_loop_counter = child_loop_counter + 1
 
-					# set up the component type to query for components
-					component = metadata_client.factory.create("ListMetadataQuery")
-					component.type = component_type.xmlName
+				# set up the component type to query for components
+				component = metadata_client.factory.create("ListMetadataQuery")
+				component.type = component_type.xmlName
 
-					# Add metadata to list
-					component_list.append(component)
+				# Add metadata to list
+				component_list.append(component)
 
 			else:
 
@@ -179,15 +175,13 @@ def query_components_from_org(package):
 
 
 			# Run the metadata query only if the list has reached 3 (the max allowed to query)
-			# at one time, or if there is less than 3 components left to query 
-			if component_list and len(component_list) == 3 or (all_metadata and (len(all_metadata[0]) - loop_counter) <= 3):
-
-
+			# at one time, or if there is less than 3 components left to query
+			if len(component_list) == 3 or (len(all_metadata[0]) - loop_counter) <= 3:
 
 				# loop through the components returned from the component query
 				for component in metadata_client.service.listMetadata(component_list,api_version):
 
-					# Query database for paren component_type
+					# Query database for parent component_type
 					component_type_query = ComponentType.objects.filter(name=component.type, package=package.id)
 
 					# Only add if found
@@ -209,7 +203,7 @@ def query_components_from_org(package):
 							continue
 
 
-		
+
 				# clear list once done. This list will re-build to 3 components and re-query the service
 				component_list = []
 
@@ -282,17 +276,8 @@ def build_xml(package):
 # Determine whether to return the component or not
 def include_component(components_option, component):
 
-	print('there are options')
-	print('Component '+str(component))
-	print('Options '+str(components_option))
-	if components_option == 'wildcard_only':
-		# If the component is accept wildcard
-		if 'wildcard_only' in component:
-			return True
-		else:
-			return False
 	# If the user wants all components
-	elif components_option == 'all':
+	if components_option == 'all':
 		return True
 
 	# If the user doesn't want any package components
