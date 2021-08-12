@@ -4,7 +4,7 @@ billiard==3.3.0.23
 celery==3.1.0
 dj-database-url==0.3.0
 dj-static==0.0.5
-Django==1.11.17
+Django==2.2.24
 django-redis-cache==1.6.0
 django-toolbelt==0.0.1
 django-widget-tweaks==1.4.1
