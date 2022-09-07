@@ -9,7 +9,7 @@ psycopg2==2.7.3.2
 pystache==0.5.4
 requests==2.3.0
 static==1.0.2
-suds==0.4
+suds==1.0.0
 wsgiref==0.1.2
 celery==3.1.0
 redis==2.10.3
