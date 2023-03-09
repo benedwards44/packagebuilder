@@ -277,7 +277,7 @@ def build_xml(package):
 
     # create file string
     xml_file = '<?xml version="1.0" encoding="UTF-8"?>\n'
-    xml_file = xml_file + etree.tostring(root, pretty_print=True)
+    xml_file = xml_file + etree.tostring(root, pretty_print=True).decode('UTF-8')
 
     # save xml data to the package record
     package.package = xml_file
