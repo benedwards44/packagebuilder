@@ -23,7 +23,7 @@ def query_components_from_org(package_id):
     Query all metadata from the org and build components and component types
     """
 
-    package = Package.objects.get(package_id)
+    package = Package.objects.get(pk=package_id)
 
     try:
 
