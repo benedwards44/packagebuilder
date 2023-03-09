@@ -10,6 +10,9 @@ import re
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'packagebuilder.settings')
 app = Celery('tasks', broker=os.environ.get('REDIS_URL', 'redis://localhost'))
 
+import django
+django.setup()
+
 from buildpackage.models import Package, ComponentType, Component
 from suds.client import Client
 from lxml import etree
