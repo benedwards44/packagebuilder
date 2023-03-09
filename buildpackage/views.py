@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
@@ -40,7 +40,7 @@ def index(request):
     else:
         login_form = LoginForm()
 
-    return render_to_response('index.html', RequestContext(request,{'login_form': login_form}))
+    return render(request, 'index.html', {'login_form': login_form})
 
 def oauth_response(request):
 
@@ -135,7 +135,17 @@ def oauth_response(request):
 
                 return HttpResponseRedirect('/loading/' + str(package.random_id))
 
-    return render_to_response('oauth_response.html', RequestContext(request,{'error': error_exists, 'error_message': error_message, 'username': username, 'org_name': org_name, 'login_form': login_form}))
+    return render(
+        request, 
+        'oauth_response.html',
+        {
+            'error': error_exists, 
+            'error_message': error_message, 
+            'username': username, 
+            'org_name': org_name, 
+            'login_form': login_form
+        }
+    )
 
 # AJAX endpoint for page to constantly check if job is finished
 def job_status(request, package_id):
@@ -160,20 +170,32 @@ def loading(request, package_id):
     if package.status == 'Finished':
         return HttpResponseRedirect('/package/' + str(package.random_id))
     else:
-        return render_to_response('loading.html', RequestContext(request, {'package': package}))    
+        return render(
+            request, 
+            'loading.html',
+            {'package': package}
+        )
 
 def package(request, package_id):
 
-    package = get_object_or_404(Package, random_id = package_id)
+    package = get_object_or_404(Package, random_id=package_id)
     package_xml = package.package
     package.delete()
-    return render_to_response('package.html', RequestContext(request, {'package_xml': package_xml}))
+    return render(
+        request, 
+        'package.html',
+        {'package_xml': package_xml}
+    )
 
 
 def logout(request):
 
     instance = request.GET.get('instance')
-    return render_to_response('logout.html', RequestContext(request, {'instance': instance}))
+    return render(
+        request, 
+        'logout.html',
+        {'instance': instance}
+    )
 
 
 @csrf_exempt

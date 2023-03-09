@@ -27,7 +27,7 @@ class Package(models.Model):
 		return self.componenttype_set.order_by('name')
 
 class ComponentType(models.Model):
-	package = models.ForeignKey(Package)
+	package = models.ForeignKey(Package, on_delete=models.deletion.CASCADE)
 	name = models.CharField(max_length=255)
 	in_folder = models.BooleanField(default=False)
 
@@ -35,5 +35,5 @@ class ComponentType(models.Model):
 		return self.component_set.order_by('name')
 
 class Component(models.Model):
-	component_type = models.ForeignKey(ComponentType)
+	component_type = models.ForeignKey(ComponentType, on_delete=models.deletion.CASCADE)
 	name = models.CharField(max_length=255)

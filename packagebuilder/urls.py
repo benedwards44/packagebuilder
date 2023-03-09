@@ -1,23 +1,19 @@
-from django.conf.urls import patterns, include, url
+from django.urls import path
 from django.views.generic import TemplateView
 from django.contrib import admin
 from django.conf import settings
 from buildpackage import views
-admin.autodiscover()
 
-
-
-urlpatterns = patterns('',
-    url(r'^$', 'buildpackage.views.index', name='index'),
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^oauth_response/$', 'buildpackage.views.oauth_response'),
-    url(r'^package/(?P<package_id>[0-9A-Za-z_\-]+)/$', 'buildpackage.views.package'),
-    url(r'^logout/$', 'buildpackage.views.logout'),
-    url(r'^job_status/(?P<package_id>[0-9A-Za-z_\-]+)/$', 'buildpackage.views.job_status'),
-    url(r'^loading/(?P<package_id>[0-9A-Za-z_\-]+)/$', 'buildpackage.views.loading'),
-    url(r'^auth_details/$', 'buildpackage.views.auth_details'),
-
-    url(r'^api/package/$', 'buildpackage.views.api_create_job'),
-    url(r'^api/package/status/(?P<package_id>[0-9A-Za-z_\-]+)/$', 'buildpackage.views.job_status'),
-    url(r'^api/package/(?P<package_id>[-\w]+)$', 'buildpackage.views.get_package'),
-)
+urlpatterns = [
+    path('', views.index, name='index'),
+    path('admin/', admin.site.urls),
+    path('oauth_response/', views.oauth_response),
+    path('package/<str:package_id>/', views.package),
+    path('logout/', views.logout),
+    path('job_status/<str:package_id>/', views.job_status),
+    path('loading/<str:package_id>/', views.loading),
+    path('auth_details/', views.auth_details),
+    path('api/package/', views.api_create_job),
+    path('api/package/status/<str:package_id>/', views.job_status),
+    path('api/package/<str:package_id>/', views.get_package),
+]
