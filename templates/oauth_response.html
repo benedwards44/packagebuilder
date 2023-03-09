@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load widget_tweaks %}
+{% load static %}
 
 {% block content %}
 
@@ -97,7 +98,7 @@
 			<div class="loading">
 
 				<div style="float:left;">
-					<img src="{{ STATIC_URL }}images/loading.gif" alt="Loading" title="Loading" />
+					<img src="{% static 'images/loading.gif' %}" alt="Loading" title="Loading" />
 				</div>
 
 				<div style="float:left;margin-left:20px;">
@@ -109,7 +110,7 @@
 
 			<div class="logging_out">
 				<div style="float:left;">
-					<img src="{{ STATIC_URL }}images/loading.gif" alt="Loading" title="Loading" />
+					<img src="{% static 'images/loading.gif' %}" alt="Loading" title="Loading" />
 				</div>
 				<div style="float:left;margin-left:20px;">
 					<h1 style="font-size:1.5em;margin-top:20px;">Logging out...</h1>

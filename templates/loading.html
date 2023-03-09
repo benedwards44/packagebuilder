@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block content %}
 
 	<h1>Salesforce package.xml Builder</h1>
@@ -14,7 +16,7 @@
 	<div class="loading-components">
 
 		<div style="float:left;">
-			<img src="{{ STATIC_URL }}images/loading.gif" alt="Loading" title="Loading" />
+			<img src="{% static 'images/loading.gif' %}" alt="Loading" title="Loading" />
 		</div>
 
 		<div style="float:left;margin-left:20px;">
