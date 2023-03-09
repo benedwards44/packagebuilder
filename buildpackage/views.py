@@ -122,16 +122,16 @@ def oauth_response(request):
 
                 # Queue job to run async
                 try:
-                    query_components_from_org.delay(package)
+                    query_components_from_org.delay(package.id)
                 except:
                     # If fail above, wait 5 seconds and try again. Not ideal but should work for now
                     sleep(5)
                     try:
-                        query_components_from_org.delay(package)
+                        query_components_from_org.delay(package.id)
                     except:
                         # Sleep another 5
                         sleep(5)
-                        query_components_from_org.delay(package)
+                        query_components_from_org.delay(package.id)
 
                 return HttpResponseRedirect('/loading/' + str(package.random_id))
 
@@ -232,7 +232,7 @@ def auth_details(request):
             package.save()
 
             # Run job
-            query_components_from_org.delay(package)
+            query_components_from_org.delay(package.id)
 
             # Build response 
             response_data = {
@@ -317,7 +317,7 @@ def api_create_job(request):
             package.save()
 
             # Start the job to scan the job
-            query_components_from_org.delay(package)
+            query_components_from_org.delay(package.id)
 
             return HttpResponse(
                 json.dumps({

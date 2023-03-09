@@ -18,10 +18,12 @@ from suds.client import Client
 from lxml import etree
 
 @app.task
-def query_components_from_org(package):
+def query_components_from_org(package_id):
     """
     Query all metadata from the org and build components and component types
     """
+
+    package = Package.objects.get(package_id)
 
     try:
 
