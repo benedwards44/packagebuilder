@@ -5,7 +5,12 @@
 {% block scripts %}
 <script>
 	$('#id_environment').change(function() {
-		$('.custom-domain').show();
+		if ( $(this).val() ) {
+			$('.custom-domain').show();
+		}
+		else {
+			$('.custom-domain').hide();
+		}
 	});
 </script>
 {% endblock %}
