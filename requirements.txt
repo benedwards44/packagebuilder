@@ -10,7 +10,7 @@ click-didyoumean==0.3.0
 click-plugins==1.1.1
 click-repl==0.2.0
 dj-database-url==1.2.0
-Django==4.1.7
+Django==4.1.13
 django-widget-tweaks==1.4.12
 gunicorn==20.1.0
 idna==3.4
