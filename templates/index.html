@@ -2,19 +2,6 @@
 
 {% load static %}
 
-{% block scripts %}
-<script>
-	$('#id_environment').change(function() {
-		if ( $(this).val() ) {
-			$('.custom-domain').show();
-		}
-		else {
-			$('.custom-domain').hide();
-		}
-	});
-</script>
-{% endblock %}
-
 {% block content %}
 
 	<h1>Salesforce package.xml Builder</h1>
@@ -89,7 +76,7 @@
 					</td>
 				</tr>
 				
-				<tr class="custom-domain">
+				<tr class="custom-domain" style="display:none;">
 					<td width="200">
 						<label for="id_domain">Enter Custom Domain</label>
 					</td>

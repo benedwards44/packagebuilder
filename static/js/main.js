@@ -1,7 +1,15 @@
 $(document).ready(function() {
-
     $('.loading').hide();
     $('.logging_out').hide();
+
+    $('#id_environment').change(function() {
+		if ( $(this).val() == 'Custom' ) {
+			$('.custom-domain').show();
+		}
+		else {
+			$('.custom-domain').hide();
+		}
+	});
 });
 
 function hideTable(){
