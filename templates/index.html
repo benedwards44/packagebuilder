@@ -2,6 +2,14 @@
 
 {% load static %}
 
+{% block scripts %}
+<script>
+	$('#id_environment').change(function() {
+		$('.custom-domain').show();
+	});
+</script>
+{% endblock %}
+
 {% block content %}
 
 	<h1>Salesforce package.xml Builder</h1>
@@ -71,8 +79,18 @@
 						<select id="id_environment" name="environment" class="form-control">
 							<option value="Production">Production</option>
 							<option value="Sandbox">Sandbox</option>
+							<option value="Custom">Custom Domain</option>
 						</select>
 					</td>
+				</tr>
+				
+				<tr class="custom-domain">
+					<td width="200">
+						<label for="id_domain">Enter Custom Domain</label>
+					</td>
+					<td>
+						<input id="id_domain" name="domain" type="text" class="form-control" placeholder="mydomain.my.salesforce.com" required/>
+ 					</td>
 				</tr>
 
 				<tr>

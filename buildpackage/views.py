@@ -1,16 +1,10 @@
 from django.shortcuts import render, get_object_or_404
-from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
-from buildpackage.forms import LoginForm, ComponentSelectForm
-from buildpackage.models import Package, ComponentType, Component
-from django.contrib import messages
-from django.forms.models import modelformset_factory
+from buildpackage.forms import LoginForm
+from buildpackage.models import Package
 from django.conf import settings
-from buildpackage.tasks import query_components_from_org, build_xml
-from suds.client import Client
-from lxml import etree
+from buildpackage.tasks import query_components_from_org
 from time import sleep
 
 from . import utils
@@ -33,7 +27,9 @@ def index(request):
             oauth_url = 'https://login.salesforce.com/services/oauth2/authorize'
             if environment == 'Sandbox':
                 oauth_url = 'https://test.salesforce.com/services/oauth2/authorize'
-
+            elif environment == 'Custom':
+                oauth_url = login_form.cleaned_data['domain'] + '/services/oauth2/authorize'
+ 
             oauth_url = oauth_url + '?response_type=code&client_id=' + settings.SALESFORCE_CONSUMER_KEY + '&redirect_uri=' + settings.SALESFORCE_REDIRECT_URI + '&state='+ environment
             
             return HttpResponseRedirect(oauth_url)
