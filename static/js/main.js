@@ -5,9 +5,11 @@ $(document).ready(function() {
     $('#id_environment').change(function() {
 		if ( $(this).val() == 'Custom' ) {
 			$('.custom-domain').show();
+            $("#id_domain").prop('required', true);
 		}
 		else {
 			$('.custom-domain').hide();
+            $("#id_domain").prop('required', false);
 		}
 	});
 });
