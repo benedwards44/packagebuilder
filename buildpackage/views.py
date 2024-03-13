@@ -6,7 +6,7 @@ from buildpackage.models import Package
 from django.conf import settings
 from buildpackage.tasks import query_components_from_org
 from time import sleep
-from urllib.parse import urlencode
+from urllib.parse import quote
 
 from . import utils
 
@@ -31,7 +31,7 @@ def index(request):
             elif environment == 'Custom':
                 domain = 'https://' + login_form.cleaned_data['domain']
  
-            oauth_url = domain + '/services/oauth2/authorize?response_type=code&client_id=' + settings.SALESFORCE_CONSUMER_KEY + '&redirect_uri=' + settings.SALESFORCE_REDIRECT_URI + '&state='+ urlencode(domain)
+            oauth_url = domain + '/services/oauth2/authorize?response_type=code&client_id=' + settings.SALESFORCE_CONSUMER_KEY + '&redirect_uri=' + settings.SALESFORCE_REDIRECT_URI + '&state='+ quote(domain)
             
             return HttpResponseRedirect(oauth_url)
     else:
