@@ -6,6 +6,7 @@ from buildpackage.models import Package
 from django.conf import settings
 from buildpackage.tasks import query_components_from_org
 from time import sleep
+from urllib.parse import urlencode
 
 from . import utils
 
@@ -24,13 +25,13 @@ def index(request):
 
             environment = login_form.cleaned_data['environment']
 
-            oauth_url = 'https://login.salesforce.com/services/oauth2/authorize'
+            domain = 'https://login.salesforce.com'
             if environment == 'Sandbox':
-                oauth_url = 'https://test.salesforce.com/services/oauth2/authorize'
+                domain = 'https://test.salesforce.com'
             elif environment == 'Custom':
-                oauth_url = 'https://' + login_form.cleaned_data['domain'] + '/services/oauth2/authorize'
+                domain = 'https://' + login_form.cleaned_data['domain']
  
-            oauth_url = oauth_url + '?response_type=code&client_id=' + settings.SALESFORCE_CONSUMER_KEY + '&redirect_uri=' + settings.SALESFORCE_REDIRECT_URI + '&state='+ environment
+            oauth_url = domain + '/services/oauth2/authorize?response_type=code&client_id=' + settings.SALESFORCE_CONSUMER_KEY + '&redirect_uri=' + settings.SALESFORCE_REDIRECT_URI + '&state='+ urlencode(domain)
             
             return HttpResponseRedirect(oauth_url)
     else:
@@ -48,17 +49,12 @@ def oauth_response(request):
     if request.GET:
 
         oauth_code = request.GET.get('code')
-        environment = request.GET.get('state')
+        domain = request.GET.get('state')
         access_token = ''
         instance_url = ''
         org_id = ''
-
-        if 'Production' in environment:
-            login_url = 'https://login.salesforce.com'
-        else:
-            login_url = 'https://test.salesforce.com'
         
-        r = requests.post(login_url + '/services/oauth2/token', headers={ 'content-type':'application/x-www-form-urlencoded'}, data={'grant_type':'authorization_code','client_id': settings.SALESFORCE_CONSUMER_KEY,'client_secret':settings.SALESFORCE_CONSUMER_SECRET,'redirect_uri': settings.SALESFORCE_REDIRECT_URI,'code': oauth_code})
+        r = requests.post(domain + '/services/oauth2/token', headers={ 'content-type':'application/x-www-form-urlencoded'}, data={'grant_type':'authorization_code','client_id': settings.SALESFORCE_CONSUMER_KEY,'client_secret':settings.SALESFORCE_CONSUMER_SECRET,'redirect_uri': settings.SALESFORCE_REDIRECT_URI,'code': oauth_code})
         auth_response = json.loads(r.text)
 
         if 'error_description' in auth_response:
