@@ -17,14 +17,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 IS_HEROKU = "DYNO" in os.environ
 
+ENVIRONMENT = os.environ.get('ENVIRONMENT', 'dev')
+IS_LOCAL = ENVIRONMENT == 'dev'
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', '')
+SECRET_KEY = os.environ.get(
+    "DJANGO_SECRET_KEY",
+    "e&gfq#5tiq&9p_oe%+)=6(sgexe9z*uve9rclo1!q-5nlu0+%8",
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True if os.environ.get('DEBUG') == '1' else False
+DEBUG = True if os.environ.get('DEBUG') == '1' or IS_LOCAL else False
 TEMPLATE_DEBUG = DEBUG
 THUMBNAIL_DEBUG = DEBUG
 
@@ -40,7 +47,8 @@ ALLOWED_HOSTS = ['*']
 
 
 # Application definition
-INSTALLED_APPS = (
+INSTALLED_APPS = [
+    'whitenoise.runserver_nostatic',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -49,7 +57,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'buildpackage',
     'widget_tweaks',
-)
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -99,6 +107,20 @@ if "DATABASE_URL" in os.environ:
     DATABASES["default"] = dj_database_url.config(
         conn_max_age=MAX_CONN_AGE, ssl_require=True)
 
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage"
+    },
+    # Enable WhiteNoise's GZip and Brotli compression of static assets:
+    # https://whitenoise.readthedocs.io/en/latest/django.html#add-compression-and-caching-support
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
+
+# Don't store the original (un-hashed filename) version of static files, to reduce slug size:
+# https://whitenoise.readthedocs.io/en/latest/django.html#WHITENOISE_KEEP_ONLY_HASHED_FILES
+WHITENOISE_KEEP_ONLY_HASHED_FILES = True
 
 # Celery settings
 BROKER_POOL_LIMIT = 1
@@ -106,25 +128,19 @@ BROKER_POOL_LIMIT = 1
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
-LANGUAGE_CODE = 'en-gb'
-
-TIME_ZONE = 'Europe/London'
-
+LANGUAGE_CODE = 'en-nz'
+TIME_ZONE = 'Pacific/Auckland'
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_URL = "static/"
+
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    BASE_DIR / 'static'
 ]
-STATIC_URL = 'static/'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 SALESFORCE_CONSUMER_KEY = os.environ.get('SALESFORCE_CONSUMER_KEY', '')
 SALESFORCE_CONSUMER_SECRET = os.environ.get('SALESFORCE_CONSUMER_SECRET', '')

@@ -27,4 +27,4 @@ suds==1.1.2
 urllib3==1.26.14
 vine==5.1.0
 wcwidth==0.2.6
-whitenoise==6.4.0
+whitenoise==6.6.0
