@@ -3,3 +3,5 @@ venv
 staticfiles
 .idea/
 .vscode/
+.env
+db.sqlite3

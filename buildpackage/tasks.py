@@ -1,23 +1,9 @@
-from __future__ import absolute_import
-from celery import Celery
-from django.conf import settings
-import os
-import datetime
-import traceback
-import re
-
-# Celery config
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'packagebuilder.settings')
-app = Celery('tasks', broker=os.environ.get('REDIS_URL', 'redis://localhost'))
-
-import django
-django.setup()
-
+from celery import shared_task
 from buildpackage.models import Package, ComponentType, Component
 from suds.client import Client
 from lxml import etree
 
-@app.task
+@shared_task
 def query_components_from_org(package_id):
     """
     Query all metadata from the org and build components and component types
