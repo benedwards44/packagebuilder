@@ -17,7 +17,8 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env(
-    ENVIRONMENT=(str, 'dev')
+    ENVIRONMENT=(str, 'production'),
+    DEBUG=(bool, False)
 )
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
@@ -32,7 +33,7 @@ IS_LOCAL = ENVIRONMENT == 'dev'
 SECRET_KEY = env("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True if IS_LOCAL else False
+DEBUG = True if IS_LOCAL else bool(env('DEBUG'))
 TEMPLATE_DEBUG = DEBUG
 THUMBNAIL_DEBUG = DEBUG
 
@@ -43,6 +44,10 @@ ADMINS = (
 if not IS_LOCAL:
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     SECURE_SSL_REDIRECT = True
+    CSRF_TRUSTED_ORIGINS = [
+        'web-production-9e9fa.up.railway.app',
+        'packagebuilder.cloudtoolkit.co'
+    ]
 
 ALLOWED_HOSTS = ['*']
 
