@@ -16,10 +16,10 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-env = environ.Env()
+env = environ.Env(
+    ENVIRONMENT=(str, 'dev')
+)
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
-
-IS_HEROKU = "DYNO" in os.environ
 
 ENVIRONMENT = env('ENVIRONMENT')
 IS_LOCAL = ENVIRONMENT == 'dev'
@@ -40,7 +40,7 @@ ADMINS = (
     ('Ben Edwards', 'ben@edwards.nz'),
 )
 
-if IS_HEROKU:
+if not IS_LOCAL:
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     SECURE_SSL_REDIRECT = True
 
@@ -153,5 +153,3 @@ SALESFORCE_API_VERSION = int(env('SALESFORCE_API_VERSION'))
 SALESFORCE_REST_URL = '/services/data/v%d.0/' % SALESFORCE_API_VERSION
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-CELERY_BROKER_URL = env('REDIS_URL')
