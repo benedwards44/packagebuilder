@@ -10,14 +10,18 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import environ
 import dj_database_url
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
 IS_HEROKU = "DYNO" in os.environ
 
-ENVIRONMENT = os.environ.get('ENVIRONMENT', 'dev')
+ENVIRONMENT = env('ENVIRONMENT')
 IS_LOCAL = ENVIRONMENT == 'dev'
 
 # Quick-start development settings - unsuitable for production
@@ -25,13 +29,10 @@ IS_LOCAL = ENVIRONMENT == 'dev'
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get(
-    "DJANGO_SECRET_KEY",
-    "e&gfq#5tiq&9p_oe%+)=6(sgexe9z*uve9rclo1!q-5nlu0+%8",
-)
+SECRET_KEY = env("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True if os.environ.get('DEBUG') == '1' or IS_LOCAL else False
+DEBUG = True if IS_LOCAL else False
 TEMPLATE_DEBUG = DEBUG
 THUMBNAIL_DEBUG = DEBUG
 
@@ -57,6 +58,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'buildpackage',
     'widget_tweaks',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -105,7 +107,8 @@ DATABASES = {
 if "DATABASE_URL" in os.environ:
     # Configure Django for DATABASE_URL environment variable.
     DATABASES["default"] = dj_database_url.config(
-        conn_max_age=MAX_CONN_AGE, ssl_require=True)
+        conn_max_age=MAX_CONN_AGE, ssl_require=True
+    )
 
 STORAGES = {
     "default": {
@@ -142,19 +145,13 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
 
-SALESFORCE_CONSUMER_KEY = os.environ.get('SALESFORCE_CONSUMER_KEY', '')
-SALESFORCE_CONSUMER_SECRET = os.environ.get('SALESFORCE_CONSUMER_SECRET', '')
-SALESFORCE_REDIRECT_URI = os.environ.get('SALESFORCE_REDIRECT_URI', '')
-SALESFORCE_API_VERSION = int(os.environ.get('SALESFORCE_API_VERSION', 55))
-
-EMAIL_HOST = os.environ.get('EMAIL_HOST')
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+SALESFORCE_CONSUMER_KEY = env('SALESFORCE_CONSUMER_KEY')
+SALESFORCE_CONSUMER_SECRET = env('SALESFORCE_CONSUMER_SECRET')
+SALESFORCE_REDIRECT_URI = env('SALESFORCE_REDIRECT_URI')
+SALESFORCE_API_VERSION = int(env('SALESFORCE_API_VERSION'))
 
 SALESFORCE_REST_URL = '/services/data/v%d.0/' % SALESFORCE_API_VERSION
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CELERY_BROKER_URL = os.environ.get('REDIS_URL', 'redis://')
+CELERY_BROKER_URL = env('REDIS_URL')
