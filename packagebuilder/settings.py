@@ -18,6 +18,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env(
     ENVIRONMENT=(str, 'production'),
     DEBUG=(bool, False),
+    REDIS_URL=(str, 'redis://'),
     SALESFORCE_CONSUMER_KEY=(str, ''),
     SALESFORCE_CONSUMER_SECRET=(str, ''),
     SALESFORCE_API_VERSION=(int, 65),
@@ -123,6 +124,8 @@ if not IS_LOCAL:
         'HOST': os.environ["PGHOST"],
         'PORT': os.environ["PGPORT"],
     }
+
+CELERY_BROKER_URL = env('REDIS_URL')
     
 STORAGES = {
     "default": {
