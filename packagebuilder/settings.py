@@ -54,6 +54,8 @@ if not IS_LOCAL:
         'https://packagebuilder.cloudtoolkit.co'
     ]
 
+REDIS_URL = env('REDIS_URL')
+
 ALLOWED_HOSTS = ['*']
 
 
