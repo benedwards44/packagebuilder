@@ -18,7 +18,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env(
     ENVIRONMENT=(str, 'production'),
     DEBUG=(bool, False),
-    REDIS_URL=(str, 'redis://default:yBFAxLCCOvuobiLvdbSiVZLsKBUaVJoZ@redis.railway.internal:6379'),
+    REDIS_URL=(str, 'redis://'),
     SALESFORCE_CONSUMER_KEY=(str, ''),
     SALESFORCE_CONSUMER_SECRET=(str, ''),
     SALESFORCE_API_VERSION=(int, 65),
@@ -123,16 +123,6 @@ if not IS_LOCAL:
         'PASSWORD': os.environ["PGPASSWORD"],
         'HOST': os.environ["PGHOST"],
         'PORT': os.environ["PGPORT"],
-    }
-
-    CACHES = {
-        "default": {
-            "BACKEND": "django.core.cache.backends.redis.RedisCache",
-            "LOCATION": env('REDIS_URL'),
-            "OPTIONS": {
-                "ssl_cert_reqs": None
-            }
-        }
     }
 
     
