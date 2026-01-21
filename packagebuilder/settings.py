@@ -17,7 +17,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env(
     ENVIRONMENT=(str, 'production'),
-    DEBUG=(bool, False)
+    DEBUG=(bool, False),
+    SALESFORCE_CONSUMER_KEY=(str, ''),
+    SALESFORCE_CONSUMER_SECRET=(str, ''),
+    SALESFORCE_API_VERSION=(int, 65),
+    SALESFORCE_REDIRECT_URI=(str, ''),
 )
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 

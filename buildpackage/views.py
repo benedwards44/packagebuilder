@@ -53,7 +53,19 @@ def oauth_response(request):
         instance_url = ''
         org_id = ''
         
-        r = requests.post(domain + '/services/oauth2/token', headers={ 'content-type':'application/x-www-form-urlencoded'}, data={'grant_type':'authorization_code','client_id': settings.SALESFORCE_CONSUMER_KEY,'client_secret':settings.SALESFORCE_CONSUMER_SECRET,'redirect_uri': settings.SALESFORCE_REDIRECT_URI,'code': oauth_code})
+        r = requests.post(
+            domain + '/services/oauth2/token', 
+            headers={ 
+                'Content-Type':'application/x-www-form-urlencoded'
+            }, 
+            data={
+                'grant_type': 'authorization_code',
+                'client_id': settings.SALESFORCE_CONSUMER_KEY,
+                'client_secret': settings.SALESFORCE_CONSUMER_SECRET,
+                'redirect_uri': settings.SALESFORCE_REDIRECT_URI,
+                'code': oauth_code
+            }
+        )
         auth_response = json.loads(r.text)
 
         if 'error_description' in auth_response:
