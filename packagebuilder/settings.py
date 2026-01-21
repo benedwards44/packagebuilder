@@ -67,7 +67,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'buildpackage',
     'widget_tweaks',
-    'django_extensions',
 ]
 
 MIDDLEWARE = [
