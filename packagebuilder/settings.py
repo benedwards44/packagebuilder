@@ -40,6 +40,7 @@ DEBUG = True if IS_LOCAL else bool(env('DEBUG'))
 TEMPLATE_DEBUG = DEBUG
 THUMBNAIL_DEBUG = DEBUG
 
+
 ADMINS = (
     ('Ben Edwards', 'ben@edwards.nz'),
 )
