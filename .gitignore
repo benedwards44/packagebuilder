@@ -5,3 +5,5 @@ staticfiles
 .vscode/
 .env
 db.sqlite3
+selftest-cert.crt
+selftest-cert.key
