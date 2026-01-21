@@ -1,5 +1,5 @@
-from celery import shared_task
 from buildpackage.models import Package, ComponentType, Component
+from celery import shared_task
 from suds.client import Client
 from lxml import etree
 

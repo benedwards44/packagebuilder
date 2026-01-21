@@ -54,8 +54,6 @@ if not IS_LOCAL:
         'https://packagebuilder.cloudtoolkit.co'
     ]
 
-REDIS_URL = env('REDIS_URL')
-
 ALLOWED_HOSTS = ['*']
 
 
@@ -125,6 +123,16 @@ if not IS_LOCAL:
         'PASSWORD': os.environ["PGPASSWORD"],
         'HOST': os.environ["PGHOST"],
         'PORT': os.environ["PGPORT"],
+    }
+
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            "LOCATION": env('REDIS_URL'),
+            "OPTIONS": {
+                "ssl_cert_reqs": None
+            }
+        }
     }
 
 CELERY_BROKER_URL = env('REDIS_URL')
