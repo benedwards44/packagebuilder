@@ -18,7 +18,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env(
     ENVIRONMENT=(str, 'production'),
     DEBUG=(bool, False),
-    REDIS_URL=(str, 'redis://'),
+    REDIS_URL=(str, 'redis://default:yBFAxLCCOvuobiLvdbSiVZLsKBUaVJoZ@redis.railway.internal:6379'),
     SALESFORCE_CONSUMER_KEY=(str, ''),
     SALESFORCE_CONSUMER_SECRET=(str, ''),
     SALESFORCE_API_VERSION=(int, 65),
@@ -135,7 +135,6 @@ if not IS_LOCAL:
         }
     }
 
-CELERY_BROKER_URL = env('REDIS_URL')
     
 STORAGES = {
     "default": {
@@ -153,6 +152,7 @@ STORAGES = {
 WHITENOISE_KEEP_ONLY_HASHED_FILES = True
 
 # Celery settings
+CELERY_BROKER_URL = env('REDIS_URL')
 BROKER_POOL_LIMIT = 1
 
 # Internationalization
