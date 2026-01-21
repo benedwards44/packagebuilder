@@ -13,7 +13,6 @@ click-repl==0.2.0
 cryptography==46.0.3
 Django==6.0.1
 django-environ==0.12.0
-django-extensions==4.1
 django-widget-tweaks==1.5.1
 gunicorn==20.1.0
 idna==3.4
@@ -24,7 +23,6 @@ packaging==25.0
 prompt-toolkit==3.0.38
 psycopg2-binary==2.9.11
 pycparser==2.23
-pyOpenSSL==25.3.0
 python-dateutil==2.9.0.post0
 pytz==2022.7.1
 redis==4.5.1
@@ -38,5 +36,4 @@ tzlocal==5.3.1
 urllib3==1.26.14
 vine==5.1.0
 wcwidth==0.2.6
-Werkzeug==3.1.5
 whitenoise==6.6.0
