@@ -180,3 +180,4 @@ SALESFORCE_API_VERSION = int(env('SALESFORCE_API_VERSION'))
 SALESFORCE_REST_URL = '/services/data/v%d.0/' % SALESFORCE_API_VERSION
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
