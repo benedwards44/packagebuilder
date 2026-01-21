@@ -1,8 +1,8 @@
 amqp==5.2.0
 asgiref==3.11.0
 async-timeout==4.0.2
-billiard==4.2.0
-celery==5.3.5
+billiard==4.2.4
+celery==5.6.2
 certifi==2022.12.7
 cffi==2.0.0
 charset-normalizer==3.1.0
@@ -17,9 +17,10 @@ django-extensions==4.1
 django-widget-tweaks==1.5.1
 gunicorn==20.1.0
 idna==3.4
-kombu==5.3.4
+kombu==5.6.2
 lxml==6.0.2
 MarkupSafe==3.0.3
+packaging==25.0
 prompt-toolkit==3.0.38
 psycopg2-binary==2.9.11
 pycparser==2.23
@@ -33,6 +34,7 @@ six==1.16.0
 sqlparse==0.5.5
 suds==1.1.2
 tzdata==2025.3
+tzlocal==5.3.1
 urllib3==1.26.14
 vine==5.1.0
 wcwidth==0.2.6
