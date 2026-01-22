@@ -2,6 +2,8 @@ from buildpackage.models import Package, ComponentType, Component
 from celery import shared_task
 from suds.client import Client
 from lxml import etree
+from django.utils import timezone
+import traceback
 
 @shared_task
 def query_components_from_org(package_id):
@@ -213,7 +215,7 @@ def query_components_from_org(package_id):
         package.status = 'Error'
         package.error = traceback.format_exc()
 
-    package.finished_date = datetime.datetime.now()
+    package.finished_date = timezone.now()
     package.save()
 
 
