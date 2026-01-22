@@ -50,7 +50,6 @@ if not IS_LOCAL:
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     SECURE_SSL_REDIRECT = True
     CSRF_TRUSTED_ORIGINS = [
-        'https://web-production-9e9fa.up.railway.app',
         'https://packagebuilder.cloudtoolkit.co'
     ]
 
