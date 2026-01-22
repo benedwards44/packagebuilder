@@ -26,7 +26,7 @@ def query_components_from_org(package_id):
         is_wildcard = package.component_option == 'wildcard_only'
 
         # instantiate the metadata WSDL
-        metadata_client = Client('http://packagebuilder.herokuapp.com/static/metadata.wsdl.xml')
+        metadata_client = Client('http://packagebuilder.cloudtoolkit.co/static/metadata.wsdl.xml')
 
         # URL for metadata API
         metadata_url = instance_url + '/services/Soap/m/' + str(api_version) + '/' + org_id

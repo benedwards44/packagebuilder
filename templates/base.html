@@ -146,7 +146,7 @@
                         <div class="modal-body">
                             <h4>Step 1 - Start Job</h4>
                             Send a POST request to start your job. <br/>
-                            <strong>Endpoint:</strong> <pre>https://packagebuilder.herokuapp.com/api/package/</pre>
+                            <strong>Endpoint:</strong> <pre>https://packagebuilder.cloudtoolkit.co/api/package/</pre>
                             <strong>Payload</strong>:
 <pre>{
     "accessToken": "VALID_SALESFORCE_ACCESS_TOKEN",
@@ -163,7 +163,7 @@
                             <br/>
                             <h4>Step 2 - Check Progress</h4>
                             The API runs asynchronously, as jobs can take some time to run depending on the size of your code base. You need to check the status of the job, and when complete you can get your results. Send a GET request to: <br/>
-                            <strong>Endpoint:</strong> <pre>https://packagebuilder.herokuapp.com/api/package/status/PACKAGE_ID (eg. https://packagebuilder.herokuapp.com/api/package/status/6210f461-0a4b-437d-be39-f885d6f3e543)</pre>
+                            <strong>Endpoint:</strong> <pre>https://packagebuilder.cloudtoolkit.co/api/package/status/PACKAGE_ID (eg. https://packagebuilder.cloudtoolkit.co/api/package/status/6210f461-0a4b-437d-be39-f885d6f3e543)</pre>
                             <strong>Response:</strong>
 <pre>{
     "status": "Processing",
@@ -176,7 +176,7 @@
                             <br/>
                             <h4>Step 3 - Get Results</h4>
                             And finally, you can get your results. Send a GET request to: <br/>
-                            <strong>Endpoint:</strong> <pre>https://packagebuilder.herokuapp.com/api/package/PACKAGE_ID (eg. https://packagebuilder.herokuapp.com/api/package/6210f461-0a4b-437d-be39-f885d6f3e543)</pre>
+                            <strong>Endpoint:</strong> <pre>https://packagebuilder.cloudtoolkit.co/api/package/PACKAGE_ID (eg. https://packagebuilder.cloudtoolkit.co/api/package/6210f461-0a4b-437d-be39-f885d6f3e543)</pre>
                             <strong>Response:</strong>
 <pre>[
     {

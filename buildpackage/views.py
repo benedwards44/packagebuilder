@@ -243,7 +243,7 @@ def auth_details(request):
 
             # Build response 
             response_data = {
-                'job_url': 'https://packagebuilder.herokuapp.com/loading/' + str(package.random_id) + '/?noheader=1',
+                'job_url': 'https://packagebuilder.cloudtoolkit.co/loading/' + str(package.random_id) + '/?noheader=1',
                 'status': 'Success',
                 'success': True
             }
