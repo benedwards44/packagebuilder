@@ -4,6 +4,7 @@ from suds.client import Client
 from lxml import etree
 from django.utils import timezone
 import traceback
+import datetime
 
 @shared_task
 def query_components_from_org(package_id):
@@ -302,3 +303,18 @@ def include_component(components_option, component):
             return True
 
     return True
+
+
+@shared_task
+def job_archival():
+    """
+    Deletes old jobs to keep the database clean
+    """
+
+    one_hour_ago = timezone.now() - datetime.timedelta(minutes=60)
+    packages = Package.objects.filter(finished_date__lt=one_hour_ago)
+    packages.delete()
+
+    one_day_ago = timezone.now() - datetime.timedelta(hours=24)
+    packages = Package.objects.filter(created_date__lt=one_day_ago)
+    packages.delete()
