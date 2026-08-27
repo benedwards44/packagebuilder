@@ -7,3 +7,4 @@ staticfiles
 db.sqlite3
 selftest-cert.crt
 selftest-cert.key
+.sf
